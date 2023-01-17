@@ -25,7 +25,7 @@ public class Constants {
         public static final int kLeftLeaderPort = 1;
         public static final int kLeftFollowerPort = 2;
         public static final int kRightLeaderPort = 3;
-        public static final int kRightFallowerPort = 4; 
+        public static final int kRightFollowerPort = 4; 
     }
      
 }
