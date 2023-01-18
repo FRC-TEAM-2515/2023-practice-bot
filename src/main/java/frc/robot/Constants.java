@@ -26,6 +26,9 @@ public class Constants {
         public static final int kLeftFollowerPort = 2;
         public static final int kRightLeaderPort = 3;
         public static final int kRightFollowerPort = 4; 
+        public static final double kTurnGain = 2.0;
+        public static final double kDeadband = .15;
+        public static final double kDriveGain = 2.0;
     }
      
 }
