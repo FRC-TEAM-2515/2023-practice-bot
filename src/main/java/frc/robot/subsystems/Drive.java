@@ -222,7 +222,7 @@ public class Drive extends SubsystemBase {
         SmartDashboard.putNumber("imu-yaw", ahrs.getYaw());
         SmartDashboard.putNumber("imu-pitch", ahrs.getPitch());
         SmartDashboard.putNumber("imu-roll", ahrs.getRoll());
-        SmartDashboard.putNumber("imu-heading", ahrs.getCompassHeading());
+        SmartDashboard.putNumber("imu-angle", ahrs.getAngle());
 
 		SmartDashboard.putBoolean("imu-moving", ahrs.isMoving());
 		SmartDashboard.putBoolean("imu-connected", ahrs.isConnected());
