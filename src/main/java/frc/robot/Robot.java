@@ -18,6 +18,7 @@ import edu.wpi.first.hal.HAL;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Constants.DriveConstants;
 import frc.robot.subsystems.Drive;
 
 /**
@@ -110,6 +111,7 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         RobotContainer.getInstance().m_drive.manualDrive();
+        RobotContainer.getInstance().m_drive.updateSmartDashboard();
     }
 
     @Override

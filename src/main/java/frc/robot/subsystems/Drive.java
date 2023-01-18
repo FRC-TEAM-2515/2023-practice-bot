@@ -152,7 +152,7 @@ public class Drive extends SubsystemBase {
         differentialDrive.setMaxOutput(1.0);
 
         try {
-            ahrs = new AHRS(Port.kOnboard);
+            ahrs = new AHRS(Port.kUSB1);
         } catch (RuntimeException ex) {
             DriverStation.reportError(ex.getMessage(), true);
         }
@@ -169,7 +169,6 @@ public class Drive extends SubsystemBase {
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-        updateSmartDashboard();
     }
 
     @Override
@@ -219,12 +218,16 @@ public class Drive extends SubsystemBase {
         return x;
     }
 
-    private void updateSmartDashboard(){
+    public void updateSmartDashboard(){
         SmartDashboard.putNumber("imu-yaw", ahrs.getYaw());
+        SmartDashboard.putNumber("imu-pitch", ahrs.getPitch());
+        SmartDashboard.putNumber("imu-roll", ahrs.getRoll());
+        SmartDashboard.putNumber("imu-heading", ahrs.getCompassHeading());
+
 		SmartDashboard.putBoolean("imu-moving", ahrs.isMoving());
 		SmartDashboard.putBoolean("imu-connected", ahrs.isConnected());
 		SmartDashboard.putBoolean("imu-calibrating", ahrs.isCalibrating());
-		SmartDashboard.putData("imu", ahrs);
+		// SmartDashboard.putData("imu", ahrs);
 
         SmartDashboard.putNumber("Left Velocity", leftLeader.getSelectedSensorVelocity());
         SmartDashboard.putNumber("Right Velocity", rightLeader.getSelectedSensorVelocity());
