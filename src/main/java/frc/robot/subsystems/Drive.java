@@ -152,7 +152,7 @@ public class Drive extends SubsystemBase {
         differentialDrive.setMaxOutput(1.0);
 
         try {
-            ahrs = new AHRS(Port.kUSB1);
+            ahrs = new AHRS(Port.kMXP);
         } catch (RuntimeException ex) {
             DriverStation.reportError(ex.getMessage(), true);
         }
