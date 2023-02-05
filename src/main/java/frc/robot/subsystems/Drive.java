@@ -133,9 +133,8 @@ public class Drive extends SubsystemBase {
         rightLeader.config_kP(0, 0.0, 30);
         rightLeader.config_kI(0, 0.0, 30);
         rightLeader.config_kD(0, 0.0, 30);
-
-        rightFollower = new WPI_VictorSPX(DriveConstants.kRightFollowerPort);
         leftFollower.follow(leftLeader);
+        rightFollower = new WPI_VictorSPX(DriveConstants.kRightFollowerPort);
         leftFollower.setNeutralMode(NeutralMode.Coast);
         rightFollower.follow(rightLeader);
         rightFollower.setNeutralMode(NeutralMode.Coast);
@@ -152,7 +151,7 @@ public class Drive extends SubsystemBase {
         differentialDrive.setMaxOutput(1.0);
 
         try {
-            ahrs = new AHRS(Port.kMXP);
+            ahrs = new AHRS(Port.kUSB1);
         } catch (RuntimeException ex) {
             DriverStation.reportError(ex.getMessage(), true);
         }
