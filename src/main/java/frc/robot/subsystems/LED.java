@@ -38,7 +38,7 @@ public class LED extends SubsystemBase {
 
   public void setPurpleLED(){
     for (var i=0; i < m_ledBuffer.getLength(); i++){
-      m_ledBuffer.setRGB(i, 216, 191, 216);
+      m_ledBuffer.setRGB(i, 221, 160, 221);
     }    
     setData();
   }
