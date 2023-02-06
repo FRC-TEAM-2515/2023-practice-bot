@@ -25,7 +25,6 @@ public class LED extends SubsystemBase {
     m_ledBuffer = new AddressableLEDBuffer(60);
     m_led.setLength(m_ledBuffer.getLength());
     m_led.setData(m_ledBuffer);
-    m_led.start();
 
   }
 
@@ -38,12 +37,27 @@ public class LED extends SubsystemBase {
 
   public void setPurpleLED(){
     for (var i=0; i < m_ledBuffer.getLength(); i++){
-      m_ledBuffer.setRGB(i, 221, 160, 221);
+      m_ledBuffer.setRGB(i, 128, 0, 128);
+    }    
+    setData();
+  }
+
+  public void setOrangeLED(){
+    for (var i=0; i < m_ledBuffer.getLength(); i++){
+      m_ledBuffer.setRGB(i, 255, 102, 0);
+    }    
+    setData();
+  }
+
+  public void setBlackLED(){
+    for (var i=0; i < m_ledBuffer.getLength(); i++){
+      m_ledBuffer.setRGB(i, 0, 0, 0);
     }    
     setData();
   }
 
   public void setData(){
+    m_led.start();
     m_led.setData(m_ledBuffer);
   }
   public void stop(){

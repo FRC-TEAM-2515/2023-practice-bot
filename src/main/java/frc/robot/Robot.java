@@ -45,6 +45,7 @@ public class Robot extends TimedRobot {
         // autonomous chooser on the dashboard.
         m_robotContainer = RobotContainer.getInstance();
         HAL.report(tResourceType.kResourceType_Framework, tInstances.kFramework_RobotBuilder);
+        m_robotContainer.m_led.setBlackLED();
     }
 
     /**
@@ -105,7 +106,6 @@ public class Robot extends TimedRobot {
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
-        RobotContainer.getInstance().m_led.rainbow();
     }
 
     /**
@@ -113,9 +113,8 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopPeriodic() {
-        RobotContainer.getInstance().m_drive.manualDrive();
-        RobotContainer.getInstance().m_drive.updateSmartDashboard();
-        
+        m_robotContainer.m_drive.manualDrive();
+        m_robotContainer.m_drive.updateSmartDashboard();    
     }
 
     @Override
