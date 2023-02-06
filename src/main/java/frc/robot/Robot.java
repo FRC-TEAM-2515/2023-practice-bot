@@ -61,7 +61,6 @@ public class Robot extends TimedRobot {
         // and running subsystem periodic() methods.  This must be called from the robot's periodic
         // block in order for anything in the Command-based framework to work.
         CommandScheduler.getInstance().run();
-        RobotContainer.getInstance().m_led.rainbow();
         RobotContainer.getInstance().m_led.setData();
     }
 
@@ -106,6 +105,7 @@ public class Robot extends TimedRobot {
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
+        RobotContainer.getInstance().m_led.rainbow();
     }
 
     /**
@@ -115,6 +115,7 @@ public class Robot extends TimedRobot {
     public void teleopPeriodic() {
         RobotContainer.getInstance().m_drive.manualDrive();
         RobotContainer.getInstance().m_drive.updateSmartDashboard();
+        
     }
 
     @Override
