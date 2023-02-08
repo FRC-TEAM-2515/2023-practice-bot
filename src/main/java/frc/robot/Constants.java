@@ -21,11 +21,6 @@ package frc.robot;
  */
 public class Constants {
    
-    public static final class MainBotCharacterConstants {
-        public static final double gearRatio = 10.71;
-        public static final double wheelDiameterInches = 6; 
-    }
-
     public static final class DriveConstants {
         public static final int kLeftLeaderPort = 1;
         public static final int kLeftFollowerPort = 2;
