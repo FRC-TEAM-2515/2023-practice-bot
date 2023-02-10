@@ -24,6 +24,7 @@ public class Constants {
     public static final class MainBotCharacterConstants {
         public static final double gearRatio = 10.71;
         public static final double wheelDiameterInches = 6; 
+        
     }
 
     public static final class DriveConstants {
@@ -31,9 +32,10 @@ public class Constants {
         public static final int kLeftFollowerPort = 2;
         public static final int kRightLeaderPort = 3;
         public static final int kRightFollowerPort = 4; 
-        public static final double kTurnGain = 2.0;
+        public static final double kTurnGain = 4.0;
         public static final double kDeadband = .15;
         public static final double kDriveGain = 2.0;
+        public static final double kRampRate = 4.023;
     }
      
 }

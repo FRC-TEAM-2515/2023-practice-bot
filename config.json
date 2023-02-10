@@ -11,7 +11,7 @@
     "TalonSRX",
     "VictorSPX"
   ],
-  "number of samples per average": 1,
+  "number of samples per average": 4,
   "primary encoder inverted": false,
   "primary encoder ports": [
     0,
