@@ -8,8 +8,10 @@ import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.OIReporters;
 
 public class OI {
     
@@ -18,13 +20,16 @@ public class OI {
     private static XboxController m_driveController;
     private XboxController m_armController;
 
+    private static CommandXboxController m_commandDriveController;
+
     private static SendableChooser<Command> autoChooser;
 
     private static SendableChooser<Integer> driverControlsChooser;
     private static SendableChooser<Integer> controllerScalingChooser;
-    private static SendableChooser<Integer> driveModeChooser;
+    private static SendableChooser<Integer> driveTypeChooser;
 
     private static DriveTrain driveTrain;
+    private static OIReporters util;
 
 
   public static OI getInstance() {
@@ -34,10 +39,11 @@ public class OI {
       return instanceOI;
     }
 
-    private OI() {
+    public OI() {
 
     // Controllers
     m_driveController = new XboxController(0);
+    m_commandDriveController = new CommandXboxController(0);
     m_armController = new XboxController(1);
 
     // Command choosers
@@ -46,7 +52,7 @@ public class OI {
     // Object choosers
     driverControlsChooser = new SendableChooser<>();
     controllerScalingChooser = new SendableChooser<>();
-    driveModeChooser = new SendableChooser<>();
+    driveTypeChooser = new SendableChooser<>();
 
 }
 
@@ -55,23 +61,20 @@ public void configureButtonBindings() {
     shouldInvertMotors();
 }
 
+// public void configureCommandButtons() {
+//     m_commandDriveController.leftStick().onTrue(new SafeReset());
+// }
+
 public boolean shouldInvertMotors() {
-
     return m_driveController.getAButtonPressed();
-    // boolean invertButtonTest = false;
-    // if (m_driveController.getAButtonPressed() == true) {
-    //     driveTrain.invertMotors(true);
-    //     invertButtonTest = true;
-    // }
-
-    //SmartDashboard.putBoolean("Invert Button", invertButtonTest);
   }
 
-  public boolean shouldEnableBrakes() {
+public boolean shouldEnableBrakes() {
     return m_driveController.getBButton();
-    
-  
-  //SmartDashboard.putBoolean("Brake Button", brakeButtonTest);
+}
+
+public boolean shouldSafeReset() { 
+    return m_driveController.getLeftStickButton();
 }
       
 public void configureSmartDashboard() {
@@ -87,19 +90,49 @@ public void configureSmartDashboard() {
     controllerScalingChooser.addOption("Squared", 2);
     controllerScalingChooser.addOption("Limited Polynomic", 3);
 
-    driveModeChooser.setDefaultOption("Semi Curvature", 0);
-    driveModeChooser.addOption("Reg Curvature", 1);
-    driveModeChooser.addOption("Arcade", 2);
+    driveTypeChooser.setDefaultOption("Semi Curvature", 0);
+    driveTypeChooser.addOption("Reg Curvature", 1);
+    driveTypeChooser.addOption("Arcade", 2);
     
     SmartDashboard.putData("Autonomous Mode", autoChooser);
     SmartDashboard.putData("Driver Controls", driverControlsChooser);
     SmartDashboard.putData("Drive Controller Scaling", controllerScalingChooser);
-    SmartDashboard.putData("Drive Mode", driveModeChooser);
+    SmartDashboard.putData("Drive Type", driveTypeChooser);
 
     // Constants
     SmartDashboard.putNumber("Ramp Rate",Constants.DriveConstants.kRampRate);
     SmartDashboard.putNumber("Deadband",Constants.DriveConstants.kDeadband);
     SmartDashboard.putNumber("Slew Rate Limiter",Constants.DriveConstants.kSlewRateLimiter);
+    SmartDashboard.putNumber("Speed Output Mod", Constants.DriveConstants.kSpeedOutputModifier);
+    SmartDashboard.putNumber("Rot Output Mod", Constants.DriveConstants.kRotationOutputModifier);
+
+}
+public void configReporters() {
+      // Returns for DriveCommand Options
+      SmartDashboard.putString("DControl Mode", OIReporters.driveControllerMode);
+      SmartDashboard.putNumber("LStick Speed", OIReporters.lStickSpeed );
+      SmartDashboard.putNumber("TAccel Speed", OIReporters.tAccelSpeed);
+  
+      SmartDashboard.putNumber("OG Speed", OIReporters.originalSpeed );
+      SmartDashboard.putNumber("OG Rotation", OIReporters.originalRotation );
+  
+      SmartDashboard.putString("Scaling", OIReporters.scalingMode);
+      SmartDashboard.putString("Linear", OIReporters.linearScaled);
+      SmartDashboard.putString("Squared", OIReporters.squaredScaled);
+      SmartDashboard.putString("Cubic", OIReporters.cubicScaled);
+      SmartDashboard.putString("Fancy", OIReporters.fancyScaled);
+  
+      SmartDashboard.putString("Drive Type Chosen", OIReporters.driveType);
+      SmartDashboard.putBoolean("Semi Curvature", OIReporters.semiCurvature);
+  
+      
+      SmartDashboard.putBoolean("Enabled Brakes", OIReporters.brakesEnabled);
+      SmartDashboard.putNumber("Inversion Multiplier", OIReporters.inversionMult);
+    
+}
+
+public OIReporters geUtil() {
+    return util;
   }
 
 public XboxController getDriveController() {
@@ -110,8 +143,8 @@ public XboxController getDriveController() {
     return driverControlsChooser.getSelected();
   }
 
-  public int getDriveModeChooser() {
-    return driveModeChooser.getSelected();
+  public int getDriveTypeChooser() {
+    return driveTypeChooser.getSelected();
   }
 
   public int getControllerScalingChooser() {

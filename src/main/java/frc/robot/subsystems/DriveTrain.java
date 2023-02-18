@@ -15,6 +15,7 @@ package frc.robot.subsystems;
 import frc.robot.Constants;
 import frc.robot.OI;
 import frc.robot.RobotContainer;
+import frc.robot.OIReporters;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.commands.*;
 //import frc.robot.OI;
@@ -42,6 +43,7 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
@@ -166,8 +168,6 @@ public class DriveTrain extends SubsystemBase {
             brakesEnabled = true;
         }
         enableBrakes(brakesEnabled);
-        SmartDashboard.putBoolean("Brakes Enabled", brakesEnabled);
-        //brakesEnabled = false;
 
         odometry.update(gyro.getRotation2d(), leftMeters(), rightMeters());
     }
@@ -186,10 +186,24 @@ public class DriveTrain extends SubsystemBase {
     }
     
     public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+        double leftEncoderSpeedRaw = driveLeftLeader.getSelectedSensorVelocity();
+        double rightEncoderSpeedRaw = driveRightFollower.getSelectedSensorPosition();
+
+        double leftEncoderSpeedConverted = ((driveLeftLeader.getSelectedSensorVelocity() / Constants.kUnitsPerRev) / Constants.kGearRatio) / 1000;
+        double rightEncoderSpeedConverted = ((driveRightLeader.getSelectedSensorVelocity() / Constants.kUnitsPerRev) / Constants.kGearRatio) / 1000;
+
+        
+        SmartDashboard.putNumber("Raw Left Speed from Encoders", leftEncoderSpeedRaw);
+        SmartDashboard.putNumber("Raw Right Speed from Encoders", rightEncoderSpeedRaw);
+
+        
+        SmartDashboard.putNumber("Converted Left Speed from Encoders", leftEncoderSpeedConverted);
+        SmartDashboard.putNumber("Converted Speed from Encoders", rightEncoderSpeedConverted);
+
         return new DifferentialDriveWheelSpeeds(
                 ((driveLeftLeader.getSelectedSensorVelocity() / Constants.kUnitsPerRev) / Constants.kGearRatio) / 1000,
                 ((driveRightLeader.getSelectedSensorVelocity() / Constants.kUnitsPerRev) / Constants.kGearRatio) / 1000); // Sensor Units per 100ms -> Meters per sec
-    }
+        }
 
     public void setWheelSpeeds(double leftSpeed, double rightSpeed) {
         SmartDashboard.putNumber("Left Speed from DriveCommand", (leftSpeed * inversionMultiplier));
@@ -205,11 +219,13 @@ public class DriveTrain extends SubsystemBase {
      }
 
     public void curvatureDrive(double speed, double rotation, boolean semiCurvature) {
-        m_drive.curvatureDrive(speed * inversionMultiplier, -rotation * inversionMultiplier, semiCurvature);
+        SlewRateLimiter filter = new SlewRateLimiter(Constants.DriveConstants.kSlewRateLimiter);
+        m_drive.curvatureDrive(filter.calculate(speed * inversionMultiplier), -rotation * inversionMultiplier, semiCurvature);
     }
 
     public void arcadeDrive(double speed, double rotation) {
-        m_drive.arcadeDrive(speed * inversionMultiplier, rotation * inversionMultiplier);
+        SlewRateLimiter filter = new SlewRateLimiter(Constants.DriveConstants.kSlewRateLimiter);
+        m_drive.arcadeDrive(filter.calculate(speed * inversionMultiplier), rotation * inversionMultiplier);
     }
 
     // ask Kelly if still relevent 
@@ -225,17 +241,21 @@ public class DriveTrain extends SubsystemBase {
         if (enabled) {
         driveLeftLeader.setNeutralMode(NeutralMode.Brake);
         driveRightLeader.setNeutralMode(NeutralMode.Brake);
+        
+        OIReporters.brakesEnabled = true;
         }
         else {
         driveRightLeader.setNeutralMode(NeutralMode.Coast);
         driveRightFollower.setNeutralMode(NeutralMode.Coast);
+
+        OIReporters.brakesEnabled = false;
         }
         brakesEnabled = false;
     }
 
     public void invertMotors() {
         inversionMultiplier *= -1;
-        SmartDashboard.putNumber("Inverted", inversionMultiplier);
+        OIReporters.inversionMult = inversionMultiplier;
     }
     
 
@@ -301,6 +321,8 @@ public class DriveTrain extends SubsystemBase {
         SmartDashboard.putNumber("Right Velocity", driveRightLeader.getSelectedSensorVelocity());
         SmartDashboard.putNumber("Left Distance", driveLeftLeader.getSelectedSensorPosition());
         SmartDashboard.putNumber("Right Distance", driveRightLeader.getSelectedSensorPosition());
+
+        
 
     }
 

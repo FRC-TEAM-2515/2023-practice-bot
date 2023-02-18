@@ -15,12 +15,14 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.RobotContainer;
 import frc.robot.RobotContainer.*;
 import java.util.function.DoubleSupplier;
 import frc.robot.OI;
+import frc.robot.OIReporters;
 
 /**
  * Creates teleop drivetrain drive command
@@ -31,20 +33,19 @@ public class DriveCommand extends CommandBase {
     // DriveCommand Variable Declarations 
 
     // DriveCommand Constructors
-    private RobotContainer m_robotContainer;
+
     private DriveTrain m_drivetrain; // = DriveTrain.getInstance();
     // private OI m_oi;
     private XboxController m_driveController;
     private int m_driverControlsChoice;
-    private int m_driveModeChoice;
+    private int m_driveTypeChoice;
     private int m_controllerScalingChoice;
+    public double speed;
+    public double rotation;
        
     public DriveCommand(DriveTrain subsystem, XboxController controller) {
         m_drivetrain = subsystem;
         m_driveController = controller; 
-        m_driverControlsChoice = OI.getInstance().getDriverControlsChooser();
-        m_driveModeChoice = OI.getInstance().getDriveModeChooser();
-        m_controllerScalingChoice = OI.getInstance().getControllerScalingChooser();
         // Ensures that two commands that need the same subsystem dont mess each other up. 
         addRequirements (m_drivetrain);  
     }
@@ -58,17 +59,19 @@ public class DriveCommand extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        double speed = 0;
-        double rotation = 0;
+        speed = 0;
+        rotation = 0;
 
-        driverControls(speed, m_driverControlsChoice);
+        m_driverControlsChoice = OI.getInstance().getDriverControlsChooser();
+        m_driveTypeChoice = OI.getInstance().getDriveTypeChooser();
+        m_controllerScalingChoice = OI.getInstance().getControllerScalingChooser();
+
+        
+        driverControls(m_driverControlsChoice);
         rotation = (m_driveController.getLeftX() * DriveConstants.kRotationOutputModifier);
 
-        //controllerScaling(speed, rotation, m_controllerScalingChoice);
-        scalingRotation(rotation, m_controllerScalingChoice);
-        scalingSpeed(speed, m_controllerScalingChoice);
-
-        driveMode(speed, rotation, m_driveModeChoice);
+        controllerScaling(speed, rotation, m_controllerScalingChoice);
+        driveType(speed, rotation, m_driveTypeChoice);
 
         double leftSpeed = speed + rotation;
         double rightSpeed = speed - rotation;
@@ -101,61 +104,74 @@ public class DriveCommand extends CommandBase {
 
     }
 
-    public double driverControls(double speed, int choice) {
-            if (choice == 0){ //default left stick controls
-                speed = (m_driveController.getLeftY() * DriveConstants.kSpeedOutputModifier);
-            } else { //accelerated with trigger controls
+    public void driverControls(int choice) {
+            if (choice != 0){ //accelerate with trigger controls 
                 speed = ((m_driveController.getLeftTriggerAxis() - m_driveController.getRightTriggerAxis()) * DriveConstants.kSpeedOutputModifier);
+
+                OIReporters.driveControllerMode = "Trigger Accel";
+                OIReporters.tAccelSpeed = speed;
+
+            } else { //default left stick controls
+                speed = (m_driveController.getLeftY() * DriveConstants.kSpeedOutputModifier);
+                
+                OIReporters.driveControllerMode = "Left Stick";
+                OIReporters.lStickSpeed = speed;
             }
-            return speed;
         }
 
-    // public void controllerScaling(double speed, double rotation, int choice) {
-    //    scalingSpeed(rotation, choice);
-    //    scalingRotation(speed, choice);
-    // }
+    public void controllerScaling(double speed, double rotation, int choice){
+        OIReporters.originalSpeed = speed;
+        OIReporters.originalRotation = rotation;
 
-        public double scalingSpeed(double speed, int choice){
-            if (choice == 0){ //linear scaling
-                return speed; 
-            }
-            if (choice == 1) { //quadratic scaling
-                speed = Math.copySign(speed * speed, speed);
-            }
-            if (choice == 2) { //cubic scaling
-                speed = speed * speed * speed;
-            }
-            if (choice == 3) { //non polynomic
-                speed = speed * 0.5 + Math.pow(3,(speed * 0.5));
-            }
-            return speed;
-        }
+        if (choice == 1){ //linear scaling
+            this.speed = speed; 
+            this.rotation = rotation;
 
-        public double scalingRotation(double rotation, int choice){
-            if (choice == 0){ //linear scaling
-                return rotation; 
-            }
-            if (choice == 1) { //quadratic scaling
-                rotation = Math.copySign(rotation * rotation, rotation);
-            }
-            if (choice == 2) { //cubic scaling
-                rotation = Math.pow(3, rotation);
-            }
-            if (choice == 3) { //non polynomic
-                rotation = rotation * 0.5 + Math.pow(3,(rotation * 0.5));
-            }
-            return rotation;
+            OIReporters.scalingMode = "Linear";
+            OIReporters.linearScaled = ("Speed: " + speed + "& Rotation: " + rotation);
+            return;
         }
+        if (choice == 2) { //squared scaling
+            speed = Math.copySign(speed * speed, speed);
+                
+            OIReporters.scalingMode = "Squared";
+            OIReporters.squaredScaled = ("Speed: " + speed + "& Rotation: " + rotation);
+            return;
+        }
+        if (choice == 3) { //non polynomic (fancy)
+            speed = speed * 0.5 + Math.pow(3,(speed * 0.5));
 
-    public void driveMode(double speed, double rotation, int choice){
-        if (choice == 0){ //semi-curvature
-            m_drivetrain.curvatureDrive(speed,rotation,true);
+            OIReporters.scalingMode = "Fancy";
+            OIReporters.fancyScaled = ("Speed: " + speed + "& Rotation: " + rotation);
+           return;
         }
+        else { //cubic scaling
+            speed = speed * speed * speed;
+
+            OIReporters.scalingMode = "Cubic";
+            OIReporters.cubicScaled = ("Speed: " + speed + "& Rotation: " + rotation);
+        }
+    }
+
+    public void driveType(double speed, double rotation, int choice){
         if (choice == 1){ //regular curvature
             m_drivetrain.curvatureDrive(speed, rotation, false);
+
+            OIReporters.driveType = "Curvature";
+            OIReporters.semiCurvature = false;
+           return;
         }
         if (choice == 2){ //arcade
             m_drivetrain.arcadeDrive(speed, rotation);
+
+            OIReporters.driveType = "Arcade";
+            return;
+        }
+        else { //semi-curvature
+            m_drivetrain.curvatureDrive(speed,rotation,true);
+            
+            OIReporters.driveType = "Semi-Curvature";
+            OIReporters.semiCurvature = true;
         }
     }
 

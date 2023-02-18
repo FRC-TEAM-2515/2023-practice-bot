@@ -27,13 +27,15 @@ public class RobotContainer {
     // private static RobotContainer m_robotContainer = new RobotContainer();
     // The robot's subsystems
     // public final DriveTrain m_driveTrain = new DriveTrain();
+    
+    private static RobotContainer instanceRobotContainer;
 
     private DriveTrain driveTrain;
-    private Vision vision;
-    private Claw claw;
-    private Wrist wrist;
-    private Arm arm;
-    private Turret turret;
+    // private Vision vision;
+    // private Claw claw;
+    // private Wrist wrist;
+    // private Arm arm;
+    // private Turret turret;
 
     private DriveCommand driveCommand;
 
@@ -53,28 +55,34 @@ public class RobotContainer {
 
   
   // public static RobotContainer getInstance() {
-  //   if (m_robotContainer == null) {
-  //     m_robotContainer = new RobotContainer();
+  //   if (instanceRobotContainer == null) {
+  //     instanceRobotContainer = new RobotContainer();
   //   }
-  //   return m_robotContainer;
+  //   return instanceRobotContainer;
   // }
 
   
   public RobotContainer() {
-    OI.getInstance().configureButtonBindings();
     OI.getInstance().configureSmartDashboard();
+    //OI.getInstance().configureCommandButtons();
+    OI.getInstance().configureButtonBindings();
     initSubsystems();
+    
   }      
 
   private void initSubsystems() {
     
     driveTrain = new DriveTrain();
-    vision = new Vision();
-    claw = new Claw();
-    wrist = new Wrist();
-    arm = new Arm();
-    turret = new Turret();
+    // vision = new Vision();
+    // claw = new Claw();
+    // wrist = new Wrist();
+    // arm = new Arm();
+    // turret = new Turret();
   }
+
+//   public void configureCommandButtons() {
+//     m_commandDriveController.leftStick().onTrue(new SafeReset());
+// }
 
   // private void configureButtonBindings() {
   //   invertMotors();
