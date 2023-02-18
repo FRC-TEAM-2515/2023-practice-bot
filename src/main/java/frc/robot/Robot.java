@@ -18,8 +18,8 @@ import edu.wpi.first.hal.HAL;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.DriveCommand;
 import frc.robot.RobotContainer;
+import frc.robot.commands.DriveCommand;
 import frc.robot.OI;
 
 /**
@@ -44,9 +44,10 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         CommandScheduler.getInstance().cancelAll();
+        
+        //robotContainer = RobotContainer.getInstance();
         robotContainer = new RobotContainer();
-        OI.getInstance();
-        //m_robotContainer = RobotContainer.getInstance();
+        oi = OI.getInstance();
         HAL.report(tResourceType.kResourceType_Framework, tInstances.kFramework_RobotBuilder);
         //CommandScheduler.getInstance().cancelAll();
     }
@@ -100,7 +101,7 @@ public class Robot extends TimedRobot {
         if (autonomousCommand != null) {
             autonomousCommand.cancel();
         }
-        robotContainer.manualDrive();
+       // robotContainer.manualDrive();
 
     }
 
@@ -109,7 +110,14 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopPeriodic() {
+        OI.getInstance().getDriverControlsChooser();
+        OI.getInstance().getControllerScalingChooser();
+        OI.getInstance().getDriveTypeChooser();
+        robotContainer.manualDrive();
         robotContainer.getDriveTrain().updateSmartDashboard();
+        OI.getInstance().configReporters();
+        
+    
     }
 
     @Override
