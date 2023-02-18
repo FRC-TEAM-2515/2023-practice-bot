@@ -34,8 +34,7 @@ public class DriveCommand extends CommandBase {
 
     // DriveCommand Constructors
 
-    private DriveTrain m_drivetrain; // = DriveTrain.getInstance();
-    // private OI m_oi;
+    private DriveTrain m_drivetrain; 
     private XboxController m_driveController;
     private int m_driverControlsChoice;
     private int m_driveTypeChoice;
@@ -59,8 +58,7 @@ public class DriveCommand extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        // speed = 0;
-        // rotation = 0;
+     
 
         m_driverControlsChoice = OI.getInstance().getDriverControlsChooser();
         m_driveTypeChoice = OI.getInstance().getDriveTypeChooser();
@@ -68,7 +66,7 @@ public class DriveCommand extends CommandBase {
 
         
         driverControls(m_driverControlsChoice);
-        
+        rotation = (m_driveController.getLeftX() * DriveConstants.kRotationOutputModifier);
         controllerScaling(speed, rotation, m_controllerScalingChoice);
         driveType(speed, rotation, m_driveTypeChoice);
 
@@ -115,12 +113,12 @@ public class DriveCommand extends CommandBase {
                 return;
 
              } //else { //default left stick controls
-                speed = (m_driveController.getLeftY() * DriveConstants.kSpeedOutputModifier);
+                speed = m_driveController.getLeftY();// * DriveConstants.kSpeedOutputModifier);
                 
                 OIReporters.driveControllerMode = "Left Stick";
                 OIReporters.lStickSpeed = speed;
 
-            rotation = (m_driveController.getLeftX() * DriveConstants.kRotationOutputModifier);
+           
 
             //}
         }

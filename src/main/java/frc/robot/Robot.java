@@ -47,7 +47,7 @@ public class Robot extends TimedRobot {
         
         //robotContainer = RobotContainer.getInstance();
         robotContainer = new RobotContainer();
-        oi = OI.getInstance();
+        oi = new OI();
         HAL.report(tResourceType.kResourceType_Framework, tInstances.kFramework_RobotBuilder);
         //CommandScheduler.getInstance().cancelAll();
     }
@@ -110,9 +110,9 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopPeriodic() {
-        OI.getInstance().getDriverControlsChooser();
-        OI.getInstance().getControllerScalingChooser();
-        OI.getInstance().getDriveTypeChooser();
+        // OI.getInstance().getDriverControlsChooser();
+        // OI.getInstance().getControllerScalingChooser();
+        // OI.getInstance().getDriveTypeChooser();
         robotContainer.manualDrive();
         robotContainer.getDriveTrain().updateSmartDashboard();
         OI.getInstance().configReporters();

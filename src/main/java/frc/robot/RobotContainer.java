@@ -41,31 +41,11 @@ public class RobotContainer {
 
     private XboxController driveController = OI.getInstance().getDriveController();
 
-    // Creates new gamepads connected to Xbox Controllers
-    // private static XboxController driveController = new XboxController(0);
-    // private static XboxController armController = new XboxController(1);
-
-    // // Command choosers
-    // SendableChooser<Command> m_autoChooser = new SendableChooser<>();
-
-    // // Object choosers
-    // public final SendableChooser<Integer> driverControlsChooser = new SendableChooser<>();
-    // public final SendableChooser<Integer> controllerScalingChooser = new SendableChooser<>();
-    // public final SendableChooser<Integer> driveModeChooser = new SendableChooser<>();
-
-  
-  // public static RobotContainer getInstance() {
-  //   if (instanceRobotContainer == null) {
-  //     instanceRobotContainer = new RobotContainer();
-  //   }
-  //   return instanceRobotContainer;
-  // }
-
   
   public RobotContainer() {
-    OI.getInstance().configureSmartDashboard();
-    //OI.getInstance().configureCommandButtons();
-    OI.getInstance().configureButtonBindings();
+    OI.getInstance();
+    // OI.getInstance().configureSmartDashboard();
+    // OI.getInstance().configureButtonBindings();
     initSubsystems();
     
   }      
@@ -80,58 +60,13 @@ public class RobotContainer {
     // turret = new Turret();
   }
 
-//   public void configureCommandButtons() {
-//     m_commandDriveController.leftStick().onTrue(new SafeReset());
-// }
-
-  // private void configureButtonBindings() {
-  //   invertMotors();
-  //   enableBrakes(); 
-  // }
-
-  // public boolean invertMotors() {
-  //   return driveController.getAButtonPressed();
-  // }
-
-  // public boolean enableBrakes() {
-  //   return driveController.getBButton();
-  // }
-      
-//   private void configureSmartDashboard() {
-
-//     // Choosers
-//     m_autoChooser.setDefaultOption("Simple Autonomous", getAutonomousCommand());
-
-//     driverControlsChooser.setDefaultOption("Left Stick", 0);
-//     driverControlsChooser.addOption("Trigger Acceleration", 1);
-
-//     controllerScalingChooser.setDefaultOption("Cubic", 0);
-//     controllerScalingChooser.addOption("Linear", 1);
-//     controllerScalingChooser.addOption("Squared", 2);
-//     controllerScalingChooser.addOption("Limited Polynomic", 3);
-
-//     driveModeChooser.setDefaultOption("Semi Curvature", 0);
-//     driveModeChooser.addOption("Reg Curvature", 1);
-//     driveModeChooser.addOption("Arcade", 2);
-    
-//     SmartDashboard.putData("Autonomous Mode", m_autoChooser);
-//     SmartDashboard.putData("Driver Controls", driverControlsChooser);
-//     SmartDashboard.putData("Drive Controller Scaling", controllerScalingChooser);
-//     SmartDashboard.putData("Drive Mode", driveModeChooser);
-
-//     // Constants
-//     SmartDashboard.putNumber("Ramp Rate",Constants.DriveConstants.kRampRate);
-//     SmartDashboard.putNumber("Ramp Rate",Constants.DriveConstants.kDeadband);
-//     SmartDashboard.putNumber("Ramp Rate",Constants.DriveConstants.kSlewRateLimiter);
-//   }
-
-//   public XboxController getDriveController() {
-//   return driveController;
-// }
 
   public void manualDrive() {
+    OI.getInstance().getDrivePreference();
+
     driveCommand = new DriveCommand(driveTrain, driveController);
     driveTrain.setDefaultCommand(driveCommand);
+  
 }
 
   public void safeReset() {
@@ -139,33 +74,17 @@ public class RobotContainer {
   driveTrain.resetEncoders();
 }
 
- 
+  public DriveTrain getDriveTrain() {
+  return driveTrain;
+}
+
 //   /**
 //    * Use this to pass the autonomous command to the main {@link Robot} class.
 //    *
 //    * @return the command to run in autonomous
 //   */
 
-  public DriveTrain getDriveTrain() {
-    return driveTrain;
-  }
-
-//   public int getDriverControlsChooser() {
-//     return driverControlsChooser.getSelected();
-//   }
-
-//   public int getDriveModeChooser() {
-//     return driveModeChooser.getSelected();
-//   }
-
-//   public int getControllerScalingChooser() {
-//     return controllerScalingChooser.getSelected();
-//   }
-
-//   public Command getAutonomousCommand() {
-//     // The selected command will be run in autonomous
-//     return OI.getInstance().getAutonomousCommand();
-// }
+ 
 
  
 }

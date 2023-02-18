@@ -186,12 +186,6 @@ public class DriveTrain extends SubsystemBase {
     }
     
     public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-        double leftEncoderSpeedRaw = driveLeftLeader.getSelectedSensorVelocity();
-        double rightEncoderSpeedRaw = driveRightFollower.getSelectedSensorPosition();
-
-        double leftEncoderSpeedConverted = ((driveLeftLeader.getSelectedSensorVelocity() / Constants.kUnitsPerRev) / Constants.kGearRatio) / 1000;
-        double rightEncoderSpeedConverted = ((driveRightLeader.getSelectedSensorVelocity() / Constants.kUnitsPerRev) / Constants.kGearRatio) / 1000;
-
 
         return new DifferentialDriveWheelSpeeds(
                 ((driveLeftLeader.getSelectedSensorVelocity() / Constants.kUnitsPerRev) / Constants.kGearRatio) / 1000,
@@ -212,8 +206,8 @@ public class DriveTrain extends SubsystemBase {
      }
 
     public void curvatureDrive(double speed, double rotation, boolean semiCurvature) {
-        //SlewRateLimiter filter = new SlewRateLimiter(Constants.DriveConstants.kSlewRateLimiter);
-        m_drive.curvatureDrive(speed * inversionMultiplier, -rotation * inversionMultiplier, semiCurvature);
+        SlewRateLimiter speedFilter = new SlewRateLimiter(Constants.DriveConstants.kSlewRateLimiter);
+        m_drive.curvatureDrive(-speedFilter.calculate(speed * inversionMultiplier), -rotation * inversionMultiplier, semiCurvature);
     }
 
     public void arcadeDrive(double speed, double rotation) {
@@ -315,6 +309,8 @@ public class DriveTrain extends SubsystemBase {
         SmartDashboard.putNumber("Left Distance", driveLeftLeader.getSelectedSensorPosition());
         SmartDashboard.putNumber("Right Distance", driveRightLeader.getSelectedSensorPosition());
         
+        double leftEncoderSpeedConverted = ((driveLeftLeader.getSelectedSensorVelocity() / Constants.kUnitsPerRev) / Constants.kGearRatio) / 1000;
+        double rightEncoderSpeedConverted = ((driveRightLeader.getSelectedSensorVelocity() / Constants.kUnitsPerRev) / Constants.kGearRatio) / 1000;
 
         
 
