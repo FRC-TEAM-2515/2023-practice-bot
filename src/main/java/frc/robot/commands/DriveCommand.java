@@ -59,8 +59,8 @@ public class DriveCommand extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        speed = 0;
-        rotation = 0;
+        // speed = 0;
+        // rotation = 0;
 
         m_driverControlsChoice = OI.getInstance().getDriverControlsChooser();
         m_driveTypeChoice = OI.getInstance().getDriveTypeChooser();
@@ -68,8 +68,7 @@ public class DriveCommand extends CommandBase {
 
         
         driverControls(m_driverControlsChoice);
-        rotation = (m_driveController.getLeftX() * DriveConstants.kRotationOutputModifier);
-
+        
         controllerScaling(speed, rotation, m_controllerScalingChoice);
         driveType(speed, rotation, m_driveTypeChoice);
 
@@ -105,18 +104,25 @@ public class DriveCommand extends CommandBase {
     }
 
     public void driverControls(int choice) {
+        speed = 0;
+        rotation = 0;
+
             if (choice != 0){ //accelerate with trigger controls 
                 speed = ((m_driveController.getLeftTriggerAxis() - m_driveController.getRightTriggerAxis()) * DriveConstants.kSpeedOutputModifier);
 
                 OIReporters.driveControllerMode = "Trigger Accel";
                 OIReporters.tAccelSpeed = speed;
+                return;
 
-            } else { //default left stick controls
+             } //else { //default left stick controls
                 speed = (m_driveController.getLeftY() * DriveConstants.kSpeedOutputModifier);
                 
                 OIReporters.driveControllerMode = "Left Stick";
                 OIReporters.lStickSpeed = speed;
-            }
+
+            rotation = (m_driveController.getLeftX() * DriveConstants.kRotationOutputModifier);
+
+            //}
         }
 
     public void controllerScaling(double speed, double rotation, int choice){
@@ -145,12 +151,13 @@ public class DriveCommand extends CommandBase {
             OIReporters.fancyScaled = ("Speed: " + speed + "& Rotation: " + rotation);
            return;
         }
-        else { //cubic scaling
+       // else { //cubic scaling
             speed = speed * speed * speed;
+            rotation = rotation * rotation * rotation;
 
             OIReporters.scalingMode = "Cubic";
             OIReporters.cubicScaled = ("Speed: " + speed + "& Rotation: " + rotation);
-        }
+       // }
     }
 
     public void driveType(double speed, double rotation, int choice){
@@ -167,12 +174,12 @@ public class DriveCommand extends CommandBase {
             OIReporters.driveType = "Arcade";
             return;
         }
-        else { //semi-curvature
+        //else { //semi-curvature
             m_drivetrain.curvatureDrive(speed,rotation,true);
             
             OIReporters.driveType = "Semi-Curvature";
             OIReporters.semiCurvature = true;
-        }
+       // }
     }
 
     

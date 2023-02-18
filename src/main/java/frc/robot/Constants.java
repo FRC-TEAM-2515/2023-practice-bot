@@ -30,9 +30,9 @@ public class Constants {
         public static final double kDeadband = 0.199413;
         public static final double kDriveGain = 2.0;
         public static final double kRampRate = 4.023;
-        public static final double kSlewRateLimiter = 0.2; // units per second
+        public static final double kSlewRateLimiter = 0.8; // units per second
 
-        public static final double kSpeedOutputModifier = 1.00; //arbitrary
+        public static final double kSpeedOutputModifier = 6.0; //arbitrary
         public static final double kRotationOutputModifier = 0.6; //arbitrary
     }
 

@@ -192,13 +192,6 @@ public class DriveTrain extends SubsystemBase {
         double leftEncoderSpeedConverted = ((driveLeftLeader.getSelectedSensorVelocity() / Constants.kUnitsPerRev) / Constants.kGearRatio) / 1000;
         double rightEncoderSpeedConverted = ((driveRightLeader.getSelectedSensorVelocity() / Constants.kUnitsPerRev) / Constants.kGearRatio) / 1000;
 
-        
-        SmartDashboard.putNumber("Raw Left Speed from Encoders", leftEncoderSpeedRaw);
-        SmartDashboard.putNumber("Raw Right Speed from Encoders", rightEncoderSpeedRaw);
-
-        
-        SmartDashboard.putNumber("Converted Left Speed from Encoders", leftEncoderSpeedConverted);
-        SmartDashboard.putNumber("Converted Speed from Encoders", rightEncoderSpeedConverted);
 
         return new DifferentialDriveWheelSpeeds(
                 ((driveLeftLeader.getSelectedSensorVelocity() / Constants.kUnitsPerRev) / Constants.kGearRatio) / 1000,
@@ -219,13 +212,13 @@ public class DriveTrain extends SubsystemBase {
      }
 
     public void curvatureDrive(double speed, double rotation, boolean semiCurvature) {
-        SlewRateLimiter filter = new SlewRateLimiter(Constants.DriveConstants.kSlewRateLimiter);
-        m_drive.curvatureDrive(filter.calculate(speed * inversionMultiplier), -rotation * inversionMultiplier, semiCurvature);
+        //SlewRateLimiter filter = new SlewRateLimiter(Constants.DriveConstants.kSlewRateLimiter);
+        m_drive.curvatureDrive(speed * inversionMultiplier, -rotation * inversionMultiplier, semiCurvature);
     }
 
     public void arcadeDrive(double speed, double rotation) {
-        SlewRateLimiter filter = new SlewRateLimiter(Constants.DriveConstants.kSlewRateLimiter);
-        m_drive.arcadeDrive(filter.calculate(speed * inversionMultiplier), rotation * inversionMultiplier);
+       // SlewRateLimiter filter = new SlewRateLimiter(Constants.DriveConstants.kSlewRateLimiter);
+        m_drive.arcadeDrive(speed * inversionMultiplier, rotation * inversionMultiplier);
     }
 
     // ask Kelly if still relevent 
@@ -321,6 +314,7 @@ public class DriveTrain extends SubsystemBase {
         SmartDashboard.putNumber("Right Velocity", driveRightLeader.getSelectedSensorVelocity());
         SmartDashboard.putNumber("Left Distance", driveLeftLeader.getSelectedSensorPosition());
         SmartDashboard.putNumber("Right Distance", driveRightLeader.getSelectedSensorPosition());
+        
 
         
 
