@@ -18,8 +18,9 @@ import edu.wpi.first.hal.HAL;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.Constants.DriveConstants;
-import frc.robot.subsystems.Drive;
+import frc.robot.RobotContainer;
+import frc.robot.commands.DriveCommand;
+import frc.robot.OI;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -27,12 +28,14 @@ import frc.robot.subsystems.Drive;
  * documentation. If you change the name of this class or the package after
  * creating this project, you must also update the build.properties file in 
  * the project.
+ * 
  */
+
+ 
 public class Robot extends TimedRobot {
-
-    private Command m_autonomousCommand;
-
-    private RobotContainer m_robotContainer;
+    protected Command autonomousCommand;
+    protected RobotContainer robotContainer;
+    protected OI oi;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -40,10 +43,13 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
-        // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
-        // autonomous chooser on the dashboard.
-        m_robotContainer = RobotContainer.getInstance();
+        CommandScheduler.getInstance().cancelAll();
+        
+        //robotContainer = RobotContainer.getInstance();
+        robotContainer = new RobotContainer();
+        oi = OI.getInstance();
         HAL.report(tResourceType.kResourceType_Framework, tInstances.kFramework_RobotBuilder);
+        //CommandScheduler.getInstance().cancelAll();
     }
 
     /**
@@ -55,10 +61,6 @@ public class Robot extends TimedRobot {
     */
     @Override
     public void robotPeriodic() {
-        // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
-        // commands, running already-scheduled commands, removing finished or interrupted commands,
-        // and running subsystem periodic() methods.  This must be called from the robot's periodic
-        // block in order for anything in the Command-based framework to work.
         CommandScheduler.getInstance().run();
     }
 
@@ -79,11 +81,11 @@ public class Robot extends TimedRobot {
     */
     @Override
     public void autonomousInit() {
-        m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+        autonomousCommand = oi.getAutonomousCommand();
 
         // schedule the autonomous command (example)
-        if (m_autonomousCommand != null) {
-            m_autonomousCommand.schedule();
+        if (autonomousCommand != null) {
+            autonomousCommand.schedule();
         }
     }
 
@@ -96,13 +98,11 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        // This makes sure that the autonomous stops running when
-        // teleop starts running. If you want the autonomous to
-        // continue until interrupted by another command, remove
-        // this line or comment it out.
-        if (m_autonomousCommand != null) {
-            m_autonomousCommand.cancel();
+        if (autonomousCommand != null) {
+            autonomousCommand.cancel();
         }
+      // robotContainer.manualDrive();
+
     }
 
     /**
@@ -110,8 +110,14 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopPeriodic() {
-        RobotContainer.getInstance().m_drive.manualDrive();
-        RobotContainer.getInstance().m_drive.updateSmartDashboard();
+        OI.getInstance().getDriverControlsChooser();
+        OI.getInstance().getControllerScalingChooser();
+        OI.getInstance().getDriveTypeChooser();
+        robotContainer.manualDrive();
+        robotContainer.getDriveTrain().updateSmartDashboard();
+        OI.getInstance().configReporters();
+        
+    
     }
 
     @Override
