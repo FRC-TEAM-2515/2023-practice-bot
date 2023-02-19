@@ -36,6 +36,7 @@ public class Robot extends TimedRobot {
     protected Command autonomousCommand;
     protected RobotContainer robotContainer;
     protected OI oi;
+    protected OIReporters oiReporters;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -44,10 +45,8 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         CommandScheduler.getInstance().cancelAll();
-        
-        //robotContainer = RobotContainer.getInstance();
-        robotContainer = new RobotContainer();
-        oi = new OI();
+    
+        robotContainer = RobotContainer.getInstance();
         HAL.report(tResourceType.kResourceType_Framework, tInstances.kFramework_RobotBuilder);
         //CommandScheduler.getInstance().cancelAll();
     }
@@ -62,6 +61,7 @@ public class Robot extends TimedRobot {
     @Override
     public void robotPeriodic() {
         CommandScheduler.getInstance().run();
+        
     }
 
 
@@ -81,7 +81,7 @@ public class Robot extends TimedRobot {
     */
     @Override
     public void autonomousInit() {
-        autonomousCommand = oi.getAutonomousCommand();
+        autonomousCommand = robotContainer.getOI().getAutonomousCommand();
 
         // schedule the autonomous command (example)
         if (autonomousCommand != null) {
@@ -110,13 +110,10 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopPeriodic() {
-        // OI.getInstance().getDriverControlsChooser();
-        // OI.getInstance().getControllerScalingChooser();
-        // OI.getInstance().getDriveTypeChooser();
-        robotContainer.manualDrive();
-        robotContainer.getDriveTrain().updateSmartDashboard();
-        OI.getInstance().configReporters();
         
+        robotContainer.getOI().getDrivePreferences();
+        robotContainer.manualDrive();
+        robotContainer.getOIReporters().updateOIReporters();
     
     }
 

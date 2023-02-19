@@ -8,10 +8,11 @@ import frc.robot.RobotContainer;
  */
 public class SafeReset extends InstantCommand {
 
+    private RobotContainer robotContainer;
     // Called once when this command runs
     @Override
     public void initialize() {
-        RobotContainer.getInstance().safeReset();
+        robotContainer.safeReset();
     }
 
     @Override

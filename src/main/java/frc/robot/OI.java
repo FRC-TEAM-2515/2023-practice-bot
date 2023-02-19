@@ -12,30 +12,29 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.OIReporters;
+import frc.robot.RobotMath;
 
 public class OI {
     
     private static OI instanceOI;
+    private OIReporters oiReporters;
+    private XboxController m_driveController;
+    private XboxController m_armController;
 
-    private static XboxController m_driveController;
-    private static XboxController m_armController;
+    private CommandXboxController m_commandDriveController;
 
-    private static CommandXboxController m_commandDriveController;
+    private SendableChooser<Command> autoChooser;
 
-    private static SendableChooser<Command> autoChooser;
+    private SendableChooser<Integer> driverControlsChooser;
+    private SendableChooser<Integer> controllerScalingChooser;
+    private SendableChooser<Integer> driveTypeChooser;
 
-    private static SendableChooser<Integer> driverControlsChooser;
-    private static SendableChooser<Integer> controllerScalingChooser;
-    private static SendableChooser<Integer> driveTypeChooser;
-
-
-
-  public static OI getInstance() {
-      if (instanceOI == null) {
-        instanceOI = new OI();
-      }
-      return instanceOI;
-    }
+  // public static OI getInstance() {
+  //     if (instanceOI == null) {
+  //       instanceOI = new OI();
+  //     }
+  //     return instanceOI;
+  //   }
 
     public OI() {
 
@@ -52,29 +51,18 @@ public class OI {
     controllerScalingChooser = new SendableChooser<>();
     driveTypeChooser = new SendableChooser<>();
 
-}
+    configureButtonBindings();
+    configureSmartDashboard();
+    getDrivePreferences();
 
+}
 public void initOI() {
-      // Controllers
-      m_driveController = new XboxController(0);
-      m_commandDriveController = new CommandXboxController(0);
-      m_armController = new XboxController(1);
-  
-      // Command choosers
-      autoChooser = new SendableChooser<>();
-  
-      // Object choosers
-      driverControlsChooser = new SendableChooser<>();
-      controllerScalingChooser = new SendableChooser<>();
-      driveTypeChooser = new SendableChooser<>();
-
-      OI.configureButtonBindings();
-      OI.configureSmartDashboard();
-      OI.updateReporters();
-
+    configureButtonBindings();
+    configureSmartDashboard();
+    getDrivePreferences();
 }
 
-public static void configureButtonBindings() {
+private void configureButtonBindings() {
 
     shouldEnableBrakes();
     shouldInvertMotors();
@@ -82,37 +70,27 @@ public static void configureButtonBindings() {
     m_commandDriveController.leftStick().onTrue(new SafeReset());
 }
 
-public void getDrivePreference(){
-  getDriveController();
-  getDriveTypeChooser();
-  getControllerScalingChooser();
-}
-
-
-public static boolean shouldInvertMotors() {
+public boolean shouldInvertMotors() {
     return m_driveController.getAButtonPressed();
   }
 
-public static boolean shouldEnableBrakes() {
+public boolean shouldEnableBrakes() {
     return m_driveController.getBButton();
 }
 
-public static boolean shouldSafeReset() { 
-    return m_driveController.getLeftStickButton();
-}
-      
-public static void configureSmartDashboard() {
+
+public void configureSmartDashboard() {
 
     // Choosers
     autoChooser.setDefaultOption("Simple Autonomous", getAutonomousCommand());
 
     driverControlsChooser.setDefaultOption("Left Stick", 0);
     driverControlsChooser.addOption("Trigger Acceleration", 1);
-
-    controllerScalingChooser.setDefaultOption("Cubic", 0);
+    
+    controllerScalingChooser.setDefaultOption("Limited Polynomic", 0);
     controllerScalingChooser.addOption("Linear", 1);
     controllerScalingChooser.addOption("Squared", 2);
-    controllerScalingChooser.addOption("Limited Polynomic", 3);
+    controllerScalingChooser.addOption("Cubic", 3);
 
     driveTypeChooser.setDefaultOption("Semi Curvature", 0);
     driveTypeChooser.addOption("Reg Curvature", 1);
@@ -132,47 +110,52 @@ public static void configureSmartDashboard() {
 
 }
 
-public static void updateReporters() {
+// public void updateReporters() {
 
-  SmartDashboard.putString("DControl Mode", OIReporters.driveControllerMode);
-  SmartDashboard.putNumber("LStick Speed", OIReporters.lStickSpeed );
-  SmartDashboard.putNumber("TAccel Speed", OIReporters.tAccelSpeed);
+//   SmartDashboard.putString("DControl Mode", OIReporters.driveControllerMode);
+//   SmartDashboard.putNumber("LStick Speed", OIReporters.lStickSpeed );
+//   SmartDashboard.putNumber("TAccel Speed", OIReporters.tAccelSpeed);
 
-  SmartDashboard.putNumber("OG Speed", OIReporters.originalSpeed );
-  SmartDashboard.putNumber("OG Rotation", OIReporters.originalRotation );
+//   SmartDashboard.putNumber("OG Speed", OIReporters.originalSpeed );
+//   SmartDashboard.putNumber("OG Rotation", OIReporters.originalRotation );
 
-  SmartDashboard.putString("Scaling", OIReporters.scalingMode);
-  SmartDashboard.putString("Linear", OIReporters.linearScaled);
-  SmartDashboard.putString("Squared", OIReporters.squaredScaled);
-  SmartDashboard.putString("Cubic", OIReporters.cubicScaled);
-  SmartDashboard.putString("Fancy", OIReporters.fancyScaled);
+//   SmartDashboard.putString("Scaling", OIReporters.scalingMode);
+//   SmartDashboard.putString("Linear", OIReporters.linearScaled);
+//   SmartDashboard.putString("Squared", OIReporters.squaredScaled);
+//   SmartDashboard.putString("Cubic", OIReporters.cubicScaled);
+//   SmartDashboard.putString("Fancy", OIReporters.fancyScaled);
 
-  SmartDashboard.putString("Drive Type Chosen", OIReporters.driveType);
-  SmartDashboard.putBoolean("Semi Curvature", OIReporters.semiCurvature);
+//   SmartDashboard.putString("Drive Type Chosen", OIReporters.driveType);
+//   SmartDashboard.putBoolean("Semi Curvature", OIReporters.semiCurvature);
   
-  SmartDashboard.putBoolean("Enabled Brakes", OIReporters.brakesEnabled);
-  SmartDashboard.putNumber("Inversion Multiplier", OIReporters.inversionMult);
+//   SmartDashboard.putBoolean("Enabled Brakes", OIReporters.brakesEnabled);
+//   SmartDashboard.putNumber("Inversion Multiplier", OIReporters.inversionMult);
 
-}
+// }
 
+  public void getDrivePreferences(){
+    getDriveController();
+    getDriveTypeChooser();
+    getControllerScalingChooser();
+  }
 
-public static XboxController getDriveController() {
+  public XboxController getDriveController() {
     return m_driveController;
   }
 
-  public static int getDriverControlsChooser() {
+  public int getDriverControlsChooser() {
     return driverControlsChooser.getSelected();
   }
 
-  public static int getDriveTypeChooser() {
+  public int getDriveTypeChooser() {
     return driveTypeChooser.getSelected();
   }
 
-  public static int getControllerScalingChooser() {
+  public int getControllerScalingChooser() {
     return controllerScalingChooser.getSelected();
   }
 
-  public static Command getAutonomousCommand() {
+  public Command getAutonomousCommand() {
     // The selected command will be run in autonomous
     return autoChooser.getSelected();
   }

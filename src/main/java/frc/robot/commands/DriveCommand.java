@@ -23,6 +23,7 @@ import frc.robot.RobotContainer.*;
 import java.util.function.DoubleSupplier;
 import frc.robot.OI;
 import frc.robot.OIReporters;
+import frc.robot.OIReporters.DriveReporters;
 
 /**
  * Creates teleop drivetrain drive command
@@ -35,6 +36,7 @@ public class DriveCommand extends CommandBase {
     // DriveCommand Constructors
 
     private DriveTrain m_drivetrain; 
+    private RobotContainer m_robotContainer;
     private XboxController m_driveController;
     private int m_driverControlsChoice;
     private int m_driveTypeChoice;
@@ -45,6 +47,10 @@ public class DriveCommand extends CommandBase {
     public DriveCommand(DriveTrain subsystem, XboxController controller) {
         m_drivetrain = subsystem;
         m_driveController = controller; 
+        m_robotContainer = RobotContainer.getInstance();
+
+      
+
         // Ensures that two commands that need the same subsystem dont mess each other up. 
         addRequirements (m_drivetrain);  
     }
@@ -59,12 +65,10 @@ public class DriveCommand extends CommandBase {
     @Override
     public void execute() {
      
+        m_driverControlsChoice = m_robotContainer.getOI().getDriverControlsChooser();
+        m_driveTypeChoice = m_robotContainer.getOI().getDriveTypeChooser();
+        m_controllerScalingChoice = m_robotContainer.getOI().getControllerScalingChooser();
 
-        m_driverControlsChoice = OI.getInstance().getDriverControlsChooser();
-        m_driveTypeChoice = OI.getInstance().getDriveTypeChooser();
-        m_controllerScalingChoice = OI.getInstance().getControllerScalingChooser();
-
-        
         driverControls(m_driverControlsChoice);
         rotation = (m_driveController.getLeftX() * DriveConstants.kRotationOutputModifier);
         controllerScaling(speed, rotation, m_controllerScalingChoice);
@@ -108,76 +112,72 @@ public class DriveCommand extends CommandBase {
             if (choice != 0){ //accelerate with trigger controls 
                 speed = ((m_driveController.getLeftTriggerAxis() - m_driveController.getRightTriggerAxis()) * DriveConstants.kSpeedOutputModifier);
 
-                OIReporters.driveControllerMode = "Trigger Accel";
-                OIReporters.tAccelSpeed = speed;
+                OIReporters.DriveReporters.driveControllerMode = "Trigger Accel";
+                OIReporters.DriveReporters.tAccelSpeed = speed;
                 return;
 
-             } //else { //default left stick controls
+             } 
+                //default left stick controls
                 speed = m_driveController.getLeftY();// * DriveConstants.kSpeedOutputModifier);
                 
-                OIReporters.driveControllerMode = "Left Stick";
-                OIReporters.lStickSpeed = speed;
-
-           
-
-            //}
+                OIReporters.DriveReporters.driveControllerMode = "Left Stick";
+                OIReporters.DriveReporters.lStickSpeed = speed;
         }
 
     public void controllerScaling(double speed, double rotation, int choice){
-        OIReporters.originalSpeed = speed;
-        OIReporters.originalRotation = rotation;
+        OIReporters.DriveReporters.originalSpeed = speed;
+        OIReporters.DriveReporters.originalRotation = rotation;
 
         if (choice == 1){ //linear scaling
             this.speed = speed; 
             this.rotation = rotation;
 
-            OIReporters.scalingMode = "Linear";
-            OIReporters.linearScaled = ("Speed: " + speed + "& Rotation: " + rotation);
+            OIReporters.DriveReporters.scalingMode = "Linear";
+            OIReporters.DriveReporters.linearScaled = ("Speed: " + speed + "& Rotation: " + rotation);
             return;
         }
         if (choice == 2) { //squared scaling
             speed = Math.copySign(speed * speed, speed);
                 
-            OIReporters.scalingMode = "Squared";
-            OIReporters.squaredScaled = ("Speed: " + speed + "& Rotation: " + rotation);
+            OIReporters.DriveReporters.scalingMode = "Squared";
+            OIReporters.DriveReporters.squaredScaled = ("Speed: " + speed + "& Rotation: " + rotation);
             return;
         }
-        if (choice == 3) { //non polynomic (fancy)
-            speed = speed * 0.5 + Math.pow(3,(speed * 0.5));
-
-            OIReporters.scalingMode = "Fancy";
-            OIReporters.fancyScaled = ("Speed: " + speed + "& Rotation: " + rotation);
-           return;
-        }
-       // else { //cubic scaling
+        if (choice == 3) { //cubic scaling
             speed = speed * speed * speed;
             rotation = rotation * rotation * rotation;
 
-            OIReporters.scalingMode = "Cubic";
-            OIReporters.cubicScaled = ("Speed: " + speed + "& Rotation: " + rotation);
-       // }
+            OIReporters.DriveReporters.scalingMode = "Cubic";
+            OIReporters.DriveReporters.cubicScaled = ("Speed: " + speed + "& Rotation: " + rotation);
+            return;
+        } 
+            //non polynomic (fancy)
+            speed = speed * 0.5 + Math.pow(3,(speed * 0.5));
+
+            OIReporters.DriveReporters.scalingMode = "Fancy";
+            OIReporters.DriveReporters.fancyScaled = ("Speed: " + speed + "& Rotation: " + rotation);
+
     }
 
     public void driveType(double speed, double rotation, int choice){
         if (choice == 1){ //regular curvature
             m_drivetrain.curvatureDrive(speed, rotation, false);
 
-            OIReporters.driveType = "Curvature";
-            OIReporters.semiCurvature = false;
+            OIReporters.DriveReporters.driveType = "Curvature";
+            OIReporters.DriveReporters.semiCurvature = false;
            return;
         }
         if (choice == 2){ //arcade
             m_drivetrain.arcadeDrive(speed, rotation);
 
-            OIReporters.driveType = "Arcade";
+            OIReporters.DriveReporters.driveType = "Arcade";
             return;
         }
-        //else { //semi-curvature
+            //semi-curvature
             m_drivetrain.curvatureDrive(speed,rotation,true);
             
-            OIReporters.driveType = "Semi-Curvature";
-            OIReporters.semiCurvature = true;
-       // }
+            OIReporters.DriveReporters.driveType = "Semi-Curvature";
+            OIReporters.DriveReporters.semiCurvature = true;
     }
 
     

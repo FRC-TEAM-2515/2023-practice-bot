@@ -49,6 +49,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
+import frc.robot.RobotMath;
 
 /**
  * 
@@ -59,6 +60,7 @@ public class DriveTrain extends SubsystemBase {
     private DifferentialDrive m_drive;
     private MotorControllerGroup m_driveLeft;
     private MotorControllerGroup m_driveRight;
+    private RobotContainer m_robotContainer;
 
     // Constants
     private double m_turnGain = DriveConstants.kTurnGain;
@@ -161,15 +163,17 @@ public class DriveTrain extends SubsystemBase {
 
     @Override
     public void periodic() {
-        if (OI.getInstance().shouldInvertMotors()) {
+        if (RobotContainer.getInstance().getOI().shouldInvertMotors()) {
             invertMotors();
         }
-        if (OI.getInstance().shouldEnableBrakes()) {
+        if (RobotContainer.getInstance().getOI().shouldEnableBrakes()) {
             brakesEnabled = true;
         }
         enableBrakes(brakesEnabled);
 
         odometry.update(gyro.getRotation2d(), leftMeters(), rightMeters());
+        
+        updateSmartDashboard();
     }
 
     @Override
@@ -185,19 +189,21 @@ public class DriveTrain extends SubsystemBase {
         driveRightLeader.stopMotor();
     }
     
-    public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+    public DifferentialDriveWheelSpeeds getWheelSpeeds() { // kinematics
 
         return new DifferentialDriveWheelSpeeds(
-                ((driveLeftLeader.getSelectedSensorVelocity() / Constants.kUnitsPerRev) / Constants.kGearRatio) / 1000,
-                ((driveRightLeader.getSelectedSensorVelocity() / Constants.kUnitsPerRev) / Constants.kGearRatio) / 1000); // Sensor Units per 100ms -> Meters per sec
-        }
+            RobotMath.magEncoderConvertMetersPerSec(driveLeftLeader.getSelectedSensorVelocity()), 
+            RobotMath.magEncoderConvertMetersPerSec(driveRightLeader.getSelectedSensorVelocity()));
+                
+    }
 
-    public void setWheelSpeeds(double leftSpeed, double rightSpeed) {
-        SmartDashboard.putNumber("Left Speed from DriveCommand", (leftSpeed * inversionMultiplier));
-        SmartDashboard.putNumber("Right Speed from DriveCommand", (rightSpeed * inversionMultiplier));
+    public void setWheelSpeeds(double leftSpeed, double rightSpeed) { // from DriveCommand
 
         // driveLeftLeader.set(leftSpeed*inversionMultiplier);
         // driveRightLeader.set(rightSpeed*inversionMultiplier);
+
+        OIReporters.DriveReporters.leftSpeedFromCommand = (leftSpeed * inversionMultiplier);
+        OIReporters.DriveReporters.rightSpeedFromCommand = (rightSpeed * inversionMultiplier);
     }
 
      // already configured in DriveCommand if using setWheelSpeeds
@@ -229,20 +235,20 @@ public class DriveTrain extends SubsystemBase {
         driveLeftLeader.setNeutralMode(NeutralMode.Brake);
         driveRightLeader.setNeutralMode(NeutralMode.Brake);
         
-        OIReporters.brakesEnabled = true;
+        OIReporters.DriveReporters.brakesEnabled = true;
         }
         else {
         driveRightLeader.setNeutralMode(NeutralMode.Coast);
         driveRightFollower.setNeutralMode(NeutralMode.Coast);
 
-        OIReporters.brakesEnabled = false;
+        OIReporters.DriveReporters.brakesEnabled = false;
         }
         brakesEnabled = false;
     }
 
     public void invertMotors() {
         inversionMultiplier *= -1;
-        OIReporters.inversionMult = inversionMultiplier;
+        OIReporters.DriveReporters.inversionMult = inversionMultiplier;
     }
     
 
@@ -263,22 +269,15 @@ public class DriveTrain extends SubsystemBase {
     }
 
     public double leftMeters() {
-        return (((Math.PI * Units.inchesToMeters(Constants.kWheelDiameterInches)) * (driveLeftLeader.getSelectedSensorPosition() 
-        / (Constants.kUnitsPerRev)) / Constants.kGearRatio)) * inversionMultiplier;
+        return RobotMath.magEncoderConvertMeters(driveLeftLeader.getSelectedSensorPosition()) * inversionMultiplier;
     }    
 
    public double rightMeters() {
-       return (((Math.PI * Units.inchesToMeters(Constants.kWheelDiameterInches)) * (driveRightLeader.getSelectedSensorPosition() 
-       / (Constants.kUnitsPerRev)) / Constants.kGearRatio)) * inversionMultiplier;
+       return RobotMath.magEncoderConvertMeters(driveRightLeader.getSelectedSensorPosition()) * inversionMultiplier;
      }
 
     public double getAverageEncoderDistance() {
-        return ((leftMeters() + rightMeters()) / 2.0);
-
-        // return (((driveLeftLeader.getSelectedSensorPosition() / Constants.kUnitsPerRev) / Constants.kGearRatio) + 
-        // ((driveRightLeader.getSelectedSensorPosition() / Constants.kUnitsPerRev) / Constants.kGearRatio) / 2.0);
-
-        //return (driveLeftLeader.getSelectedSensorPosition() + driveRightLeader.getSelectedSensorPosition() / 2.0);
+        return Math.abs(((leftMeters() + rightMeters()) / 2.0));
     }
 
     /** Zeroes the heading of the robot. */
@@ -295,25 +294,19 @@ public class DriveTrain extends SubsystemBase {
     }
 
     public void updateSmartDashboard() {
-        SmartDashboard.putNumber("imu-yaw", gyro.getYaw());
-        SmartDashboard.putNumber("imu-pitch", gyro.getPitch());
-        SmartDashboard.putNumber("imu-roll", gyro.getRoll());
-        SmartDashboard.putNumber("imu-angle", gyro.getAngle());
+        OIReporters.DriveReporters.gyroYaw = gyro.getYaw();
+        OIReporters.DriveReporters.gryoPitch = gyro.getPitch();
+        OIReporters.DriveReporters.gyroRoll = gyro.getRoll();
+        OIReporters.DriveReporters.gyroAngle = gyro.getAngle();
 
-        SmartDashboard.putBoolean("imu-moving", gyro.isMoving());
-        SmartDashboard.putBoolean("imu-connected", gyro.isConnected());
-        SmartDashboard.putBoolean("imu-calibrating", gyro.isCalibrating());
+        OIReporters.DriveReporters.gyroMoving = gyro.isMoving();
+        OIReporters.DriveReporters.gyroConnected = gyro.isConnected();
+        OIReporters.DriveReporters.gyroCalibrating = gyro.isCalibrating();
 
-        SmartDashboard.putNumber("Left Velocity", driveLeftLeader.getSelectedSensorVelocity());
-        SmartDashboard.putNumber("Right Velocity", driveRightLeader.getSelectedSensorVelocity());
-        SmartDashboard.putNumber("Left Distance", driveLeftLeader.getSelectedSensorPosition());
-        SmartDashboard.putNumber("Right Distance", driveRightLeader.getSelectedSensorPosition());
-        
-        double leftEncoderSpeedConverted = ((driveLeftLeader.getSelectedSensorVelocity() / Constants.kUnitsPerRev) / Constants.kGearRatio) / 1000;
-        double rightEncoderSpeedConverted = ((driveRightLeader.getSelectedSensorVelocity() / Constants.kUnitsPerRev) / Constants.kGearRatio) / 1000;
-
-        
-
+       OIReporters.DriveReporters.leftEncoderSpeed= driveLeftLeader.getSelectedSensorVelocity();
+       OIReporters.DriveReporters.rightEncoderSpeed = driveRightLeader.getSelectedSensorVelocity();
+       OIReporters.DriveReporters.leftEncoderDistance = driveLeftLeader.getSelectedSensorPosition();
+       OIReporters.DriveReporters.rightEncoderDistance = driveRightLeader.getSelectedSensorPosition();
     }
 
    

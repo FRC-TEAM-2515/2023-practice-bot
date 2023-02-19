@@ -70,7 +70,7 @@
       "/SmartDashboard/Driver Controls": "String Chooser"
     },
     "windows": {
-      "/SmartDashboard/Driver Controls": {
+      "/SmartDashboard/Drive Controller Scaling": {
         "window": {
           "visible": true
         }
@@ -83,6 +83,9 @@
         "open": true
       },
       "SmartDashboard": {
+        "Drive Controller Scaling": {
+          "open": true
+        },
         "open": true
       }
     }

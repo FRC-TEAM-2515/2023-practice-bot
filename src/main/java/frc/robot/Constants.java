@@ -17,8 +17,9 @@ public class Constants {
     public static final double kTrackWidthInches = 23.1875;
     public static final double kMassPounds = 65; //very rough approximation of comp bot
     public static final double kJKgMetersSquared = 2.1; //Moment of Interia of 2.1 kg m^2 of drivetrain about its center
-    public static final int k100msPerSecond = 10; //arbitrary
-    public static final int kUnitsPerRev = 2048; 
+    public static final double k100msPerSecond = 10; //arbitrary
+    
+    public static final double kMagEncoderUnitsPerRev = 4096; //sensor units per revolution for the CTRE Mag Encoder
 
     public static final class DriveConstants {
         public static final int kLeftLeaderPort = 1;
@@ -34,6 +35,7 @@ public class Constants {
 
         public static final double kSpeedOutputModifier = 6.0; //arbitrary
         public static final double kRotationOutputModifier = 0.6; //arbitrary
+
     }
 
     public static final class TurretConstants {

@@ -28,7 +28,7 @@ public class RobotContainer {
     // The robot's subsystems
     // public final DriveTrain m_driveTrain = new DriveTrain();
     
-    private static RobotContainer instanceRobotContainer;
+    public static RobotContainer robotContainer = new RobotContainer();
 
     private DriveTrain driveTrain;
     // private Vision vision;
@@ -37,16 +37,23 @@ public class RobotContainer {
     // private Arm arm;
     // private Turret turret;
 
+    private OI oi;
+    private OIReporters oiReporters;
+
     private DriveCommand driveCommand;
 
-    private XboxController driveController = OI.getInstance().getDriveController();
+    private XboxController driveController;
 
+    public static RobotContainer getInstance() {
+          if (robotContainer == null) {
+            robotContainer = new RobotContainer();
+          }
+          return robotContainer;
+        }
   
   public RobotContainer() {
-    OI.getInstance();
-    // OI.getInstance().configureSmartDashboard();
-    // OI.getInstance().configureButtonBindings();
     initSubsystems();
+    configOI();
     
   }      
 
@@ -60,11 +67,17 @@ public class RobotContainer {
     // turret = new Turret();
   }
 
+  private void configOI() {
+    oi = new OI();
+    oi.initOI();
+    oiReporters = new OIReporters(); 
+    oiReporters.updateOIReporters();
+
+  }
+
 
   public void manualDrive() {
-    OI.getInstance().getDrivePreference();
-
-    driveCommand = new DriveCommand(driveTrain, driveController);
+    driveCommand = new DriveCommand(driveTrain, oi.getDriveController());
     driveTrain.setDefaultCommand(driveCommand);
   
 }
@@ -72,6 +85,14 @@ public class RobotContainer {
   public void safeReset() {
   driveTrain.stopMotors();
   driveTrain.resetEncoders();
+}
+
+public OI getOI() {
+  return oi;
+}
+
+public OIReporters getOIReporters(){
+  return oiReporters;
 }
 
   public DriveTrain getDriveTrain() {
@@ -83,6 +104,7 @@ public class RobotContainer {
 //    *
 //    * @return the command to run in autonomous
 //   */
+
 
  
 
