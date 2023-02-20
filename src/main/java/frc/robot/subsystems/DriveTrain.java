@@ -81,6 +81,8 @@ public class DriveTrain extends SubsystemBase {
     private DifferentialDriveOdometry odometry;
     private AHRS gyro;
     private double inversionMultiplier = 1;
+    private boolean firstRun = true;
+    private double initialHeading = 0;
 
 
     public DriveTrain() {
@@ -171,6 +173,10 @@ public class DriveTrain extends SubsystemBase {
         }
         enableBrakes(brakesEnabled);
 
+        if(firstRun){
+			initialHeading = gyro.getAngle();
+			firstRun = false;
+		}
         odometry.update(gyro.getRotation2d(), leftMeters(), rightMeters());
         
         updateSmartDashboard();
@@ -197,6 +203,12 @@ public class DriveTrain extends SubsystemBase {
                 
     }
 
+    public void setWheelSpeedsAuto (double leftSpeed, double rightSpeed){
+        
+        driveLeftLeader.set(leftSpeed);
+        driveRightLeader.set(rightSpeed);
+    }
+
     public void setWheelSpeeds(double leftSpeed, double rightSpeed) { // from DriveCommand
 
         // driveLeftLeader.set(leftSpeed*inversionMultiplier);
@@ -212,8 +224,8 @@ public class DriveTrain extends SubsystemBase {
      }
 
     public void curvatureDrive(double speed, double rotation, boolean semiCurvature) {
-        SlewRateLimiter speedFilter = new SlewRateLimiter(Constants.DriveConstants.kSlewRateLimiter);
-        m_drive.curvatureDrive(-speedFilter.calculate(speed * inversionMultiplier), -rotation * inversionMultiplier, semiCurvature);
+       // SlewRateLimiter speedFilter = new SlewRateLimiter(Constants.DriveConstants.kSlewRateLimiter);
+        m_drive.curvatureDrive (speed * inversionMultiplier, -rotation * inversionMultiplier, semiCurvature);
     }
 
     public void arcadeDrive(double speed, double rotation) {
@@ -258,6 +270,10 @@ public class DriveTrain extends SubsystemBase {
         return odometry.getPoseMeters();
     }
 
+    public void resetGyro(){
+		initialHeading = gyro.getAngle();
+	}
+    
     public void resetOdometry(Pose2d pose) {
         resetEncoders();
     }
@@ -285,9 +301,13 @@ public class DriveTrain extends SubsystemBase {
         gyro.reset();
     }
 
-    public Rotation2d getHeading() {
-        return Rotation2d.fromDegrees(-gyro.getAngle());
-    }
+    public double getHeading(){
+		//initialHeading = gyro.getAngle();
+		return gyro.getAngle() - initialHeading;
+	}
+    // public Rotation2d getHeading() {
+    //     return Rotation2d.fromDegrees(-gyro.getAngle());
+    // }
 
     public double getTurnRate() {
         return -gyro.getRate();

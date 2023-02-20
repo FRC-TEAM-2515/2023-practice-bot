@@ -1,5 +1,7 @@
 package frc.robot;
 
+import edu.wpi.first.math.util.Units;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants.  This class should not be used for any other purpose.  All constants should be
@@ -36,6 +38,18 @@ public class Constants {
         public static final double kSpeedOutputModifier = 6.0; //arbitrary
         public static final double kRotationOutputModifier = 0.6; //arbitrary
 
+    }
+
+    public static final class AutoConstants {
+        public static final double kAutoForwardP = 1;
+        public static final double kAutoForwardI = 0;
+        public static final double kAutoForwardD = 0;
+        public static final double kAutoForwardConstraints = 0;
+        public static final double kAutoForwardPTol = 1; //arbirary
+        public static final double kAutoForwardVTol = 1; //arbirary
+
+        public static final double kSecUntilAutoCharge = 10;
+        
     }
 
     public static final class TurretConstants {
@@ -98,6 +112,9 @@ public class Constants {
         public static final double kTurnToleranceDeg = 5;
         public static final double kTurnRateToleranceDegPerS = 10; // degrees per second
     }
-
+    
+    public static final class FieldConstants {
+        public static final double kchargeStationLengthMeters = Units.inchesToMeters(48);
+    }
 }
 
