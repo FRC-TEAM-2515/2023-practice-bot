@@ -71,6 +71,7 @@ public class DriveTrain extends SubsystemBase {
     private WPI_VictorSPX driveLeftFollower;
     private WPI_TalonSRX driveRightLeader;
     private WPI_VictorSPX driveRightFollower;
+    
 
     // Controllers
     protected XboxController driveController;
@@ -123,13 +124,15 @@ public class DriveTrain extends SubsystemBase {
         driveRightFollower.setNeutralMode(NeutralMode.Coast);
 
         // Config Left Motors
-        driveLeftLeader.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 30);
+//        driveLeftLeader.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 30);
+        driveLeftLeader.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 30);
         driveLeftLeader.setSensorPhase(false);
         driveLeftLeader.configNeutralDeadband(m_deadband);
         driveLeftFollower.configNeutralDeadband(m_deadband);
 
         // Config Right Motors
-        driveRightLeader.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 30);
+//        driveRightLeader.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 30);
+        driveRightLeader.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 30);
         driveRightLeader.setSensorPhase(true);
         driveRightLeader.configNeutralDeadband(m_deadband);
         driveRightLeader.configNeutralDeadband(m_deadband);
