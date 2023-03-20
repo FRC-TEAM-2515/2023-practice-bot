@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior; 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -13,6 +14,8 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.OIReporters;
 import frc.robot.RobotMath;
+import frc.robot.commands.auto.AutoDriveToCharge;
+import frc.robot.commands.auto.Autonomous;
 
 public class OI {
     
@@ -82,7 +85,10 @@ public boolean shouldEnableBrakes() {
 public void configureSmartDashboard() {
 
     // Choosers
+    //autoChooser.addOption("Autonomous Command", new AutoDriveToCharge());
+    //autoChooser.addOption("Autonomous Command", new Autonomous());
     autoChooser.setDefaultOption("Simple Autonomous", getAutonomousCommand());
+               // m_chooser.setDefaultOption("Complex Auto", new complexAuto( */
 
     driverControlsChooser.setDefaultOption("Left Stick", 0);
     driverControlsChooser.addOption("Trigger Acceleration", 1);
@@ -107,6 +113,9 @@ public void configureSmartDashboard() {
     SmartDashboard.putNumber("Slew Rate Limiter",Constants.DriveConstants.kSlewRateLimiter);
     SmartDashboard.putNumber("Speed Output Mod", Constants.DriveConstants.kSpeedOutputModifier);
     SmartDashboard.putNumber("Rot Output Mod", Constants.DriveConstants.kRotationOutputModifier);
+
+    
+
 
 }
 
@@ -155,9 +164,14 @@ public void configureSmartDashboard() {
     return controllerScalingChooser.getSelected();
   }
 
-  public Command getAutonomousCommand() {
+  public CommandBase getAutonomousCommand() {
     // The selected command will be run in autonomous
+    if (autoChooser.getSelected() == new Autonomous()) {
+
+    };
+      //return new Autonomous();
     return autoChooser.getSelected();
+    //return new Autonomous();
   }
 
 }
