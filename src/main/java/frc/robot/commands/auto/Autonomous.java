@@ -12,7 +12,8 @@
 
 package frc.robot.commands.auto;
 import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ProfiledPIDCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -28,19 +29,25 @@ import frc.robot.RobotContainer;
 /**
  *
  */
-public class Autonomous extends SequentialCommandGroup{
+public class Autonomous {
 
-    DriveTrain m_driveTrain;
+    private DriveTrain driveTrain;
+    private RobotContainer robotContainer;
     private double autoDistanceMeters = 2; //arbirary
 
-    public CommandBase Autonomous() {
-        //drivetrain = m_driveTrain;
-    addCommands(
-        new AutoDriveForward(RobotContainer.getInstance().getDriveTrain(), autoDistanceMeters),
-        new WaitCommand(Constants.AutoConstants.kSecUntilAutoCharge)
-        // , new AutoDriveToCharge(drivetrain),
-        //  new AutoLevel(drivetrain)  
-    );    
+    public Autonomous() {
+        this.driveTrain = RobotContainer.getInstance().getDriveTrain();
+    }
+
+    public Command basicAuto() {
+        return Commands.sequence(
+            Commands.parallel(
+                  new AutoDriveForward(driveTrain, autoDistanceMeters)
+            ).withTimeout(Constants.AutoConstants.kSecUntilAutoCharge)
+            // ,Commands.sequence(
+            //     new AutoDriveToCharge(driveTrain),
+            //     new AutoLevel(driveTrain))
+            );
     }
 
 }
