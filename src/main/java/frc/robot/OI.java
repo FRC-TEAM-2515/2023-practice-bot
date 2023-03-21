@@ -85,10 +85,11 @@ public boolean shouldEnableBrakes() {
 public void configureSmartDashboard() {
 
     // Choosers
-    //autoChooser.addOption("Autonomous Command", new AutoDriveToCharge());
-    //autoChooser.addOption("Autonomous Command", new Autonomous());
-    autoChooser.setDefaultOption("Simple Autonomous", getAutonomousCommand());
-               // m_chooser.setDefaultOption("Complex Auto", new complexAuto( */
+    autoChooser.setDefaultOption("Simple Autonomous", new Autonomous().basicAuto());
+    
+  //autoChooser.addOption("Autonomous Command", new AutoDriveToCharge());
+   //autoChooser.addOption("Autonomous Command", new Autonomous());
+              // m_chooser.setDefaultOption("Complex Auto", new complexAuto( */
 
     driverControlsChooser.setDefaultOption("Left Stick", 0);
     driverControlsChooser.addOption("Trigger Acceleration", 1);
@@ -113,9 +114,6 @@ public void configureSmartDashboard() {
     SmartDashboard.putNumber("Slew Rate Limiter",Constants.DriveConstants.kSlewRateLimiter);
     SmartDashboard.putNumber("Speed Output Mod", Constants.DriveConstants.kSpeedOutputModifier);
     SmartDashboard.putNumber("Rot Output Mod", Constants.DriveConstants.kRotationOutputModifier);
-
-    
-
 
 }
 
@@ -164,11 +162,8 @@ public void configureSmartDashboard() {
     return controllerScalingChooser.getSelected();
   }
 
-  public CommandBase getAutonomousCommand() {
-    // The selected command will be run in autonomous
-    if (autoChooser.getSelected() == new Autonomous()) {
-
-    };
+  public Command getAutonomousCommand() {
+    // The selected command will be run in autonomou
       //return new Autonomous();
     return autoChooser.getSelected();
     //return new Autonomous();
