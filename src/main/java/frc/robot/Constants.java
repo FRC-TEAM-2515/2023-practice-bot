@@ -52,6 +52,26 @@ public class Constants {
         
     }
 
+    public static final class ArmConstants{
+        public static final double kD1 = 4;
+        public static final double kD2 = 4;
+        public static final double kD3 = 4;
+        public static final double kD4 = 4;
+
+        public static final double kJ1AngleMax = 4;
+        public static final double kJ2AngleMax = 4;
+        public static final double kJ3AngleMax = 4;
+        public static final double kJ4AngleMax = 4;
+
+        public static final double kJ1AngleMin = 4;
+        public static final double kJ2AngleMin = 4;
+        public static final double kJ3AngleMin = 4;
+        public static final double kJ4AngleMin = 4;
+
+        
+    }
+
+
     public static final class TurretConstants {
         public static final double kTurnP = 1;
         public static final double kTurnI = 0;
@@ -77,18 +97,6 @@ public class Constants {
     }
 
     public static final class HorizontalWristConstants {
-        public static final double kTurnP = 1;
-        public static final double kTurnI = 0;
-        public static final double kTurnD = 0;
-
-        public static final double kMaxTurnRateDegPerS = 100;
-        public static final double kMaxTurnAccelerationDegPerSSquared = 300;
-
-        public static final double kTurnToleranceDeg = 5;
-        public static final double kTurnRateToleranceDegPerS = 10; // degrees per second
-    }
-     
-    public static final class ArmConstants {
         public static final double kTurnP = 1;
         public static final double kTurnI = 0;
         public static final double kTurnD = 0;

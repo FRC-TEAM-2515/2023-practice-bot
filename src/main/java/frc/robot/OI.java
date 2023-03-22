@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -21,7 +22,8 @@ public class OI {
     private XboxController m_driveController;
     private XboxController m_armController;
 
-    private CommandXboxController m_commandDriveController;
+    //private CommandXboxController m_commandDriveController;
+    private Trigger resetButton;
 
     private SendableChooser<Command> autoChooser;
 
@@ -40,7 +42,7 @@ public class OI {
 
     // Controllers
     m_driveController = new XboxController(0);
-    m_commandDriveController = new CommandXboxController(0);
+    //m_commandDriveController = new CommandXboxController(0);
     m_armController = new XboxController(1);
 
     // Command choosers
@@ -67,7 +69,9 @@ private void configureButtonBindings() {
     shouldEnableBrakes();
     shouldInvertMotors();
 
-    m_commandDriveController.leftStick().onTrue(new SafeReset());
+   //m_commandDriveController.leftStick().onTrue(new SafeReset());
+    resetButton = new JoystickButton(m_driveController,Button.kBack.value).whenPressed(new SafeReset());
+
 }
 
 public boolean shouldInvertMotors() {
