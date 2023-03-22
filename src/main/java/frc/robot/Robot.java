@@ -83,6 +83,7 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
         autonomousCommand = robotContainer.getOI().getAutonomousCommand();
 
+
         // schedule the autonomous command (example)
         if (autonomousCommand != null) {
             autonomousCommand.schedule();
@@ -114,6 +115,8 @@ public class Robot extends TimedRobot {
         robotContainer.getOI().getDrivePreferences();
         robotContainer.manualDrive();
         robotContainer.getOIReporters().updateOIReporters();
+
+        robotContainer.getArm().manualControl();
     
     }
 

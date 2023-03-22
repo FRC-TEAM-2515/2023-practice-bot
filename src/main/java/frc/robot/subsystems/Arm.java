@@ -160,4 +160,59 @@ protected XboxController armController;
         return null;
     }
 
+    // public void moveShoulder(double shoulderForce){
+    //     double shoulderLimiter = .5;
+    //     shoulderMotor.set(getDeadZoneAdjustment(shoulderForce*shoulderLimiter,deadzone));
+    //     SmartDashboard.putNumber("Shoulder Force", getDeadZoneAdjustment(shoulderForce,deadzone));
+    // }
+    // public void moveElbow(double elbowForce){
+    //     double elbowLimiter = .20;
+    //     elbowMotor.set(getDeadZoneAdjustment(elbowForce*elbowLimiter,deadzone));
+    //     SmartDashboard.putNumber("Elbow Force", getDeadZoneAdjustment(elbowForce,deadzone));
+    // }    
+    // public void moveClaw(double open, double close){
+    //     // armMotor.set(force);
+    //     double clawForce = 0;
+    //     double clawLimiter = .10;
+    //     if (open > deadzone){
+    //         clawForce = open;
+    //       }
+    //       if (close > deadzone){
+    //         clawForce = -close;
+    //       }  
+    //     clawMotor.set(getDeadZoneAdjustment(clawForce*clawLimiter,deadzone));
+    //     SmartDashboard.putNumber("Claw Force", getDeadZoneAdjustment(clawForce,deadzone));
+    // }  
+    // public void rotateWaist(double waistForce){
+    //     double waistLimiter = .50;
+    //     waistMotor.set(getDeadZoneAdjustment(waistForce*waistLimiter,waistForce));
+    //     SmartDashboard.putNumber("Waist Force", getDeadZoneAdjustment(waistForce,deadzone));
+    // }
+    // public void rotateWrist(double wristForce){
+    //     double wristLimiter = .05;
+    //     wristMotor.set(getDeadZoneAdjustment(wristForce*wristLimiter,deadzone));
+    //     SmartDashboard.putNumber("Wrist Force", getDeadZoneAdjustment(wristForce,deadzone));
+    // }
+
+//     * @param orginalValue - The value to be adjusted.
+// * @param deadzone - The dead zone which should be a positive decimal representing a percentage.
+// * @return The newly adjusted value.
+// */
+// public double getDeadZoneAdjustment(double orginalValue, double deadzone) {
+//     double maxRange = 1.0 - deadzone;
+//     double adjustedValue = orginalValue - (orginalValue * deadzone);
+//     if(isPositive(orginalValue)) { // Value is positive.
+//     // Verify that the adjusted value is still positive.
+//     if(isPositive(adjustedValue)) {
+//     // We divide by the maxRange to give us the full range of 0 to 1.
+//     return adjustedValue / maxRange;
+//     }
+//     } else { //Value is negative.
+//     // Verify that the adjusted value is still negative.
+//     if(!isPositive(adjustedValue) && adjustedValue != 0) {
+//     // We divide by the maxRange to give us the full range of 0 to 1.
+//     return adjustedValue / maxRange;
+//     }
+//     }
+    
 }

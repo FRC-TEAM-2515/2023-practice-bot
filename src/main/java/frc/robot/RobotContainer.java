@@ -101,6 +101,10 @@ public OIReporters getOIReporters(){
   return driveTrain;
 }
 
+  public Arm getArm(){
+    return arm;
+  }
+
 //   /**
 //    * Use this to pass the autonomous command to the main {@link Robot} class.
 //    *
