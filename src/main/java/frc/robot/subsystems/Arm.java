@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import frc.robot.Constants;
 import frc.robot.OI;
 import frc.robot.RobotContainer;
+import frc.robot.RobotMath;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.OIReporters;
 
@@ -129,6 +130,13 @@ protected XboxController armController;
         SmartDashboard.putNumber("j4WristY Encoder", j4WristYEncoder.getPosition()); // 1 volt per rev
         SmartDashboard.putNumber("j5Claw", j5ClawEncoder.getPosition());
 
+        
+        
+        SmartDashboard.putNumber("j1TurretEncoder D", RobotMath.j1EncoderConvertDegrees(j1TurretEncoder.getPosition()));
+        SmartDashboard.putNumber("j2ElbowEncoder D", RobotMath.j2EncoderConvertDegrees(j2ElbowEncoder.getPosition()));
+        SmartDashboard.putNumber("j3WristX D", RobotMath.j3EncoderConvertDegrees(j3WristXEncoder.getPosition()));
+        SmartDashboard.putNumber("j4WristY Encoder D", RobotMath.j4EncoderConvertDegrees(j4WristYEncoder.getPosition())); // 1 volt per rev
+        SmartDashboard.putNumber("j5Claw D", RobotMath.j5EncoderConvertDegrees(j5ClawEncoder.getPosition()));
     
     }
 

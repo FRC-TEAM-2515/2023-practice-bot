@@ -68,9 +68,15 @@ public class Constants {
         public static final double kJ3AngleMin = 4;
         public static final double kJ4AngleMin = 4;
 
+        
+        public static final double kJ1GearRatio = 10;
+        public static final double kJ2GearRatio = 210;
+        public static final double kJ3GearRatio = 5;
+        public static final double kJ4GearRatio = 1;
+        public static final double kJ5GearRatio = 10;
+
         public static final double armSlewRateLimiter = 0.0009;
         public static final double deadzone = 0.1;
-
         
     }
 
