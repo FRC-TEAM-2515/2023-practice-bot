@@ -119,14 +119,17 @@ protected XboxController armController;
 
     @Override
     public void periodic() {
+        //super.periodic();
+
+        manualControl();
+        
         SmartDashboard.putNumber("j1TurretEncoder", j1TurretEncoder.getPosition());
         SmartDashboard.putNumber("j2ElbowEncoder", j2ElbowEncoder.getPosition());
         SmartDashboard.putNumber("j3WristX", j3WristXEncoder.getPosition());
         SmartDashboard.putNumber("j4WristY Encoder", j4WristYEncoder.getPosition()); // 1 volt per rev
         SmartDashboard.putNumber("j5Claw", j5ClawEncoder.getPosition());
 
-        super.periodic();
-
+    
     }
 
     @Override
