@@ -31,6 +31,7 @@ public class RobotContainer {
     public static RobotContainer robotContainer = new RobotContainer();
 
     private DriveTrain driveTrain;
+    private Arm arm;
     // private Vision vision;
     // private Claw claw;
     // private Wrist wrist;
@@ -60,6 +61,7 @@ public class RobotContainer {
   private void initSubsystems() {
     
     driveTrain = new DriveTrain();
+    arm = new Arm();
     // vision = new Vision();
     // claw = new Claw();
     // wrist = new Wrist();

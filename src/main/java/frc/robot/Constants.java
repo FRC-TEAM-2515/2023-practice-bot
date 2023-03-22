@@ -68,58 +68,61 @@ public class Constants {
         public static final double kJ3AngleMin = 4;
         public static final double kJ4AngleMin = 4;
 
+        public static final double armSlewRateLimiter = 0.0009;
+        public static final double deadzone = 0.1;
+
         
     }
 
 
-    public static final class TurretConstants {
-        public static final double kTurnP = 1;
-        public static final double kTurnI = 0;
-        public static final double kTurnD = 0;
+    // public static final class TurretConstants {
+    //     public static final double kTurnP = 1;
+    //     public static final double kTurnI = 0;
+    //     public static final double kTurnD = 0;
 
-        public static final double kMaxTurnRateDegPerS = 100;
-        public static final double kMaxTurnAccelerationDegPerSSquared = 300;
+    //     public static final double kMaxTurnRateDegPerS = 100;
+    //     public static final double kMaxTurnAccelerationDegPerSSquared = 300;
 
-        public static final double kTurnToleranceDeg = 5;
-        public static final double kTurnRateToleranceDegPerS = 10; // degrees per second
-    }
+    //     public static final double kTurnToleranceDeg = 5;
+    //     public static final double kTurnRateToleranceDegPerS = 10; // degrees per second
+    // }
 
-    public static final class VerticalWristConstants {
-        public static final double kTurnP = 1;
-        public static final double kTurnI = 0;
-        public static final double kTurnD = 0;
+    // public static final class VerticalWristConstants {
+    //     public static final double kTurnP = 1;
+    //     public static final double kTurnI = 0;
+    //     public static final double kTurnD = 0;
 
-        public static final double kMaxTurnRateDegPerS = 100;
-        public static final double kMaxTurnAccelerationDegPerSSquared = 300;
+    //     public static final double kMaxTurnRateDegPerS = 100;
+    //     public static final double kMaxTurnAccelerationDegPerSSquared = 300;
 
-        public static final double kTurnToleranceDeg = 5;
-        public static final double kTurnRateToleranceDegPerS = 10; // degrees per second
-    }
+    //     public static final double kTurnToleranceDeg = 5;
+    //     public static final double kTurnRateToleranceDegPerS = 10; // degrees per second
+    // }
 
-    public static final class HorizontalWristConstants {
-        public static final double kTurnP = 1;
-        public static final double kTurnI = 0;
-        public static final double kTurnD = 0;
+    // public static final class HorizontalWristConstants {
+    //     public static final double kTurnP = 1;
+    //     public static final double kTurnI = 0;
+    //     public static final double kTurnD = 0;
 
-        public static final double kMaxTurnRateDegPerS = 100;
-        public static final double kMaxTurnAccelerationDegPerSSquared = 300;
+    //     public static final double kMaxTurnRateDegPerS = 100;
+    //     public static final double kMaxTurnAccelerationDegPerSSquared = 300;
 
-        public static final double kTurnToleranceDeg = 5;
-        public static final double kTurnRateToleranceDegPerS = 10; // degrees per second
-    }
+    //     public static final double kTurnToleranceDeg = 5;
+    //     public static final double kTurnRateToleranceDegPerS = 10; // degrees per second
+    // }
 
-    // Needs to be updated from rotation to open
-    public static final class ClawConstants {
-        public static final double kTurnP = 1;
-        public static final double kTurnI = 0;
-        public static final double kTurnD = 0;
+    // // Needs to be updated from rotation to open
+    // public static final class ClawConstants {
+    //     public static final double kTurnP = 1;
+    //     public static final double kTurnI = 0;
+    //     public static final double kTurnD = 0;
 
-        public static final double kMaxTurnRateDegPerS = 100;
-        public static final double kMaxTurnAccelerationDegPerSSquared = 300;
+    //     public static final double kMaxTurnRateDegPerS = 100;
+    //     public static final double kMaxTurnAccelerationDegPerSSquared = 300;
 
-        public static final double kTurnToleranceDeg = 5;
-        public static final double kTurnRateToleranceDegPerS = 10; // degrees per second
-    }
+    //     public static final double kTurnToleranceDeg = 5;
+    //     public static final double kTurnRateToleranceDegPerS = 10; // degrees per second
+    // }
     
     public static final class FieldConstants {
         public static final double kchargeStationLengthMeters = Units.inchesToMeters(48);

@@ -147,6 +147,10 @@ public void configureSmartDashboard() {
     return m_driveController;
   }
 
+  public XboxController getArmController() {
+    return m_armController;
+  }
+
   public int getDriverControlsChooser() {
     return driverControlsChooser.getSelected();
   }
