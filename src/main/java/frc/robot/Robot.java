@@ -113,7 +113,7 @@ public class Robot extends TimedRobot {
     public void teleopPeriodic() {
         
         robotContainer.getOI().getDrivePreferences();
-        robotContainer.manualDrive();
+        // robotContainer.manualDrive();
         robotContainer.getOIReporters().updateOIReporters();
 
         robotContainer.getArm().manualControl();
