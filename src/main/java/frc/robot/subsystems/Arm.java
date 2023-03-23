@@ -3,11 +3,15 @@ package frc.robot.subsystems;
 import frc.robot.Constants;
 import frc.robot.OI;
 import frc.robot.RobotContainer;
+import frc.robot.RobotMath;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.OIReporters;
 
 import frc.robot.commands.*;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
+import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
@@ -104,29 +108,31 @@ protected XboxController armController;
         j5ClawEncoder =  j5Claw.getAbsoluteEncoder(Type.kDutyCycle);
     }
 
-    public void manualControl() {
-        double turnJ1Turret = RobotContainer.getInstance().getOI().getArmController().getLeftX();
-        double moveJ2Elbow = RobotContainer.getInstance().getOI().getArmController().getLeftY();
-        double rotateJ3WristX = RobotContainer.getInstance().getOI().getArmController().getRightX();
-        double rotateJ4WristY = RobotContainer.getInstance().getOI().getArmController().getRightY();
-
-        j1Turret.set(turnJ1Turret);
-		j2Elbow.set(moveJ2Elbow);
-		j3WristX.set(rotateJ3WristX);
-		j4WristY.set(rotateJ4WristY);
+    public CommandBase manualControl(double turnJ1Turret, double moveJ2Elbow, double rotateJ3WristX, double rotateJ4WristY) {
+        
+        return run(() ->
+        this.j1Turret.set(turnJ1Turret)).alongWith(run(() ->
+        this.j2Elbow.set(moveJ2Elbow))).alongWith(run(() ->
+		this.j3WristX.set(rotateJ3WristX))).alongWith(run(() ->
+		this.j4WristY.set(rotateJ4WristY)));
     }
-    
 
     @Override
     public void periodic() {
+        //super.periodic(); //needed for PID motion profiling
+       
         SmartDashboard.putNumber("j1TurretEncoder", j1TurretEncoder.getPosition());
         SmartDashboard.putNumber("j2ElbowEncoder", j2ElbowEncoder.getPosition());
         SmartDashboard.putNumber("j3WristX", j3WristXEncoder.getPosition());
         SmartDashboard.putNumber("j4WristY Encoder", j4WristYEncoder.getPosition()); // 1 volt per rev
         SmartDashboard.putNumber("j5Claw", j5ClawEncoder.getPosition());
 
-        super.periodic();
-
+        SmartDashboard.putNumber("j1TurretEncoder D", RobotMath.j1EncoderConvertDegrees(j1TurretEncoder.getPosition()));
+        SmartDashboard.putNumber("j2ElbowEncoder D", RobotMath.j2EncoderConvertDegrees(j2ElbowEncoder.getPosition()));
+        SmartDashboard.putNumber("j3WristX D", RobotMath.j3EncoderConvertDegrees(j3WristXEncoder.getPosition()));
+        SmartDashboard.putNumber("j4WristY Encoder D", RobotMath.j4EncoderConvertDegrees(j4WristYEncoder.getPosition())); // 1 volt per rev
+        SmartDashboard.putNumber("j5Claw D", RobotMath.j5EncoderConvertDegrees(j5ClawEncoder.getPosition()));
+    
     }
 
     @Override

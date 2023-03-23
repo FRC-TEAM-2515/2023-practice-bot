@@ -24,4 +24,24 @@ public class RobotMath {
     public static double magEncoderConvertDegrees(double rawPosition) { // raw sensor units -> degrees 
         return ((rawPosition % Constants.kMagEncoderUnitsPerRev) / Constants.kMagEncoderUnitsPerRev / Constants.kGearRatio * 360); // modulo to stop each rotation adding another full rotation worth of ticks
     }
+
+    public static double j1EncoderConvertDegrees(double rawPosition) { // raw sensor units -> degrees 
+        return ((rawPosition % Constants.kMagEncoderUnitsPerRev) / Constants.kMagEncoderUnitsPerRev / Constants.ArmConstants.kJ1GearRatio * 360); // modulo to stop each rotation adding another full rotation worth of ticks
+    }
+    
+    public static double j2EncoderConvertDegrees(double rawPosition) { // raw sensor units -> degrees 
+        return ((rawPosition % Constants.kMagEncoderUnitsPerRev) / Constants.kMagEncoderUnitsPerRev / Constants.ArmConstants.kJ2GearRatio * 360); // modulo to stop each rotation adding another full rotation worth of ticks
+    }
+    
+    public static double j3EncoderConvertDegrees(double rawVoltage) { // raw sensor units -> degrees 
+        return ((rawVoltage % Constants.kMagEncoderUnitsPerRev) / Constants.kMagEncoderUnitsPerRev / Constants.ArmConstants.kJ3GearRatio * 360); // modulo to stop each rotation adding another full rotation worth of ticks
+    }
+    
+    public static double j4EncoderConvertDegrees(double rawPosition) { // raw sensor units -> degrees 
+        return ((rawPosition % Constants.kMagEncoderUnitsPerRev) / Constants.kMagEncoderUnitsPerRev / Constants.ArmConstants.kJ4GearRatio * 360); // modulo to stop each rotation adding another full rotation worth of ticks
+    }
+    
+    public static double j5EncoderConvertDegrees(double rawPosition) { // raw sensor units -> degrees 
+        return ((rawPosition % Constants.kMagEncoderUnitsPerRev) / Constants.kMagEncoderUnitsPerRev / Constants.ArmConstants.kJ5GearRatio * 360); // modulo to stop each rotation adding another full rotation worth of ticks
+    }
 }

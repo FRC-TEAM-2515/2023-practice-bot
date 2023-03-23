@@ -112,9 +112,11 @@ public class Robot extends TimedRobot {
     public void teleopPeriodic() {
         
         robotContainer.getOI().getDrivePreferences();
-        robotContainer.manualDrive();
+        robotContainer.initDefaultDrive();
         robotContainer.getOIReporters().updateOIReporters();
-    
+        
+        robotContainer.initArmDefault();
+
     }
 
     @Override

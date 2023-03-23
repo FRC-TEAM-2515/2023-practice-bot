@@ -24,6 +24,7 @@ public class OI {
 
     //private CommandXboxController m_commandDriveController;
     private Trigger resetButton;
+    private JoystickButton brakeButton;
 
     private SendableChooser<Command> autoChooser;
 
@@ -70,8 +71,8 @@ private void configureButtonBindings() {
     shouldInvertMotors();
 
    //m_commandDriveController.leftStick().onTrue(new SafeReset());
-    resetButton = new JoystickButton(m_driveController,Button.kBack.value).whenPressed(new SafeReset());
-
+    resetButton = new JoystickButton(m_driveController,Button.kBack.value).onTrue(new SafeReset());
+  
 }
 
 public boolean shouldInvertMotors() {

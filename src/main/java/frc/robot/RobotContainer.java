@@ -16,100 +16,94 @@ import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior; 
+import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 public class RobotContainer {
-  
-    // private static RobotContainer m_robotContainer = new RobotContainer();
-    // The robot's subsystems
-    // public final DriveTrain m_driveTrain = new DriveTrain();
-    
-    public static RobotContainer robotContainer = new RobotContainer();
 
-    private DriveTrain driveTrain;
-    private Arm arm;
-    // private Vision vision;
-    // private Claw claw;
-    // private Wrist wrist;
-    // private Arm arm;
-    // private Turret turret;
+  // The robot's subsystems
+  // public final DriveTrain m_driveTrain = new DriveTrain();
 
-    private OI oi;
-    private OIReporters oiReporters;
+  public static RobotContainer robotContainer = new RobotContainer();
 
-    private DriveCommand driveCommand;
+  private DriveTrain driveTrain;
+  private Arm arm;
+  // private Vision vision;
+  // private Claw claw;
+  // private Wrist wrist;
+  // private Arm arm;
+  // private Turret turret;
 
-    private XboxController driveController;
+  private OI oi;
+  private OIReporters oiReporters;
 
-    public static RobotContainer getInstance() {
-          if (robotContainer == null) {
-            robotContainer = new RobotContainer();
-          }
-          return robotContainer;
-        }
-  
+  private DriveCommand driveCommand;
+
+  private XboxController driveController;
+
+  public static RobotContainer getInstance() {
+    if (robotContainer == null) {
+      robotContainer = new RobotContainer();
+    }
+    return robotContainer;
+  }
+
   public RobotContainer() {
     initSubsystems();
     configOI();
-    
-  }      
 
-  private void initSubsystems() {
-    
-    driveTrain = new DriveTrain();
-    arm = new Arm();
-    // vision = new Vision();
-    // claw = new Claw();
-    // wrist = new Wrist();
-    // arm = new Arm();
-    // turret = new Turret();
   }
 
+  private void initSubsystems() {
+
+    driveTrain = new DriveTrain();
+    arm = new Arm();
+  }
+
+  // OI
   private void configOI() {
     oi = new OI();
     oi.initOI();
-    oiReporters = new OIReporters(); 
+    oiReporters = new OIReporters();
     oiReporters.updateOIReporters();
 
   }
 
+  public OI getOI() {
+    return oi;
+  }
 
-  public void manualDrive() {
+  public OIReporters getOIReporters() {
+    return oiReporters;
+  }
+
+  // Drive
+  public void initDefaultDrive() {
     driveCommand = new DriveCommand(driveTrain, oi.getDriveController());
     driveTrain.setDefaultCommand(driveCommand);
-  
-}
-
-  public void safeReset() {
-  driveTrain.stopMotors();
-  driveTrain.resetEncoders();
-}
-
-public OI getOI() {
-  return oi;
-}
-
-public OIReporters getOIReporters(){
-  return oiReporters;
-}
+  }
 
   public DriveTrain getDriveTrain() {
-  return driveTrain;
+    return driveTrain;
+  }
+
+  // Arm
+  public void initArmDefault() {
+    arm.setDefaultCommand(arm.manualControl(oi.getArmController().getLeftX(), oi.getArmController().getLeftY(),
+        oi.getArmController().getRightX(), oi.getArmController().getRightY()));
+  }
+
+  public Arm getArm() {
+    return arm;
+  }
+
+  // Misc Commands
+  public void safeReset() {
+    driveTrain.stopMotors();
+    driveTrain.resetEncoders();
+  }
+
 }
-
-//   /**
-//    * Use this to pass the autonomous command to the main {@link Robot} class.
-//    *
-//    * @return the command to run in autonomous
-//   */
-
-
- 
-
- 
-}
-  
