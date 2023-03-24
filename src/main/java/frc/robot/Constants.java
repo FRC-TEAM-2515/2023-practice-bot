@@ -22,6 +22,8 @@ public class Constants {
     public static final double k100msPerSecond = 10; //arbitrary
     
     public static final double kMagEncoderUnitsPerRev = 4096; //sensor units per revolution for the CTRE Mag Encoder
+    public static final double kNEOPulsesPerRev = 42;
+
 
     public static final class DriveConstants {
         public static final int kLeftLeaderPort = 1;

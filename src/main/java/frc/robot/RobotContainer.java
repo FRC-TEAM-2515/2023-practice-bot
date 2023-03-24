@@ -104,6 +104,7 @@ public class RobotContainer {
   public void safeReset() {
     driveTrain.stopMotors();
     driveTrain.resetEncoders();
+    arm.resetArmEncoders();
   }
 
 }
