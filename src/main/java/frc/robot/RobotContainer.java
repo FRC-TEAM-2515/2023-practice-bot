@@ -93,7 +93,7 @@ public class RobotContainer {
   // Arm
   public void initArmDefault() {
     arm.setDefaultCommand(arm.manualControl(oi.getArmController().getLeftX(), oi.getArmController().getLeftY(),
-        oi.getArmController().getRightX(), oi.getArmController().getRightY()));
+        oi.getArmController().getRightX(), oi.getArmController().getRightY(),oi.getArmController().getLeftTriggerAxis(),oi.getArmController().getRightTriggerAxis()));
   }
 
   public Arm getArm() {
