@@ -115,8 +115,8 @@ public class DriveTrain extends SubsystemBase {
         // Invert and set Break Mode
         driveLeftLeader.setInverted(false);
         driveLeftFollower.setInverted(false);
-        // driveLeftLeader.setNeutralMode(NeutralMode.Coast);
-        // driveLeftFollower.setNeutralMode(NeutralMode.Coast);
+        driveLeftLeader.setNeutralMode(NeutralMode.Coast);
+        driveLeftFollower.setNeutralMode(NeutralMode.Coast);
 
         driveRightLeader.setInverted(true);
         driveRightFollower.setInverted(true);
