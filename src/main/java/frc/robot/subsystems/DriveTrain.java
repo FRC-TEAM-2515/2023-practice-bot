@@ -115,13 +115,13 @@ public class DriveTrain extends SubsystemBase {
         // Invert and set Break Mode
         driveLeftLeader.setInverted(false);
         driveLeftFollower.setInverted(false);
-        driveLeftLeader.setNeutralMode(NeutralMode.Brake);
-        driveLeftFollower.setNeutralMode(NeutralMode.Brake);
+        driveLeftLeader.setNeutralMode(NeutralMode.Coast);
+        driveLeftFollower.setNeutralMode(NeutralMode.Coast);
 
         driveRightLeader.setInverted(true);
         driveRightFollower.setInverted(true);
-        driveRightLeader.setNeutralMode(NeutralMode.Brake);
-        driveRightFollower.setNeutralMode(NeutralMode.Brake);
+        driveRightLeader.setNeutralMode(NeutralMode.Coast);
+        driveRightFollower.setNeutralMode(NeutralMode.Coast);
 
         // Config Left Motors
 //        driveLeftLeader.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 30);
