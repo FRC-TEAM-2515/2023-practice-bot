@@ -24,6 +24,12 @@ public class Constants {
     public static final double kMagEncoderUnitsPerRev = 4096; //sensor units per revolution for the CTRE Mag Encoder
     public static final double kNEOPulsesPerRev = 42;
 
+    
+    public static enum ControllerScaling {LIMITED_POLYNOMIC, LINEAR, SQUARED, CUBIC};
+    public static enum DriveControllerMode {LEFT_STICK, TRIGGER_ACCEL};
+    public static enum DriveType {ARCADE, REG_CURVATURE, SEMI_CURVATURE};
+    public static enum ArmControlType {POSITION, VELOCITY, CARTESIAN};
+
 
     public static final class DriveConstants {
         public static final int kLeftLeaderPort = 1;
@@ -55,29 +61,40 @@ public class Constants {
     }
 
     public static final class ArmConstants{
-        public static final double kD1 = 4;
-        public static final double kD2 = 4;
-        public static final double kD3 = 4;
-        public static final double kD4 = 4;
+        
+        public static final double kJ1GearRatio = 10;
+        public static final double kJ2GearRatio = 210;
+        public static final double kJ3GearRatio = 45;
+        public static final double kJ4GearRatio = 5;
+        public static final double kJ5GearRatio = 10;
+        
+        //Position needed at startup
+        public static final double kJ1AngleInit = 4;
+        public static final double kJ2AngleInit = 4;
+        public static final double kJ3AngleInit = 4;
+        public static final double kJ4AngleInit = 4;
+        public static final double kJ5AngleInit = 4;
 
-        public static final double kJ1AngleMax = 4;
-        public static final double kJ2AngleMax = 4;
-        public static final double kJ3AngleMax = 4;
-        public static final double kJ4AngleMax = 4;
+        //Assume max & min oriented using unit circle (clockwise) 
+        public static final double kJ1AngleMax = 4; //Total range of 250 deg, reduced by 5 deg for safety
+        public static final double kJ2AngleMax = 4; //Total range of 216 deg, reduced by 5 deg for safety
+        public static final double kJ3AngleMax = 4; //Total range of 180 deg, reduced by 5 deg for safety
+        public static final double kJ4AngleMax = 4; //Total range of 180 deg, reduced by 5 deg for safety
+        public static final double kJ5AngleMax = 4; //?? 
 
         public static final double kJ1AngleMin = 4;
         public static final double kJ2AngleMin = 4;
         public static final double kJ3AngleMin = 4;
         public static final double kJ4AngleMin = 4;
+        public static final double kJ5AngleMin = 4;
 
-        public static final double kJ1GearRatio = 10;
-        public static final double kJ2GearRatio = 210;
-        public static final double kJ3GearRatio = 5;
-        public static final double kJ4GearRatio = 1;
-        public static final double kJ5GearRatio = 10;
+        public static final double kJ1DegPerSecMax = 4;
+        public static final double kJ2DegPerSecMax = 4;
+        public static final double kJ3DegPerSecMax = 4;
+        public static final double kJ4DegPerSecMax = 4;
 
         public static final double armSlewRateLimiter = 0.0009;
-        public static final double deadzone = 0.1;
+        public static final double controllerDeadzone = 0.1;
 
         
     }

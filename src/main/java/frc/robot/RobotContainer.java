@@ -14,6 +14,7 @@ package frc.robot;
 
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
+import frc.robot.util.OIReporters;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
@@ -92,7 +93,7 @@ public class RobotContainer {
 
   // Arm
   public void initArmDefault() {
-    arm.setDefaultCommand(arm.manualControl(oi.getArmController().getLeftX(), oi.getArmController().getLeftY(),
+    arm.setDefaultCommand(arm.unlimitedManualControl(oi.getArmController().getLeftX(), oi.getArmController().getLeftY(),
         oi.getArmController().getRightX(), oi.getArmController().getRightY(),oi.getArmController().getLeftTriggerAxis(),oi.getArmController().getRightTriggerAxis()));
   }
 

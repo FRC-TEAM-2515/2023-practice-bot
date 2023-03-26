@@ -3,11 +3,11 @@ package frc.robot.subsystems;
 import frc.robot.Constants;
 import frc.robot.OI;
 import frc.robot.RobotContainer;
-import frc.robot.RobotMath;
+import frc.robot.util.RobotMath;
 import frc.robot.Constants.ArmConstants;
-import frc.robot.OIReporters;
-
+import frc.robot.Constants.ArmConstants;
 import frc.robot.commands.*;
+import frc.robot.util.OIReporters;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
@@ -48,33 +48,22 @@ private CANSparkMax j3WristY;
 private CANSparkMax j4WristX;
 private CANSparkMax j5Claw;
 
-// private SparkMaxAbsoluteEncoder j1TurretEncoder; 
-// private SparkMaxAbsoluteEncoder j2ElbowEncoder;
-// private RelativeEncoder j3WristYEncoder;
-// private SparkMaxAbsoluteEncoder j4WristXEncoder;
-// private SparkMaxAbsoluteEncoder j5ClawEncoder;
-
-
-private RelativeEncoder j1TurretEncoder; 
+private SparkMaxAbsoluteEncoder j1TurretEncoder; 
 private SparkMaxAbsoluteEncoder j2ElbowEncoder;
 private RelativeEncoder j3WristYEncoder;
-private RelativeEncoder j4WristXEncoder;
-private RelativeEncoder j5ClawEncoder;
+private SparkMaxAbsoluteEncoder j4WristXEncoder;
+private SparkMaxAbsoluteEncoder j5ClawEncoder;
 
- /* Nonzero to block the config until success, zero to skip checking */
- final int kTimeoutMs = 30;
-	
- /**
-  * If the measured travel has a discontinuity, Note the extremities or
-  * "book ends" of the travel.
-  */
- final boolean kDiscontinuityPresent = true;
- final int kBookEnd_0 = 910;		/* 80 deg */
- final int kBookEnd_1 = 1137;	/* 100 deg */
-
+// private RelativeEncoder j1TurretEncoder; 
+// private SparkMaxAbsoluteEncoder j2ElbowEncoder;
+// private RelativeEncoder j3WristYEncoder;
+// private RelativeEncoder j4WristXEncoder;
+// private RelativeEncoder j5ClawEncoder;
  
- private SlewRateLimiter armRateLimiter = new SlewRateLimiter(ArmConstants.armSlewRateLimiter);
-   
+private SlewRateLimiter armRateLimiter = new SlewRateLimiter(ArmConstants.armSlewRateLimiter);
+private int controlMode = 0;
+
+
 protected XboxController armController;
 
     public Arm() {
@@ -87,44 +76,61 @@ protected XboxController armController;
 
         j1Turret.restoreFactoryDefaults();  
         j1Turret.setInverted(false);
-        j1Turret.setIdleMode(IdleMode.kCoast);
+        j1Turret.setIdleMode(IdleMode.kBrake);
         j1Turret.burnFlash();
 
         j2Elbow.restoreFactoryDefaults();  
         j2Elbow.setInverted(true);
-        j2Elbow.setIdleMode(IdleMode.kCoast);
+        j2Elbow.setIdleMode(IdleMode.kBrake);
         j2Elbow.burnFlash();
         
         j3WristY.restoreFactoryDefaults();  
         j3WristY.setInverted(false);
-        j3WristY.setIdleMode(IdleMode.kCoast);
+        j3WristY.setIdleMode(IdleMode.kBrake);
         j3WristY.burnFlash();
 
         j4WristX.restoreFactoryDefaults();  
         j4WristX.setInverted(false);
-        j4WristX.setIdleMode(IdleMode.kCoast);
+        j4WristX.setIdleMode(IdleMode.kBrake);
         j4WristX.burnFlash();
 
         j5Claw.restoreFactoryDefaults();  
         j5Claw.setInverted(false);
-        j5Claw.setIdleMode(IdleMode.kCoast);
+        j5Claw.setIdleMode(IdleMode.kBrake);
         j5Claw.burnFlash();
 
-        // j1TurretEncoder =  j1Turret.getAbsoluteEncoder(Type.kDutyCycle);
-        // j2ElbowEncoder =  j2Elbow.getAbsoluteEncoder(Type.kDutyCycle);
-        // j3WristYEncoder =  j3WristY.getEncoder();
-        // j4WristXEncoder =  j4WristX.getAbsoluteEncoder(Type.kDutyCycle);
-        // j5ClawEncoder =  j5Claw.getAbsoluteEncoder(Type.kDutyCycle);
-        
-
-        j1TurretEncoder = j1Turret.getEncoder();
+        j1TurretEncoder =  j1Turret.getAbsoluteEncoder(Type.kDutyCycle);
         j2ElbowEncoder =  j2Elbow.getAbsoluteEncoder(Type.kDutyCycle);
         j3WristYEncoder =  j3WristY.getEncoder();
-        j4WristXEncoder =  j4WristX.getEncoder();
-        j5ClawEncoder =  j5Claw.getEncoder();        
+        j4WristXEncoder =  j4WristX.getAbsoluteEncoder(Type.kDutyCycle);
+        j5ClawEncoder =  j5Claw.getAbsoluteEncoder(Type.kDutyCycle);
+        
+
+        // j1TurretEncoder = j1Turret.getEncoder();
+        // j2ElbowEncoder =  j2Elbow.getAbsoluteEncoder(Type.kDutyCycle);
+        // j3WristYEncoder =  j3WristY.getEncoder();
+        // j4WristXEncoder =  j4WristX.getEncoder();
+        // j5ClawEncoder =  j5Claw.getEncoder();        
     }
 
-    public CommandBase manualControl(double turnJ1Turret, double moveJ2Elbow, double rotatej3WristY, double rotatej4WristX, double openClaw, double closeClaw) {
+    public void manualControl() {
+        double leftX = RobotContainer.getInstance().getOI().getArmController().getLeftX();
+        double leftY = RobotContainer.getInstance().getOI().getArmController().getLeftY();
+        double rightX = RobotContainer.getInstance().getOI().getArmController().getRightX();
+        double rightY =RobotContainer.getInstance().getOI().getArmController().getRightY();
+
+        double leftTrigger = RobotContainer.getInstance().getOI().getArmController().getLeftTriggerAxis();
+        double rightTrigger = RobotContainer.getInstance().getOI().getArmController().getRightTriggerAxis();
+
+        rotateWaist(leftX);
+        moveElbow(leftY);
+        rotateWrist(rightY);
+        moveShoulder(rightX);
+        moveClaw(leftTrigger, -rightTrigger);
+    }
+    
+
+    public CommandBase unlimitedManualControl(double turnJ1Turret, double moveJ2Elbow, double rotatej3WristY, double rotatej4WristX, double openClaw, double closeClaw) {
         
         return run(() ->
         this.j1Turret.set(turnJ1Turret)).alongWith(run(() ->
@@ -151,15 +157,15 @@ protected XboxController armController;
     }
 
     public void resetArmEncoders(){
-        j1TurretEncoder.setPosition(0);
+        //j1TurretEncoder.setPosition(0);
         j3WristYEncoder.setPosition(0);
-        j4WristXEncoder.setPosition(0);
-        j5ClawEncoder.setPosition(0);
+        // j4WristXEncoder.setPosition(0);
+        // j5ClawEncoder.setPosition(0);
     }
     
     @Override
     public void periodic() {
-        //super.periodic(); //needed for PID motion profiling
+        //super.periodic(); //needed if PID motion profiling subsystem
        updateSmartDashboard();
     
     }
@@ -169,7 +175,80 @@ protected XboxController armController;
         // This method will be called once per scheduler run when in simulation
 
     }
-
+    public void moveShoulder(double shoulderForce){
+        double shoulderLimiter = .5;
+        j2Elbow.set(getDeadZoneAdjustment(shoulderForce*shoulderLimiter,ArmConstants.controllerDeadzone));
+        SmartDashboard.putNumber("Shoulder Force", getDeadZoneAdjustment(shoulderForce,ArmConstants.controllerDeadzone));
+    }
+    public void moveElbow(double elbowForce){
+        double elbowLimiter = .20;
+        j3WristY.set(getDeadZoneAdjustment(elbowForce*elbowLimiter,ArmConstants.controllerDeadzone));
+        SmartDashboard.putNumber("Elbow Force", getDeadZoneAdjustment(elbowForce,ArmConstants.controllerDeadzone));
+    }    
+    public void moveClaw(double open, double close){
+        // armMotor.set(force);
+        double clawForce = 0;
+        double clawLimiter = .10;
+        if (open > ArmConstants.controllerDeadzone){
+            clawForce = open;
+          }
+          if (close > ArmConstants.controllerDeadzone){
+            clawForce = -close;
+          }  
+        j5Claw.set(getDeadZoneAdjustment(clawForce*clawLimiter,ArmConstants.controllerDeadzone));
+        SmartDashboard.putNumber("Claw Force", getDeadZoneAdjustment(clawForce,ArmConstants.controllerDeadzone));
+    }  
+    public void rotateWaist(double waistForce){
+        double waistLimiter = .50;
+        j1Turret.set(getDeadZoneAdjustment(waistForce*waistLimiter,waistForce));
+        SmartDashboard.putNumber("Waist Force", getDeadZoneAdjustment(waistForce,ArmConstants.controllerDeadzone));
+    }
+    public void rotateWrist(double wristForce){
+        double wristLimiter = .05;
+        j4WristX.set(getDeadZoneAdjustment(wristForce*wristLimiter,ArmConstants.controllerDeadzone));
+        SmartDashboard.putNumber("Wrist Force", getDeadZoneAdjustment(wristForce,ArmConstants.controllerDeadzone));
+    }
+/**
+* Adjust the value to provide a dead zone. The normal zone will be shorten zone that will allow
+* a full 0 to 1/-1 range.
+*
+* @param orginalValue - The value to be adjusted.
+* @param deadzone - The dead zone which should be a positive decimal representing a percentage.
+* @return The newly adjusted value.
+*/
+public double getDeadZoneAdjustment(double orginalValue, double deadzone) {
+    double maxRange = 1.0 - deadzone;
+    double adjustedValue = orginalValue - (orginalValue * deadzone);
+    if(isPositive(orginalValue)) { // Value is positive.
+    // Verify that the adjusted value is still positive.
+    if(isPositive(adjustedValue)) {
+    // We divide by the maxRange to give us the full range of 0 to 1.
+    return adjustedValue / maxRange;
+    }
+    } else { //Value is negative.
+    // Verify that the adjusted value is still negative.
+    if(!isPositive(adjustedValue) && adjustedValue != 0) {
+    // We divide by the maxRange to give us the full range of 0 to 1.
+    return adjustedValue / maxRange;
+    }
+    }
+    
+    /*
+    *  The adjustment resulted in a sign change meaning the current value
+    *  is in the dead zone. Therefore we are returning zero.
+    */
+    return 0;
+    }
+    
+    /**
+    * Returns true if the value is positive.
+    *
+    * @param value - The value to be checked.
+    * @return true if the value is positive.
+    */
+    public boolean isPositive(double value) {
+    return value > 0;
+    }
     // @Override
     // public double getMeasurement() {
     //     // BEGIN AUTOGENERATED CODE, SOURCE=ROBOTBUILDER ID=SOURCE

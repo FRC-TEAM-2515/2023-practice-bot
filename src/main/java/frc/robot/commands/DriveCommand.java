@@ -17,13 +17,16 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.util.OIReporters;
+import frc.robot.util.OIReporters.DriveReporters;
+import frc.robot.Constants.ControllerScaling;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.DriveControllerMode;
+import frc.robot.Constants.DriveType;
 import frc.robot.RobotContainer;
 import frc.robot.RobotContainer.*;
 import java.util.function.DoubleSupplier;
 import frc.robot.OI;
-import frc.robot.OIReporters;
-import frc.robot.OIReporters.DriveReporters;
 
 /**
  * Creates teleop drivetrain drive command
@@ -38,9 +41,9 @@ public class DriveCommand extends CommandBase {
     private DriveTrain m_drivetrain; 
     private RobotContainer m_robotContainer;
     private XboxController m_driveController;
-    private int m_driverControlsChoice;
-    private int m_driveTypeChoice;
-    private int m_controllerScalingChoice;
+    private Enum m_driverControlsChoice;
+    private Enum m_driveTypeChoice;
+    private Enum m_controllerScalingChoice;
     public double speed;
     public double rotation;
        
@@ -105,11 +108,11 @@ public class DriveCommand extends CommandBase {
 
     }
 
-    public void driverControls(int choice) {
+    public void driverControls(Enum choice) {
         speed = 0;
         rotation = 0;
 
-            if (choice != 0){ //accelerate with trigger controls 
+            if (choice == DriveControllerMode.TRIGGER_ACCEL){ //accelerate with trigger controls 
                 speed = ((m_driveController.getLeftTriggerAxis() - m_driveController.getRightTriggerAxis()) * DriveConstants.kSpeedOutputModifier);
 
                 OIReporters.DriveReporters.driveControllerMode = "Trigger Accel";
@@ -124,11 +127,11 @@ public class DriveCommand extends CommandBase {
                 OIReporters.DriveReporters.lStickSpeed = speed;
         }
 
-    public void controllerScaling(double speed, double rotation, int choice){
+    public void controllerScaling(double speed, double rotation, Enum choice){
         OIReporters.DriveReporters.originalSpeed = speed;
         OIReporters.DriveReporters.originalRotation = rotation;
 
-        if (choice == 1){ //linear scaling
+        if (choice == ControllerScaling.LINEAR){ //linear scaling
             this.speed = speed; 
             this.rotation = rotation;
 
@@ -136,14 +139,15 @@ public class DriveCommand extends CommandBase {
             OIReporters.DriveReporters.linearScaled = ("Speed: " + speed + "& Rotation: " + rotation);
             return;
         }
-        if (choice == 2) { //squared scaling
+        if (choice == ControllerScaling.SQUARED) { //squared scaling
             speed = Math.copySign(speed * speed, speed);
+            rotation = Math.copySign(rotation * rotation, rotation);
                 
             OIReporters.DriveReporters.scalingMode = "Squared";
             OIReporters.DriveReporters.squaredScaled = ("Speed: " + speed + "& Rotation: " + rotation);
             return;
         }
-        if (choice == 3) { //cubic scaling
+        if (choice == ControllerScaling.CUBIC) { //cubic scaling
             speed = speed * speed * speed;
             rotation = rotation * rotation * rotation;
 
@@ -153,21 +157,22 @@ public class DriveCommand extends CommandBase {
         } 
             //non polynomic (fancy)
             speed = speed * 0.5 + Math.pow(3,(speed * 0.5));
+            rotation = speed * 0.5 + Math.pow(3,(speed * 0.5));
 
             OIReporters.DriveReporters.scalingMode = "Fancy";
             OIReporters.DriveReporters.fancyScaled = ("Speed: " + speed + "& Rotation: " + rotation);
 
     }
 
-    public void driveType(double speed, double rotation, int choice){
-        if (choice == 1){ //regular curvature
+    public void driveType(double speed, double rotation, Enum choice){
+        if (choice == DriveType.REG_CURVATURE){ //regular curvature
             m_drivetrain.curvatureDrive(speed, rotation, false);
 
             OIReporters.DriveReporters.driveType = "Curvature";
             OIReporters.DriveReporters.semiCurvature = false;
            return;
         }
-        if (choice == 2){ //arcade
+        if (choice == DriveType.ARCADE){ //arcade
             m_drivetrain.arcadeDrive(speed, rotation);
 
             OIReporters.DriveReporters.driveType = "Arcade";

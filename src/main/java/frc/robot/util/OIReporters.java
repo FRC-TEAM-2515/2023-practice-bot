@@ -1,8 +1,9 @@
-package frc.robot;
+package frc.robot.util;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotMath.*;
+import frc.robot.util.RobotMath;
+import frc.robot.util.RobotMath.*;
 
 public class OIReporters {
 
@@ -125,5 +126,50 @@ public class OIReporters {
                 } else {
                         return false;
                 }
+        }
+
+        public static class ArmReporters {
+              
+                        // Preferences
+                        public static String armControlMode = "";
+                        public static double j1JoystickCommand = 0;
+                        public static double j2JoystickCommand = 0;
+                        public static double j3JoystickCommand = 0;
+                        public static double j4JoystickCommand = 0;
+        
+                        public static String scalingMode = "";
+                        public static double originalLeftX = 0;
+                        public static double originalLeftY = 0;
+                        public static String linearScaledX = "";
+                        public static String squaredScaledX = "";
+                        public static String cubicScaledX = "";
+                        public static String fancyScaledX = "";
+                        public static String linearScaledY = "";
+                        public static String squaredScaledY = "";
+                        public static String cubicScaledY = "";
+                        public static String fancyScaledY = "";
+        
+        }
+
+        public void manualArmReporters(){
+
+                // Scaling
+                SmartDashboard.putString("Scaling", ArmReporters.scalingMode);
+                SmartDashboard.putString("LinearX", ArmReporters.linearScaledX);
+                SmartDashboard.putString("SquaredX", ArmReporters.squaredScaledX);
+                SmartDashboard.putString("CubicX", ArmReporters.cubicScaledX);
+                SmartDashboard.putString("FancyX", ArmReporters.fancyScaledX);
+
+                SmartDashboard.putString("LinearY", ArmReporters.linearScaledY);
+                SmartDashboard.putString("SquaredY", ArmReporters.squaredScaledY);
+                SmartDashboard.putString("CubicY", ArmReporters.cubicScaledY);
+                SmartDashboard.putString("FancyY", ArmReporters.fancyScaledY);
+
+                // Arm Control Mode
+                SmartDashboard.putString("Arm Control Mode", ArmReporters.armControlMode);
+                SmartDashboard.putNumber("J1 Joystick Command", ArmReporters.j1JoystickCommand);
+                SmartDashboard.putNumber("J2 Joystick Command", ArmReporters.j2JoystickCommand);
+                SmartDashboard.putNumber("J3 Joystick Command", ArmReporters.j3JoystickCommand);
+                SmartDashboard.putNumber("J4 Joystick Command", ArmReporters.j4JoystickCommand);
         }
 }

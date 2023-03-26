@@ -1,7 +1,12 @@
 package frc.robot;
 
+import frc.robot.Constants.ArmControlType;
+import frc.robot.Constants.ControllerScaling;
+import frc.robot.Constants.DriveControllerMode;
+import frc.robot.Constants.DriveType;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
+import frc.robot.util.OIReporters;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior; 
@@ -12,8 +17,7 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.OIReporters;
-import frc.robot.RobotMath;
+import frc.robot.util.RobotMath;
 
 public class OI {
     
@@ -22,15 +26,18 @@ public class OI {
     private XboxController m_driveController;
     private XboxController m_armController;
 
-    //private CommandXboxController m_commandDriveController;
+    private CommandXboxController m_commandDriveController;
     private Trigger resetButton;
     private JoystickButton brakeButton;
 
     private SendableChooser<Command> autoChooser;
 
-    private SendableChooser<Integer> driverControlsChooser;
-    private SendableChooser<Integer> controllerScalingChooser;
-    private SendableChooser<Integer> driveTypeChooser;
+    private SendableChooser<Enum> driverControlsChooser;
+    private SendableChooser<Enum> controllerScalingChooser;
+    private SendableChooser<Enum> driveTypeChooser;
+
+    private SendableChooser<Enum> armControlModeChooser;
+    private SendableChooser<Enum> armControllerScalingChooser;
 
   // public static OI getInstance() {
   //     if (instanceOI == null) {
@@ -54,6 +61,9 @@ public class OI {
     controllerScalingChooser = new SendableChooser<>();
     driveTypeChooser = new SendableChooser<>();
 
+    armControlModeChooser = new SendableChooser<>();
+    armControllerScalingChooser = new SendableChooser<>();
+
     configureButtonBindings();
     configureSmartDashboard();
     getDrivePreferences();
@@ -70,8 +80,8 @@ private void configureButtonBindings() {
     shouldEnableBrakes();
     shouldInvertMotors();
 
-   //m_commandDriveController.leftStick().onTrue(new SafeReset());
-    resetButton = new JoystickButton(m_driveController,Button.kBack.value).onTrue(new SafeReset());
+    m_commandDriveController.leftStick().onTrue(new SafeReset());
+    
   
 }
 
@@ -89,22 +99,34 @@ public void configureSmartDashboard() {
     // Choosers
     autoChooser.setDefaultOption("Simple Autonomous", getAutonomousCommand());
 
-    driverControlsChooser.setDefaultOption("Left Stick", 0);
-    driverControlsChooser.addOption("Trigger Acceleration", 1);
+    driverControlsChooser.setDefaultOption("Left Stick", DriveControllerMode.LEFT_STICK);
+    driverControlsChooser.addOption("Trigger Acceleration", DriveControllerMode.TRIGGER_ACCEL);
     
-    controllerScalingChooser.setDefaultOption("Limited Polynomic", 0);
-    controllerScalingChooser.addOption("Linear", 1);
-    controllerScalingChooser.addOption("Squared", 2);
-    controllerScalingChooser.addOption("Cubic", 3);
+    controllerScalingChooser.setDefaultOption("Limited Polynomic", ControllerScaling.LIMITED_POLYNOMIC);
+    controllerScalingChooser.addOption("Linear", ControllerScaling.LINEAR);
+    controllerScalingChooser.addOption("Squared", ControllerScaling.SQUARED);
+    controllerScalingChooser.addOption("Cubic", ControllerScaling.CUBIC);
 
-    driveTypeChooser.setDefaultOption("Semi Curvature", 0);
-    driveTypeChooser.addOption("Reg Curvature", 1);
-    driveTypeChooser.addOption("Arcade", 2);
+    driveTypeChooser.setDefaultOption("Semi Curvature", DriveType.SEMI_CURVATURE);
+    driveTypeChooser.addOption("Reg Curvature", DriveType.REG_CURVATURE);
+    driveTypeChooser.addOption("Arcade", DriveType.ARCADE);
+
+    armControllerScalingChooser.addOption("Limited Polynomic", ControllerScaling.LIMITED_POLYNOMIC);
+    armControllerScalingChooser.setDefaultOption("Linear", ControllerScaling.LINEAR);
+    armControllerScalingChooser.addOption("Squared", ControllerScaling.SQUARED);
+    armControllerScalingChooser.addOption("Cubic", ControllerScaling.CUBIC);
+
+    armControlModeChooser.setDefaultOption("Position", ArmControlType.POSITION);
+    armControlModeChooser.setDefaultOption("Velocity", ArmControlType.VELOCITY);
+    armControlModeChooser.setDefaultOption("Cartesian", ArmControlType.CARTESIAN);
     
     SmartDashboard.putData("Autonomous Mode", autoChooser);
     SmartDashboard.putData("Driver Controls", driverControlsChooser);
     SmartDashboard.putData("Drive Controller Scaling", controllerScalingChooser);
     SmartDashboard.putData("Drive Type", driveTypeChooser);
+
+    SmartDashboard.putData("Arm Control Mode", armControlModeChooser);
+    SmartDashboard.putData("Arm Controller Scaling", armControllerScalingChooser);
 
     // Constants
     SmartDashboard.putNumber("Ramp Rate",Constants.DriveConstants.kRampRate);
@@ -152,16 +174,24 @@ public void configureSmartDashboard() {
     return m_armController;
   }
 
-  public int getDriverControlsChooser() {
+  public Enum getDriverControlsChooser() {
     return driverControlsChooser.getSelected();
   }
 
-  public int getDriveTypeChooser() {
+  public Enum getDriveTypeChooser() {
     return driveTypeChooser.getSelected();
   }
 
-  public int getControllerScalingChooser() {
+  public Enum getControllerScalingChooser() {
     return controllerScalingChooser.getSelected();
+  }
+
+  public Enum getArmControlModeChooser() {
+    return armControlModeChooser.getSelected();
+  }
+
+  public Enum getArmControllerScalingChooser() {
+    return armControllerScalingChooser.getSelected();
   }
 
   public Command getAutonomousCommand() {

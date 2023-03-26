@@ -15,9 +15,9 @@ package frc.robot.subsystems;
 import frc.robot.Constants;
 import frc.robot.OI;
 import frc.robot.RobotContainer;
-import frc.robot.OIReporters;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.commands.*;
+import frc.robot.util.OIReporters;
 //import frc.robot.OI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -49,7 +49,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
-import frc.robot.RobotMath;
+import frc.robot.util.RobotMath;
 
 /**
  * 
@@ -118,8 +118,8 @@ public class DriveTrain extends SubsystemBase {
         // Invert and set Break Mode
         driveLeftLeader.setInverted(false);
         driveLeftFollower.setInverted(false);
-        // driveLeftLeader.setNeutralMode(NeutralMode.Coast);
-        // driveLeftFollower.setNeutralMode(NeutralMode.Coast);
+        driveLeftLeader.setNeutralMode(NeutralMode.Coast);
+        driveLeftFollower.setNeutralMode(NeutralMode.Coast);
 
         driveRightLeader.setInverted(true);
         driveRightFollower.setInverted(true);
@@ -159,7 +159,7 @@ public class DriveTrain extends SubsystemBase {
         gyro.calibrate();
 
         odometry = new DifferentialDriveOdometry(gyro.getRotation2d(), m_driveGain, m_deadband); // ask Kelly about the purpose of drivegain & deadband here
-        
+        inversionMultiplier = 1;
     }
 
 
@@ -218,11 +218,6 @@ public class DriveTrain extends SubsystemBase {
         OIReporters.DriveReporters.rightSpeedFromCommand = (rightSpeed * inversionMultiplier);
     }
 
-     // already configured in DriveCommand if using setWheelSpeeds
-     public void setMaxOutput(double maxOutput) {
-        m_drive.setMaxOutput(maxOutput);
-     }
-
     public void curvatureDrive(double speed, double rotation, boolean semiCurvature) {
        // SlewRateLimiter speedFilter = new SlewRateLimiter(Constants.DriveConstants.kSlewRateLimiter);
         m_drive.curvatureDrive (speed * inversionMultiplier, -rotation * inversionMultiplier, semiCurvature);
@@ -233,7 +228,7 @@ public class DriveTrain extends SubsystemBase {
         m_drive.arcadeDrive(speed * inversionMultiplier, rotation * inversionMultiplier);
     }
 
-    // ask Kelly if still relevent 
+    // for bus voltage pid control
     public void tankDriveVolts(double m_driveLeftVolts, double m_driveRightVolts) {
         driveLeftLeader.setVoltage(m_driveLeftVolts);
         driveRightLeader.setVoltage(m_driveRightVolts);
