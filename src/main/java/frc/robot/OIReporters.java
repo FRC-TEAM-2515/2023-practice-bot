@@ -21,6 +21,7 @@ public class OIReporters {
         public static boolean semiCurvature = false;
 
         public static boolean brakesEnabled = false;
+        public static boolean motorsInverted = false;
         public static double inversionMult = 0;
 
 

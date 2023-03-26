@@ -65,6 +65,7 @@ public class DriveTrain extends SubsystemBase {
     private double m_deadband = DriveConstants.kDeadband;
     private double m_driveGain = DriveConstants.kDriveGain;
     private boolean brakesEnabled = false;
+    private boolean motorsInverted = false;
 
     // Hardware
     private WPI_TalonSRX driveLeftLeader;
@@ -165,12 +166,13 @@ public class DriveTrain extends SubsystemBase {
     @Override
     public void periodic() {
         if (OI.getInstance().shouldInvertMotors()) {
-            invertMotors();
+            motorsInverted = true;
         }
         if (OI.getInstance().shouldEnableBrakes()) {
             brakesEnabled = true;
         }
         enableBrakes(brakesEnabled);
+        invertMotors(motorsInverted);
 
         odometry.update(gyro.getRotation2d(), leftMeters(), rightMeters());
     }
@@ -235,23 +237,25 @@ public class DriveTrain extends SubsystemBase {
         
         // SmartDashboard.putBoolean("Brakes Enabled", brakesEnabled);
         if (enabled) {
-        driveLeftLeader.setNeutralMode(NeutralMode.Brake);
-        driveRightLeader.setNeutralMode(NeutralMode.Brake);
-        
-        OIReporters.brakesEnabled = true;
+            driveLeftLeader.setNeutralMode(NeutralMode.Brake);
+            driveRightLeader.setNeutralMode(NeutralMode.Brake);
+            
+            OIReporters.brakesEnabled = true;
         }
         else {
-        driveRightLeader.setNeutralMode(NeutralMode.Coast);
-        driveRightFollower.setNeutralMode(NeutralMode.Coast);
+            driveRightLeader.setNeutralMode(NeutralMode.Coast);
+            driveRightFollower.setNeutralMode(NeutralMode.Coast);
 
-        OIReporters.brakesEnabled = false;
+            OIReporters.brakesEnabled = false;
         }
         brakesEnabled = false;
     }
 
-    public void invertMotors() {
-        inversionMultiplier *= -1;
-        OIReporters.inversionMult = inversionMultiplier;
+    public void invertMotors(boolean enabled) {
+        if (enabled){
+            inversionMultiplier *= -1;
+            OIReporters.inversionMult = inversionMultiplier;    
+        }
     }
     
 
