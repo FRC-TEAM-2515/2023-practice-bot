@@ -50,7 +50,7 @@ private CANSparkMax j5Claw;
 
 private SparkMaxAbsoluteEncoder j1TurretEncoder; 
 private SparkMaxAbsoluteEncoder j2ElbowEncoder;
-private RelativeEncoder j3WristYEncoder;
+private SparkMaxAbsoluteEncoder j3WristYEncoder;
 private SparkMaxAbsoluteEncoder j4WristXEncoder;
 private SparkMaxAbsoluteEncoder j5ClawEncoder;
 
@@ -76,32 +76,37 @@ protected XboxController armController;
 
         j1Turret.restoreFactoryDefaults();  
         j1Turret.setInverted(false);
-        j1Turret.setIdleMode(IdleMode.kBrake);
+        //j1Turret.setIdleMode(IdleMode.kBrake);
+        j1Turret.setIdleMode(IdleMode.kCoast);
         j1Turret.burnFlash();
 
         j2Elbow.restoreFactoryDefaults();  
         j2Elbow.setInverted(true);
-        j2Elbow.setIdleMode(IdleMode.kBrake);
+        //j2Elbow.setIdleMode(IdleMode.kBrake);
+        j2Elbow.setIdleMode(IdleMode.kCoast);
         j2Elbow.burnFlash();
         
         j3WristY.restoreFactoryDefaults();  
         j3WristY.setInverted(false);
-        j3WristY.setIdleMode(IdleMode.kBrake);
+        //j3WristY.setIdleMode(IdleMode.kBrake);
+        j3WristY.setIdleMode(IdleMode.kCoast);
         j3WristY.burnFlash();
 
         j4WristX.restoreFactoryDefaults();  
         j4WristX.setInverted(false);
-        j4WristX.setIdleMode(IdleMode.kBrake);
+        //j4WristX.setIdleMode(IdleMode.kBrake);
+        j4WristX.setIdleMode(IdleMode.kCoast);
         j4WristX.burnFlash();
 
         j5Claw.restoreFactoryDefaults();  
         j5Claw.setInverted(false);
-        j5Claw.setIdleMode(IdleMode.kBrake);
+       // j5Claw.setIdleMode(IdleMode.kBrake);
+        j5Claw.setIdleMode(IdleMode.kCoast);
         j5Claw.burnFlash();
 
         j1TurretEncoder =  j1Turret.getAbsoluteEncoder(Type.kDutyCycle);
         j2ElbowEncoder =  j2Elbow.getAbsoluteEncoder(Type.kDutyCycle);
-        j3WristYEncoder =  j3WristY.getEncoder();
+        j3WristYEncoder =  j3WristY.getAbsoluteEncoder(Type.kDutyCycle);
         j4WristXEncoder =  j4WristX.getAbsoluteEncoder(Type.kDutyCycle);
         j5ClawEncoder =  j5Claw.getAbsoluteEncoder(Type.kDutyCycle);
         
@@ -123,23 +128,23 @@ protected XboxController armController;
         double rightTrigger = RobotContainer.getInstance().getOI().getArmController().getRightTriggerAxis();
 
         rotateWaist(leftX);
-        moveElbow(leftY);
-        rotateWrist(rightY);
-        moveShoulder(rightX);
-        moveClaw(leftTrigger, -rightTrigger);
+        moveShoulder(leftY);
+        moveElbow(rightY);
+        rotateWrist(rightX);
+        moveClaw(leftTrigger, rightTrigger);
     }
     
 
-    public CommandBase unlimitedManualControl(double turnJ1Turret, double moveJ2Elbow, double rotatej3WristY, double rotatej4WristX, double openClaw, double closeClaw) {
-        
-        return run(() ->
-        this.j1Turret.set(turnJ1Turret)).alongWith(run(() ->
-        this.j2Elbow.set(moveJ2Elbow))).alongWith(run(() ->
-		this.j3WristY.set(rotatej3WristY))).alongWith(run(() ->
-		this.j4WristX.set(rotatej4WristX))).alongWith(run(() ->
-        this.j5Claw.set(openClaw))).alongWith(run(() -> 
-        this.j5Claw.set(-closeClaw)));
-    }
+    // public CommandBase unlimitedManualControl(double turnJ1Turret, double moveJ2Elbow, double rotatej3WristY, double rotatej4WristX, double openClaw, double closeClaw) {
+
+    //     return run(() ->
+    //     this.j1Turret.set(turnJ1Turret)).alongWith(run(() ->
+    //     this.j2Elbow.set(moveJ2Elbow))).alongWith(run(() ->
+	// 	this.j3WristY.set(rotatej3WristY))).alongWith(run(() ->
+	// 	this.j4WristX.set(rotatej4WristX))).alongWith(run(() ->
+    //     this.j5Claw.set(openClaw))).alongWith(run(() -> 
+    //     this.j5Claw.set(-closeClaw)));
+    // }
 
     public void updateSmartDashboard(){
 
@@ -158,7 +163,7 @@ protected XboxController armController;
 
     public void resetArmEncoders(){
         //j1TurretEncoder.setPosition(0);
-        j3WristYEncoder.setPosition(0);
+       // j3WristYEncoder.setPosition(0);
         // j4WristXEncoder.setPosition(0);
         // j5ClawEncoder.setPosition(0);
     }

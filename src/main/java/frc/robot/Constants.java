@@ -80,7 +80,7 @@ public class Constants {
         public static final double kJ2AngleMax = 4; //Total range of 216 deg, reduced by 5 deg for safety
         public static final double kJ3AngleMax = 4; //Total range of 180 deg, reduced by 5 deg for safety
         public static final double kJ4AngleMax = 4; //Total range of 180 deg, reduced by 5 deg for safety
-        public static final double kJ5AngleMax = 4; //?? 
+        public static final double kJ5AngleMax = 4; //Total range of 
 
         public static final double kJ1AngleMin = 4;
         public static final double kJ2AngleMin = 4;
@@ -94,7 +94,7 @@ public class Constants {
         public static final double kJ4DegPerSecMax = 4;
 
         public static final double armSlewRateLimiter = 0.0009;
-        public static final double controllerDeadzone = 0.1;
+        public static final double controllerDeadzone = 0.2;
 
         
     }

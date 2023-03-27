@@ -50,7 +50,7 @@ public class OI {
 
     // Controllers
     m_driveController = new XboxController(0);
-    //m_commandDriveController = new CommandXboxController(0);
+    m_commandDriveController = new CommandXboxController(0);
     m_armController = new XboxController(1);
 
     // Command choosers

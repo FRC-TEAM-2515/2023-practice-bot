@@ -115,8 +115,8 @@ public class Robot extends TimedRobot {
         robotContainer.getOI().getDrivePreferences();
         robotContainer.initDefaultDrive();
         robotContainer.getOIReporters().updateOIReporters();
-        
-        robotContainer.initArmDefault();
+        robotContainer.getArm().manualControl();
+        //robotContainer.initArmDefault();
 
     }
 

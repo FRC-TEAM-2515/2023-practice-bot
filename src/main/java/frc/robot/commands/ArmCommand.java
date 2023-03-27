@@ -60,7 +60,6 @@ public class ArmCommand extends CommandBase{
 
         controllerScaling(leftX, leftY, rightX, rightY, m_armControlModeChoice);   
         
-        
     }
 
     public void controllerScaling(double leftX, double leftY, double rightX, double rightY, Enum choice){
@@ -119,7 +118,5 @@ public class ArmCommand extends CommandBase{
             double velocityCommandJ4 = -throttleLeftX  * ArmConstants.kJ4DegPerSecMax;
         }
     }
-
-    
 
 }
