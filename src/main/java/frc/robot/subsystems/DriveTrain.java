@@ -114,8 +114,8 @@ public class DriveTrain extends SubsystemBase {
         // Invert and set Break Mode
         driveLeftLeader.setInverted(false);
         driveLeftFollower.setInverted(false);
-        // driveLeftLeader.setNeutralMode(NeutralMode.Coast);
-        // driveLeftFollower.setNeutralMode(NeutralMode.Coast);
+        driveLeftLeader.setNeutralMode(NeutralMode.Coast);
+        driveLeftFollower.setNeutralMode(NeutralMode.Coast);
 
         driveRightLeader.setInverted(true);
         driveRightFollower.setInverted(true);
@@ -213,12 +213,12 @@ public class DriveTrain extends SubsystemBase {
 
     public void curvatureDrive(double speed, double rotation, boolean semiCurvature) {
         //SlewRateLimiter filter = new SlewRateLimiter(Constants.DriveConstants.kSlewRateLimiter);
-        m_drive.curvatureDrive(speed * inversionMultiplier, -rotation * inversionMultiplier, semiCurvature);
+        m_drive.curvatureDrive(-speed * inversionMultiplier, -rotation * inversionMultiplier, semiCurvature);
     }
 
     public void arcadeDrive(double speed, double rotation) {
        // SlewRateLimiter filter = new SlewRateLimiter(Constants.DriveConstants.kSlewRateLimiter);
-        m_drive.arcadeDrive(speed * inversionMultiplier, rotation * inversionMultiplier);
+        m_drive.arcadeDrive(-speed * inversionMultiplier, rotation * inversionMultiplier);
     }
 
     // ask Kelly if still relevent 
