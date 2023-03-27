@@ -28,23 +28,23 @@ public class RobotMath {
     }
     
     public static double j1EncoderConvertDegrees(double rawPosition) { // raw rotation -> degrees 
-        return ((rawPosition / Constants.kMagEncoderUnitsPerRev) / (Constants.ArmConstants.kJ1GearRatio * 360));
+        return ((rawPosition * Constants.kMagEncoderUnitsPerRev) / (Constants.ArmConstants.kJ1GearRatio));
     }
     
     public static double j2EncoderConvertDegrees(double rawPosition) { // raw rotation -> degrees 
-        return ((rawPosition / Constants.kMagEncoderUnitsPerRev) / (Constants.ArmConstants.kJ2GearRatio * 360)); 
+        return ((rawPosition * Constants.kMagEncoderUnitsPerRev) / (Constants.ArmConstants.kJ2GearRatio)); 
     }
     
     public static double j3EncoderConvertDegrees(double rawPosition) {  // raw rotation -> degrees
-        return ((rawPosition  / Constants.kMagEncoderUnitsPerRev) / (Constants.ArmConstants.kJ3GearRatio * 360));
+        return ((rawPosition  * Constants.kMagEncoderUnitsPerRev) / (Constants.ArmConstants.kJ3GearRatio));
     }
     
     public static double j4EncoderConvertDegrees(double rawPosition) {  // raw rotation -> degrees
-        return ((rawPosition / Constants.kMagEncoderUnitsPerRev) / (Constants.ArmConstants.kJ4GearRatio * 360));
+        return ((rawPosition * Constants.kMagEncoderUnitsPerRev) / (Constants.ArmConstants.kJ4GearRatio));
     }
     
     public static double j5EncoderConvertDegrees(double rawPosition) {  // raw rotation -> degrees
-        return ((rawPosition / Constants.kMagEncoderUnitsPerRev) / (Constants.ArmConstants.kJ5GearRatio * 360));
+        return ((rawPosition * Constants.kMagEncoderUnitsPerRev) / (Constants.ArmConstants.kJ5GearRatio));
     }
 
 

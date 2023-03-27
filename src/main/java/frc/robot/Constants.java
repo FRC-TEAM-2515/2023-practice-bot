@@ -81,12 +81,15 @@ public class Constants {
         public static final double kJ3AngleMax = 4; //Total range of 180 deg, reduced by 5 deg for safety
         public static final double kJ4AngleMax = 4; //Total range of 180 deg, reduced by 5 deg for safety
         public static final double kJ5AngleMax = 4; //Total range of 
+        public static final double[] kJointAngleMaxArray = new double[] {kJ1AngleMax, kJ2AngleMax, kJ3AngleMax, kJ4AngleMax, kJ5AngleMax};
 
         public static final double kJ1AngleMin = 4;
         public static final double kJ2AngleMin = 4;
         public static final double kJ3AngleMin = 4;
         public static final double kJ4AngleMin = 4;
         public static final double kJ5AngleMin = 4;
+        public static final double[] kJointAngleMinArray = new double[] {kJ1AngleMin, kJ2AngleMax, kJ3AngleMin, kJ4AngleMin, kJ5AngleMin};
+
 
         public static final double kJ1DegPerSecMax = 4;
         public static final double kJ2DegPerSecMax = 4;
