@@ -213,14 +213,14 @@ protected XboxController armController;
 
     }
 
-    public void moveElbowX(double leftX)
+    public void moveElbowX(double leftX) //moves turret left and right - assumed smallest encoder value is on right side
     {
         double currentPosition = j1TurretEncoder.getPosition();
-        double maxRightValue = 1; //value of encoder at rightmost turret position
-        double maxLeftValue = 0; //value of encoder at leftmost turret position
+        double maxRightValue = 0; //value of encoder at rightmost turret position
+        double maxLeftValue = 1; //value of encoder at leftmost turret position
         double speedLimiter = 0.5; //max motor voltage
 
-        if( currentPosition > maxRightValue && currentPosition < maxLeftValue ) //prevents turret from exceeding bounds
+        if( maxLeftValue > currentPosition && currentPosition > maxRightValue ) //prevents turret from exceeding bounds
         {
             if( leftX < 0 ) //rotates turret to left - assumed run motor forwards
             {
@@ -235,7 +235,7 @@ protected XboxController armController;
         }
     }
 
-    public void moveElbowY(double leftY)
+    public void moveElbowY(double leftY) //moves elbow joint up and down - assumed smallest encoder value is at bottom
     {
         double currentPosition = j2ElbowEncoder.getPosition();
         double maxValue = 1; //value of encoder at highest expected elbow position
@@ -257,7 +257,7 @@ protected XboxController armController;
         }
     }
 
-    public void moveWristY(double rightY)
+    public void moveWristY(double rightY) //moves wrist joint up and down - assumed smallest encoder value is at bottom
     {
         double currentPosition = j3WristYEncoder.getPosition();
         double maxValue = 1; //value of encoder at highest expected wrist position
