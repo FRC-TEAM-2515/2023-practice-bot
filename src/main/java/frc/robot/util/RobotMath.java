@@ -64,8 +64,8 @@ public class RobotMath {
         return armDegreesConvertEncoder(armRangePaddingAddDeg(bookendSub, padding));
     }
 
-    public static double armRangeDegrees(double padding){
-       return Math.abs(armRangePaddingAddDeg(ArmConstants.kJ2BookendAdd, padding) - armRangePaddingMinusDeg(ArmConstants.kJ2BookendSub, padding) - 360);
+    public static double armRangeDegrees(double padding, double jointPaddingAdd, double jointPaddingMinus){
+       return Math.abs(armRangePaddingAddDeg(padding, jointPaddingAdd) - armRangePaddingMinusDeg(padding, jointPaddingMinus) - 360);
     }
    
 

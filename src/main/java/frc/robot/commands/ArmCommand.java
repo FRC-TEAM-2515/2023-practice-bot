@@ -148,8 +148,8 @@ public class ArmCommand extends CommandBase{
             // this.positionCommandJ1 = angleLimit(positionCommandJ1, 1);
             // this.positionCommandJ2 = angleLimit(positionCommandJ2, 2);
             // this.positionCommandJ3 = angleLimit(positionCommandJ3, 3);
-            // this.positionCommandOpenJ4 = angleLimit(positionCommandOpenJ4, 4);
-            // this.positionCommandCloseJ4 = angleLimit(positionCommandCloseJ4, 4);
+           // this.positionCommandOpenJ4 = angleLimit(positionCommandOpenJ4, 4);
+           // this.positionCommandCloseJ4 = angleLimit(positionCommandCloseJ4, 4);
 
 			SmartDashboard.putNumber("J1 Joystick Command", RobotMath.truncate(positionCommandJ1, 3));
 			SmartDashboard.putNumber("J2 Joystick Command", RobotMath.truncate(positionCommandJ2, 3));
@@ -170,21 +170,21 @@ public class ArmCommand extends CommandBase{
         return controllerInput;
     }
 
-    public double angleLimit(double positionCommand, int joint){
-       double jointBookendArray1[] = Arm.getPaddingArray1();
-       double jointBookendArray2[] = Arm.getPaddingArray2();
+    // public double angleLimit(double positionCommand, int joint){
+    // //    double jointBookendArray1[] = Arm.getPaddingArray1();
+    // //    double jointBookendArray2[] = Arm.getPaddingArray2();
 
-      double maxAngleDeg = jointBookendArray1 [joint];
-      double minAngleDeg = jointBookendArray2 [joint];
+    //   double maxAngleDeg = jointBookendArray1 [joint];
+    //   double minAngleDeg = jointBookendArray2 [joint];
 
-    if (positionCommand > maxAngleDeg) {
-        positionCommand = maxAngleDeg;
-    }
-    if (positionCommand < minAngleDeg) {
-        positionCommand = minAngleDeg;
-    }
-    return positionCommand;
-    }
+    // if (positionCommand > maxAngleDeg) {
+    //     positionCommand = maxAngleDeg;
+    // }
+    // if (positionCommand < minAngleDeg) {
+    //     positionCommand = minAngleDeg;
+    // }
+    // return positionCommand;
+    // }
 
     public double getArmControllerDeadzone() {
         double rawArmControllerLeftX = Math.abs(RobotContainer.getInstance().getOI().getArmController().getLeftX());

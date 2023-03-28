@@ -102,8 +102,8 @@ public class Constants {
         public static final double kJ3PaddingAddRot = 0.71; //255.6 degrees
 
         //Maximum range of 54.0 degrees
-        public static final double j4PaddingMinusRot = 0.23; //82.8 degrees
-        public static final double j4PaddingAddRot = 0.08; //28.8 degrees
+        public static final double kJ4PaddingMinusRot = 0.23; //82.8 degrees
+        public static final double kJ4PaddingAddRot = 0.08; //28.8 degrees
         
         public static final double kJ1DegPerSecMax = 4;
         public static final double kJ2DegPerSecMax = 4;
