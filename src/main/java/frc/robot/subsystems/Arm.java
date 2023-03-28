@@ -125,25 +125,31 @@ protected XboxController armController;
 
     public void manualControl()
     {
-        //double leftX = RobotContainer.getInstance().getOI().getArmController().getLeftX();
-        //double leftY = RobotContainer.getInstance().getOI().getArmController().getLeftY();
+        double leftX = RobotContainer.getInstance().getOI().getArmController().getLeftX();
+        double leftY = RobotContainer.getInstance().getOI().getArmController().getLeftY();
         double rightX = RobotContainer.getInstance().getOI().getArmController().getRightX();
         double rightY =RobotContainer.getInstance().getOI().getArmController().getRightY();
 
         double rightTrigger = RobotContainer.getInstance().getOI().getArmController().getRightTriggerAxis();
-        //double leftTrigger = RobotContainer.getInstance().getOI().getArmController().getLeftTriggerAxis();
-        //boolean leftBumper = RobotContainer.getInstance().getOI().getArmController().getLeftBumper();
-        //boolean rightBumper = RobotContainer.getInstance().getOI().getArmController().getRightBumper();
+        double leftTrigger = RobotContainer.getInstance().getOI().getArmController().getLeftTriggerAxis();
+        boolean leftBumper = RobotContainer.getInstance().getOI().getArmController().getLeftBumper();
+        boolean rightBumper = RobotContainer.getInstance().getOI().getArmController().getRightBumper();
         boolean button_x = RobotContainer.getInstance().getOI().getArmController().getXButtonPressed();
         boolean button_y = RobotContainer.getInstance().getOI().getArmController().getYButtonPressed();
         boolean button_a = RobotContainer.getInstance().getOI().getArmController().getAButtonPressed();
         boolean button_b = RobotContainer.getInstance().getOI().getArmController().getBButtonPressed();
 
 
+        moveElbowY(leftY);
+        moveWristY(rightY);
+        moveElbowX(leftX);
+        openClaw(leftTrigger);
+        closeClaw(rightTrigger);
 
-        moveArm(rightY);
-        rotateElbow(rightX);
-        moveClaw(rightTrigger);
+
+        // moveArm(rightY);
+        // rotateElbow(rightX);
+        // moveClaw(rightTrigger);
         position1(button_a);
         position2(button_b);
         position3(button_x);
@@ -207,84 +213,178 @@ protected XboxController armController;
 
     }
 
-    public void moveArm(double armForce)    //moves the elbow and wrist up and down
+    public void moveElbowX(double leftX)
     {
-        double wristPosition = j3WristYEncoder.getPosition();
-        double elbowPosition = j2ElbowEncoder.getPosition();
-        double elbowLimiter = 0.5;
-        double wristLimiter = 0.20;
-        double maxWristValue = 1;   //highest wrist encoder value
-        double minWristValue = 0.5; //lowest wrist encoder value
-        double maxElbowValue = 1;   //highest elbow encoder value
-        double minElbowValue = 0;   //lowest elbow encoder value
+        double currentPosition = j1TurretEncoder.getPosition();
+        double maxRightValue = 1; //value of encoder at rightmost turret position
+        double maxLeftValue = 0; //value of encoder at leftmost turret position
+        double speedLimiter = 0.5; //limits speed of motor
 
-
-        if( armForce < 0 ) //pulling backward on right stick - move arm up
+        if( currentPosition > maxRightValue && currentPosition < maxLeftValue ) //prevents turret from exceeding bounds
         {
-            if( wristPosition < maxWristValue ) //lift wrist up
+            if( leftX < 0 ) //rotates turret to left - assumed run motor forwards
             {
-                j3WristY.set(Math.pow(getDeadZoneAdjustment(armForce*wristLimiter,ArmConstants.controllerDeadzone),2));
-                SmartDashboard.putNumber("Wrist Y Force", getDeadZoneAdjustment(armForce,ArmConstants.controllerDeadzone));
+                j1Turret.set(Math.pow(getDeadZoneAdjustment(leftX*speedLimiter,ArmConstants.controllerDeadzone),2));
+                SmartDashboard.putNumber("Turret Rotation Force", getDeadZoneAdjustment(leftX,ArmConstants.controllerDeadzone));
             }
-            else if( elbowPosition < maxElbowValue )   //lift elbow up
+            else if( leftX > 0 ) //rotates turret to right - assumed run motor backwards
             {
-                j2Elbow.set(Math.pow(getDeadZoneAdjustment(armForce*elbowLimiter,ArmConstants.controllerDeadzone),2));
-                SmartDashboard.putNumber("Elbow Up/Down Force", getDeadZoneAdjustment(armForce,ArmConstants.controllerDeadzone));
-            }
-        }
-        else if( armForce > 0 ) //pushing forward on right stick - move arm down
-        {
-            if( wristPosition > minWristValue ) //lower wrist down
-            {
-                j3WristY.set(Math.pow(getDeadZoneAdjustment(armForce*wristLimiter,ArmConstants.controllerDeadzone),2));
-                SmartDashboard.putNumber("Wrist Y Force", getDeadZoneAdjustment(armForce,ArmConstants.controllerDeadzone));
-            }
-            else if( elbowPosition > minElbowValue )    //lower elbow down
-            {
-                j2Elbow.set(Math.pow(getDeadZoneAdjustment(armForce*elbowLimiter,ArmConstants.controllerDeadzone),2));
-                SmartDashboard.putNumber("Elbow Up/Down Force", getDeadZoneAdjustment(armForce,ArmConstants.controllerDeadzone));
+                j1Turret.set(Math.pow(getDeadZoneAdjustment(leftX*speedLimiter,ArmConstants.controllerDeadzone),2));
+                SmartDashboard.putNumber("Turret Rotation Force", getDeadZoneAdjustment(leftX,ArmConstants.controllerDeadzone));
             }
         }
     }
 
-    public void rotateElbow(double elbowForce)  //rotates elbow (turret)
+    public void moveElbowY(double leftY)
     {
-        double waistLimiter = .50;
-        j1Turret.set(Math.pow(getDeadZoneAdjustment(elbowForce*waistLimiter,elbowForce),2));
-        SmartDashboard.putNumber("Elbow Rotate Force", getDeadZoneAdjustment(elbowForce,ArmConstants.controllerDeadzone));
+        double currentPosition = j2ElbowEncoder.getPosition();
+        double maxValue = 1; //value of encoder at highest expected elbow position
+        double minValue = 0; //value of encoder at lowest expected elbow position
+        double speedLimiter = 0.5; //limits speed of motor
+
+        if( currentPosition > minValue && currentPosition < maxValue ) //prevents elbow from exceeding bounds
+        {
+            if( leftY < 0 ) //lift elbow up - assumed run motor forwards
+            {
+                j2Elbow.set(Math.pow(getDeadZoneAdjustment(leftY*speedLimiter,ArmConstants.controllerDeadzone),2));
+                SmartDashboard.putNumber("Elbow Up/Down Force", getDeadZoneAdjustment(leftY,ArmConstants.controllerDeadzone));
+            }
+            else if( leftY > 0 ) //lower elbow down - assumed run motor backwards
+            {
+                j2Elbow.set(Math.pow(getDeadZoneAdjustment(leftY*speedLimiter,ArmConstants.controllerDeadzone),2));
+                SmartDashboard.putNumber("Elbow Up/Down Force", getDeadZoneAdjustment(leftY,ArmConstants.controllerDeadzone));
+            }
+        }
     }
 
-    public void moveClaw(double moveForce)  //opens/close claw
+    public void moveWristY(double rightY)
+    {
+        double currentPosition = j3WristYEncoder.getPosition();
+        double maxValue = 1; //value of encoder at highest expected wrist position
+        double minValue = 0; //value of encoder at lowest expected wrist position
+        double speedLimiter = 0.5; //limits speed of motor
+
+        if( currentPosition > minValue && currentPosition < maxValue ) //prevents wrist from exceeding bounds
+        {
+            if( rightY < 0 ) //lift wrist up - assumed run motor forwards
+            {
+                j3WristY.set(Math.pow(getDeadZoneAdjustment(rightY*speedLimiter,ArmConstants.controllerDeadzone),2));
+                SmartDashboard.putNumber("Wrist Up/Down Force", getDeadZoneAdjustment(rightY,ArmConstants.controllerDeadzone));
+            }
+            else if( rightY > 0 ) //lower wrist down - assumed run motor backwards
+            {
+                j3WristY.set(Math.pow(getDeadZoneAdjustment(rightY*speedLimiter,ArmConstants.controllerDeadzone),2));
+                SmartDashboard.putNumber("Wrist Up/Down Force", getDeadZoneAdjustment(rightY,ArmConstants.controllerDeadzone));
+            }
+        }
+    }
+
+    public void openClaw(double leftTrigger) //opens claw - assumed run motor forwards
     {
         double currentPosition = j5ClawEncoder.getPosition();
-        double maxCloseValue = 0;       //value of encoder when claw is fully closed
-        double minCloseValue = 0.5;     //value of encoder when claw is closed enough to hold piece
-        double maxOpenValue = 1;        //value of encoder when claw is fully open
-        double minOpenValue = 0.5;      //value of encoder when claw is open enough to let go of piece
-        //double midValue = (closeValue + openValue) / 2; //threshold between open and closed
-        double clawLimiter = .10;
-        boolean currentState;       //true if open, false if closed
-        
-        if( minCloseValue > currentPosition && currentPosition > maxCloseValue )
-            currentState = false;
-        else if( minOpenValue < currentPosition && currentPosition < maxOpenValue )
-            currentState = true;
-        else
-            currentState = true;
+        double maxValue = 1; //value of encoder at open-most position
+        double minValue = 0; //value of encoder at close-most position
+        double speedLimiter = 0.5; //limits speed of motor
 
-        if( !currentState ) //if claw is closed
+        if( currentPosition > minValue && currentPosition < maxValue ) //prevents claw from exceeding bounds
         {
-            //open claw at speed of moveForce;
-            j5Claw.set(Math.pow(getDeadZoneAdjustment(moveForce*clawLimiter,ArmConstants.controllerDeadzone),2));
-            SmartDashboard.putNumber("Claw Force", getDeadZoneAdjustment(moveForce,ArmConstants.controllerDeadzone));
-        }
-        else //if claw is open
-        {
-            //close claw at speed of -moveForce;
-            j5Claw.set(Math.pow(getDeadZoneAdjustment(-moveForce*clawLimiter,ArmConstants.controllerDeadzone),2));
-            SmartDashboard.putNumber("Claw Force", getDeadZoneAdjustment(-moveForce,ArmConstants.controllerDeadzone));
+            j5Claw.set(Math.pow(getDeadZoneAdjustment(leftTrigger*speedLimiter,ArmConstants.controllerDeadzone),2));
+            SmartDashboard.putNumber("Claw Open Force", getDeadZoneAdjustment(leftTrigger,ArmConstants.controllerDeadzone));
         }
     }
+
+    public void closeClaw(double rightTrigger) //closes claw - assumed run motor backwards
+    {
+        double currentPosition = j5ClawEncoder.getPosition();
+        double maxValue = 1; //value of encoder at open-most position
+        double minValue = 0; //value of encoder at close-most position
+        double speedLimiter = 0.5; //limits speed of motor
+
+        if( currentPosition > minValue && currentPosition < maxValue ) //prevents claw from exceeding bounds
+        {
+            j5Claw.set(Math.pow(getDeadZoneAdjustment(-rightTrigger*speedLimiter,ArmConstants.controllerDeadzone),2));
+            SmartDashboard.putNumber("Claw Close Force", getDeadZoneAdjustment(-rightTrigger,ArmConstants.controllerDeadzone));
+        }
+    }
+
+    // public void moveArm(double armForce)    //moves the elbow and wrist up and down
+    // {
+    //     double wristPosition = j3WristYEncoder.getPosition();
+    //     double elbowPosition = j2ElbowEncoder.getPosition();
+    //     double elbowLimiter = 0.5;
+    //     double wristLimiter = 0.20;
+    //     double maxWristValue = 1;   //highest wrist encoder value
+    //     double minWristValue = 0.5; //lowest wrist encoder value
+    //     double maxElbowValue = 1;   //highest elbow encoder value
+    //     double minElbowValue = 0;   //lowest elbow encoder value
+
+
+    //     if( armForce < 0 ) //pulling backward on right stick - move arm up
+    //     {
+    //         if( wristPosition < maxWristValue ) //lift wrist up
+    //         {
+    //             j3WristY.set(Math.pow(getDeadZoneAdjustment(armForce*wristLimiter,ArmConstants.controllerDeadzone),2));
+    //             SmartDashboard.putNumber("Wrist Y Force", getDeadZoneAdjustment(armForce,ArmConstants.controllerDeadzone));
+    //         }
+    //         else if( elbowPosition < maxElbowValue )   //lift elbow up
+    //         {
+    //             j2Elbow.set(Math.pow(getDeadZoneAdjustment(armForce*elbowLimiter,ArmConstants.controllerDeadzone),2));
+    //             SmartDashboard.putNumber("Elbow Up/Down Force", getDeadZoneAdjustment(armForce,ArmConstants.controllerDeadzone));
+    //         }
+    //     }
+    //     else if( armForce > 0 ) //pushing forward on right stick - move arm down
+    //     {
+    //         if( wristPosition > minWristValue ) //lower wrist down
+    //         {
+    //             j3WristY.set(Math.pow(getDeadZoneAdjustment(armForce*wristLimiter,ArmConstants.controllerDeadzone),2));
+    //             SmartDashboard.putNumber("Wrist Y Force", getDeadZoneAdjustment(armForce,ArmConstants.controllerDeadzone));
+    //         }
+    //         else if( elbowPosition > minElbowValue )    //lower elbow down
+    //         {
+    //             j2Elbow.set(Math.pow(getDeadZoneAdjustment(armForce*elbowLimiter,ArmConstants.controllerDeadzone),2));
+    //             SmartDashboard.putNumber("Elbow Up/Down Force", getDeadZoneAdjustment(armForce,ArmConstants.controllerDeadzone));
+    //         }
+    //     }
+    // }
+
+    // public void rotateElbow(double elbowForce)  //rotates elbow (turret)
+    // {
+    //     double waistLimiter = .50;
+    //     j1Turret.set(Math.pow(getDeadZoneAdjustment(elbowForce*waistLimiter,elbowForce),2));
+    //     SmartDashboard.putNumber("Elbow Rotate Force", getDeadZoneAdjustment(elbowForce,ArmConstants.controllerDeadzone));
+    // }
+
+    // public void moveClaw(double moveForce)  //opens/close claw
+    // {
+    //     double currentPosition = j5ClawEncoder.getPosition();
+    //     double maxCloseValue = 0;       //value of encoder when claw is fully closed
+    //     double minCloseValue = 0.5;     //value of encoder when claw is closed enough to hold piece
+    //     double maxOpenValue = 1;        //value of encoder when claw is fully open
+    //     double minOpenValue = 0.5;      //value of encoder when claw is open enough to let go of piece
+    //     //double midValue = (closeValue + openValue) / 2; //threshold between open and closed
+    //     double clawLimiter = .10;
+    //     boolean currentState;       //true if open, false if closed
+        
+    //     if( minCloseValue > currentPosition && currentPosition > maxCloseValue )
+    //         currentState = false;
+    //     else if( minOpenValue < currentPosition && currentPosition < maxOpenValue )
+    //         currentState = true;
+    //     else
+    //         currentState = true;
+
+    //     if( !currentState ) //if claw is closed
+    //     {
+    //         //open claw at speed of moveForce;
+    //         j5Claw.set(Math.pow(getDeadZoneAdjustment(moveForce*clawLimiter,ArmConstants.controllerDeadzone),2));
+    //         SmartDashboard.putNumber("Claw Force", getDeadZoneAdjustment(moveForce,ArmConstants.controllerDeadzone));
+    //     }
+    //     else //if claw is open
+    //     {
+    //         //close claw at speed of -moveForce;
+    //         j5Claw.set(Math.pow(getDeadZoneAdjustment(-moveForce*clawLimiter,ArmConstants.controllerDeadzone),2));
+    //         SmartDashboard.putNumber("Claw Force", getDeadZoneAdjustment(-moveForce,ArmConstants.controllerDeadzone));
+    //     }
+    // }
 
     public void position1(boolean pressed)  //button_a pressed - default
     {
@@ -297,6 +397,7 @@ protected XboxController armController;
         double armForce = 0.5;
         while( wristPosition != desiredWristPosition )
         {
+            wristPosition = j3WristYEncoder.getPosition();
             if( wristPosition < desiredWristPosition )
             {
                 //move wrist to position
@@ -313,6 +414,7 @@ protected XboxController armController;
 
         while( elbowPosition != desiredElbowPosition )
         {
+            elbowPosition = j2ElbowEncoder.getPosition();
             if( elbowPosition < desiredElbowPosition )
             {
                 //move elbow to position
@@ -339,6 +441,7 @@ protected XboxController armController;
         double armForce = 0.5;
         while( wristPosition != desiredWristPosition )
         {
+            wristPosition = j3WristYEncoder.getPosition();
             if( wristPosition < desiredWristPosition )
             {
                 //move wrist to position
@@ -355,6 +458,7 @@ protected XboxController armController;
         
         while( elbowPosition != desiredElbowPosition )
         {
+            elbowPosition = j2ElbowEncoder.getPosition();
             if( elbowPosition < desiredElbowPosition )
             {
                 //move elbow to position
@@ -381,6 +485,7 @@ protected XboxController armController;
         double armForce = 0.5;
         while( wristPosition != desiredWristPosition )
         {
+            wristPosition = j3WristYEncoder.getPosition();
             if( wristPosition < desiredWristPosition )
             {
                 //move wrist to position
@@ -397,6 +502,7 @@ protected XboxController armController;
         
         while( elbowPosition != desiredElbowPosition )
         {
+            elbowPosition = j2ElbowEncoder.getPosition();
             if( elbowPosition < desiredElbowPosition )
             {
                 //move elbow to position
@@ -423,6 +529,7 @@ protected XboxController armController;
         double armForce = 0.5;
         while( wristPosition != desiredWristPosition )
         {
+            wristPosition = j3WristYEncoder.getPosition();
             if( wristPosition < desiredWristPosition )
             {
                 //move wrist to position
@@ -439,6 +546,7 @@ protected XboxController armController;
         
         while( elbowPosition != desiredElbowPosition )
         {
+            elbowPosition = j2ElbowEncoder.getPosition();
             if( elbowPosition < desiredElbowPosition )
             {
                 //move elbow to position
