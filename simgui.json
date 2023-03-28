@@ -61,6 +61,8 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/Arm Control Mode": "String Chooser",
+      "/SmartDashboard/Arm Controller Scaling": "String Chooser",
       "/SmartDashboard/Auto Mode": "String Chooser",
       "/SmartDashboard/Autonomous Command": "Command",
       "/SmartDashboard/Autonomous Mode": "String Chooser",

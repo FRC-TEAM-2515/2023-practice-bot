@@ -131,9 +131,9 @@ protected XboxController armController;
         double rightY =RobotContainer.getInstance().getOI().getArmController().getRightY();
 
         double rightTrigger = RobotContainer.getInstance().getOI().getArmController().getRightTriggerAxis();
+        //double leftTrigger = RobotContainer.getInstance().getOI().getArmController().getLeftTriggerAxis();
         //boolean leftBumper = RobotContainer.getInstance().getOI().getArmController().getLeftBumper();
         //boolean rightBumper = RobotContainer.getInstance().getOI().getArmController().getRightBumper();
-        //double leftTrigger = RobotContainer.getInstance().getOI().getArmController().getLeftTriggerAxis();
         boolean button_x = RobotContainer.getInstance().getOI().getArmController().getXButtonPressed();
         boolean button_y = RobotContainer.getInstance().getOI().getArmController().getYButtonPressed();
         boolean button_a = RobotContainer.getInstance().getOI().getArmController().getAButtonPressed();
@@ -257,16 +257,18 @@ protected XboxController armController;
     public void moveClaw(double moveForce)  //opens/close claw
     {
         double currentPosition = j5ClawEncoder.getPosition();
-        double closeValue = 0;     //value of encoder when claw is fully closed
-        double openValue = 1;      //value of encoder when claw is fully open
-        double midValue = (closeValue + openValue) / 2; //threshold between open and closed
+        double maxCloseValue = 0;       //value of encoder when claw is fully closed
+        double minCloseValue = 0.5;     //value of encoder when claw is closed enough to hold piece
+        double maxOpenValue = 1;        //value of encoder when claw is fully open
+        double minOpenValue = 0.5;      //value of encoder when claw is open enough to let go of piece
+        //double midValue = (closeValue + openValue) / 2; //threshold between open and closed
         double clawLimiter = .10;
         boolean currentState;       //true if open, false if closed
         
-        if( midValue > currentPosition && currentPosition > closeValue )
-            currentState = true;
-        else if( midValue < currentPosition && currentPosition < openValue )
+        if( minCloseValue > currentPosition && currentPosition > maxCloseValue )
             currentState = false;
+        else if( minOpenValue < currentPosition && currentPosition < maxOpenValue )
+            currentState = true;
         else
             currentState = true;
 
