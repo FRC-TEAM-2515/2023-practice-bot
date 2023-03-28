@@ -218,19 +218,19 @@ protected XboxController armController;
         double currentPosition = j1TurretEncoder.getPosition();
         double maxRightValue = 1; //value of encoder at rightmost turret position
         double maxLeftValue = 0; //value of encoder at leftmost turret position
-        double speedLimiter = 0.5; //limits speed of motor
+        double speedLimiter = 0.5; //max motor voltage
 
         if( currentPosition > maxRightValue && currentPosition < maxLeftValue ) //prevents turret from exceeding bounds
         {
             if( leftX < 0 ) //rotates turret to left - assumed run motor forwards
             {
-                j1Turret.set(Math.pow(getDeadZoneAdjustment(leftX*speedLimiter,ArmConstants.controllerDeadzone),2));
-                SmartDashboard.putNumber("Turret Rotation Force", getDeadZoneAdjustment(leftX,ArmConstants.controllerDeadzone));
+                j1Turret.set(speedLimiter*Math.pow(getDeadZoneAdjustment(leftX,ArmConstants.controllerDeadzone),2));
+                SmartDashboard.putNumber("Turret Rotation Force", speedLimiter*Math.pow(getDeadZoneAdjustment(leftX,ArmConstants.controllerDeadzone),2));
             }
             else if( leftX > 0 ) //rotates turret to right - assumed run motor backwards
             {
-                j1Turret.set(Math.pow(getDeadZoneAdjustment(leftX*speedLimiter,ArmConstants.controllerDeadzone),2));
-                SmartDashboard.putNumber("Turret Rotation Force", getDeadZoneAdjustment(leftX,ArmConstants.controllerDeadzone));
+                j1Turret.set(-speedLimiter*Math.pow(getDeadZoneAdjustment(leftX,ArmConstants.controllerDeadzone),2));
+                SmartDashboard.putNumber("Turret Rotation Force", -speedLimiter*Math.pow(getDeadZoneAdjustment(leftX,ArmConstants.controllerDeadzone),2));
             }
         }
     }
@@ -240,19 +240,19 @@ protected XboxController armController;
         double currentPosition = j2ElbowEncoder.getPosition();
         double maxValue = 1; //value of encoder at highest expected elbow position
         double minValue = 0; //value of encoder at lowest expected elbow position
-        double speedLimiter = 0.5; //limits speed of motor
+        double speedLimiter = 0.5; //max motor voltage
 
         if( currentPosition > minValue && currentPosition < maxValue ) //prevents elbow from exceeding bounds
         {
             if( leftY < 0 ) //lift elbow up - assumed run motor forwards
             {
-                j2Elbow.set(Math.pow(getDeadZoneAdjustment(leftY*speedLimiter,ArmConstants.controllerDeadzone),2));
-                SmartDashboard.putNumber("Elbow Up/Down Force", getDeadZoneAdjustment(leftY,ArmConstants.controllerDeadzone));
+                j2Elbow.set(speedLimiter*Math.pow(getDeadZoneAdjustment(leftY,ArmConstants.controllerDeadzone),2));
+                SmartDashboard.putNumber("Elbow Up/Down Force", speedLimiter*Math.pow(getDeadZoneAdjustment(leftY,ArmConstants.controllerDeadzone),2));
             }
             else if( leftY > 0 ) //lower elbow down - assumed run motor backwards
             {
-                j2Elbow.set(-Math.pow(getDeadZoneAdjustment(leftY*speedLimiter,ArmConstants.controllerDeadzone),2));
-                SmartDashboard.putNumber("Elbow Up/Down Force", getDeadZoneAdjustment(leftY,ArmConstants.controllerDeadzone));
+                j2Elbow.set(-speedLimiter*Math.pow(getDeadZoneAdjustment(leftY,ArmConstants.controllerDeadzone),2));
+                SmartDashboard.putNumber("Elbow Up/Down Force", -speedLimiter*Math.pow(getDeadZoneAdjustment(leftY,ArmConstants.controllerDeadzone),2));
             }
         }
     }
@@ -262,19 +262,19 @@ protected XboxController armController;
         double currentPosition = j3WristYEncoder.getPosition();
         double maxValue = 1; //value of encoder at highest expected wrist position
         double minValue = 0; //value of encoder at lowest expected wrist position
-        double speedLimiter = 0.5; //limits speed of motor
+        double speedLimiter = 0.5; //max motor voltage
 
         if( currentPosition > minValue && currentPosition < maxValue ) //prevents wrist from exceeding bounds
         {
             if( rightY < 0 ) //lift wrist up - assumed run motor forwards
             {
-                j3WristY.set(Math.pow(getDeadZoneAdjustment(rightY*speedLimiter,ArmConstants.controllerDeadzone),2));
-                SmartDashboard.putNumber("Wrist Up/Down Force", getDeadZoneAdjustment(rightY,ArmConstants.controllerDeadzone));
+                j3WristY.set(speedLimiter*Math.pow(getDeadZoneAdjustment(rightY,ArmConstants.controllerDeadzone),2));
+                SmartDashboard.putNumber("Wrist Up/Down Force", speedLimiter*Math.pow(getDeadZoneAdjustment(rightY,ArmConstants.controllerDeadzone),2));
             }
             else if( rightY > 0 ) //lower wrist down - assumed run motor backwards
             {
-                j3WristY.set(-Math.pow(getDeadZoneAdjustment(rightY*speedLimiter,ArmConstants.controllerDeadzone),2));
-                SmartDashboard.putNumber("Wrist Up/Down Force", getDeadZoneAdjustment(rightY,ArmConstants.controllerDeadzone));
+                j3WristY.set(-speedLimiter*Math.pow(getDeadZoneAdjustment(rightY,ArmConstants.controllerDeadzone),2));
+                SmartDashboard.putNumber("Wrist Up/Down Force", -speedLimiter*Math.pow(getDeadZoneAdjustment(rightY,ArmConstants.controllerDeadzone),2));
             }
         }
     }
@@ -284,12 +284,12 @@ protected XboxController armController;
         double currentPosition = j5ClawEncoder.getPosition();
         double maxValue = 1; //value of encoder at open-most position
         double minValue = 0; //value of encoder at close-most position
-        double speedLimiter = 0.5; //limits speed of motor
+        double speedLimiter = 0.5; //max motor voltage
 
         if( currentPosition > minValue && currentPosition < maxValue ) //prevents claw from exceeding bounds
         {
-            j5Claw.set(Math.pow(getDeadZoneAdjustment(leftTrigger*speedLimiter,ArmConstants.controllerDeadzone),2));
-            SmartDashboard.putNumber("Claw Open Force", getDeadZoneAdjustment(leftTrigger,ArmConstants.controllerDeadzone));
+            j5Claw.set(speedLimiter*Math.pow(getDeadZoneAdjustment(leftTrigger,ArmConstants.controllerDeadzone),2));
+            SmartDashboard.putNumber("Claw Open Force", speedLimiter*Math.pow(getDeadZoneAdjustment(leftTrigger,ArmConstants.controllerDeadzone),2));
         }
     }
 
@@ -298,12 +298,12 @@ protected XboxController armController;
         double currentPosition = j5ClawEncoder.getPosition();
         double maxValue = 1; //value of encoder at open-most position
         double minValue = 0; //value of encoder at close-most position
-        double speedLimiter = 0.5; //limits speed of motor
+        double speedLimiter = 0.5; //max motor voltage
 
         if( currentPosition > minValue && currentPosition < maxValue ) //prevents claw from exceeding bounds
         {
-            j5Claw.set(-Math.pow(getDeadZoneAdjustment(rightTrigger*speedLimiter,ArmConstants.controllerDeadzone),2));
-            SmartDashboard.putNumber("Claw Close Force", getDeadZoneAdjustment(-rightTrigger,ArmConstants.controllerDeadzone));
+            j5Claw.set(-speedLimiter*Math.pow(getDeadZoneAdjustment(rightTrigger,ArmConstants.controllerDeadzone),2));
+            SmartDashboard.putNumber("Claw Close Force", -speedLimiter*Math.pow(getDeadZoneAdjustment(rightTrigger,ArmConstants.controllerDeadzone),2));
         }
     }
 
