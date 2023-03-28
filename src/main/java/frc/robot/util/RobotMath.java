@@ -40,30 +40,33 @@ public class RobotMath {
                                                // ticks
     }
 
-    public static double armEncoderConvertDegrees(double rawRotation) {
+    public static double armEncoderConvertDegrees(double rawRotation) { // rotations -> degrees
         return rawRotation * 360;
     }
 
-    public static double armDegreesConvertEncoder(double rawDegrees) {
+    public static double armDegreesConvertEncoder(double rawDegrees) { // degrees -> rotations
         return rawDegrees / 360;
     }
-
-    // public static double armRangeErrorMarginAdd(double bookendAdd, double error) {
-    //     return armDegreesConvertEncoder((armEncoderConvertDegrees(bookendAdd) + error));
-    // }
-
     
-    public static double armRangeErrorMarginAddD(double bookendAdd, double error) {
-        return armEncoderConvertDegrees(bookendAdd) + error;
+    public static double armRangePaddingAddDeg(double bookendAdd, double padding) {
+        return armEncoderConvertDegrees(bookendAdd) + padding;
     }
 
-
-    // public static double armRangeErrorMarginSub(double bookendSub, double error) {
-    //     return armDegreesConvertEncoder((armEncoderConvertDegrees(bookendSub) - error));
-    // }
-
-    public static double armRangeErrorMarginSubD(double bookendSub, double error) {
-        return armEncoderConvertDegrees(bookendSub) - error;
+    public static double armRangePaddingMinusDeg(double bookendSub, double padding) {
+        return armEncoderConvertDegrees(bookendSub) - padding;
     }
+    
+    public static double armRangePaddingAddEncoder(double bookendAdd, double padding){
+        return armDegreesConvertEncoder(armRangePaddingAddDeg(bookendAdd, padding));
+    }
+
+    public static double armRangePaddingMinusEncoder(double bookendSub, double padding){
+        return armDegreesConvertEncoder(armRangePaddingAddDeg(bookendSub, padding));
+    }
+
+    public static double armRangeDegrees(double padding){
+       return Math.abs(armRangePaddingAddDeg(ArmConstants.kJ2BookendAdd, padding) - armRangePaddingMinusDeg(ArmConstants.kJ2BookendSub, padding) - 360);
+    }
+   
 
 }

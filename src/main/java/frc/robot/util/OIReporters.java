@@ -154,16 +154,16 @@ public class OIReporters {
         public void manualArmReporters(){
 
                 // Scaling
-                SmartDashboard.putString("Scaling", ArmReporters.scalingMode);
-                SmartDashboard.putString("LinearX", ArmReporters.linearScaledX);
-                SmartDashboard.putString("SquaredX", ArmReporters.squaredScaledX);
-                SmartDashboard.putString("CubicX", ArmReporters.cubicScaledX);
-                SmartDashboard.putString("FancyX", ArmReporters.fancyScaledX);
+                SmartDashboard.putString("Arm Scaling", ArmReporters.scalingMode);
+                SmartDashboard.putString("Arm LinearX", ArmReporters.linearScaledX);
+                SmartDashboard.putString("Arm SquaredX", ArmReporters.squaredScaledX);
+                SmartDashboard.putString("Arm CubicX", ArmReporters.cubicScaledX);
+                SmartDashboard.putString("Arm FancyX", ArmReporters.fancyScaledX);
 
-                SmartDashboard.putString("LinearY", ArmReporters.linearScaledY);
-                SmartDashboard.putString("SquaredY", ArmReporters.squaredScaledY);
-                SmartDashboard.putString("CubicY", ArmReporters.cubicScaledY);
-                SmartDashboard.putString("FancyY", ArmReporters.fancyScaledY);
+                SmartDashboard.putString("Arm LinearY", ArmReporters.linearScaledY);
+                SmartDashboard.putString("Arm SquaredY", ArmReporters.squaredScaledY);
+                SmartDashboard.putString("Arm CubicY", ArmReporters.cubicScaledY);
+                SmartDashboard.putString("Arm FancyY", ArmReporters.fancyScaledY);
 
                 // Arm Control Mode
                 SmartDashboard.putString("Arm Control Mode", ArmReporters.armControlMode);
@@ -193,8 +193,7 @@ public class OIReporters {
         //     public final String name; 
         //         ArmControlType(String name){this.name = name;}};
         
-            public static enum AutoCommand {
-                SIMPLE};
+            public static enum AutoCommand {SIMPLE};
         //         ("Simple");
         //     public final String name; 
         //         AutoCommand(String name){this.name = name;}};
