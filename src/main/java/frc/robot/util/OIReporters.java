@@ -40,7 +40,7 @@ public class OIReporters {
                 public static double gyroYaw = 0;
                 public static double gyroAngle = 0;
                 public static double gyroRoll = 0;
-                public static double gryoPitch = 0;
+                public static double gyroPitch = 0;
 
                 public static boolean gyroConnected = false;
                 public static boolean gyroCalibrating = false;
@@ -63,8 +63,8 @@ public class OIReporters {
 
                 // Drive Controller
                 SmartDashboard.putString("DControl Mode", DriveReporters.driveControllerMode);
-                SmartDashboard.putNumber("LStick Speed", DriveReporters.lStickSpeed);
-                SmartDashboard.putNumber("TAccel Speed", DriveReporters.tAccelSpeed);
+                SmartDashboard.putNumber("LStick Speed", RobotMath.truncate(DriveReporters.lStickSpeed, 3));
+                SmartDashboard.putNumber("TAccel Speed", RobotMath.truncate(DriveReporters.tAccelSpeed, 3));
 
                 // Scaling
                 SmartDashboard.putString("Scaling", DriveReporters.scalingMode);
@@ -73,8 +73,8 @@ public class OIReporters {
                 SmartDashboard.putString("Cubic", DriveReporters.cubicScaled);
                 SmartDashboard.putString("Fancy", DriveReporters.fancyScaled);
 
-                SmartDashboard.putNumber("Unscaled Speed", DriveReporters.originalSpeed);
-                SmartDashboard.putNumber("Unscaled Rotation", DriveReporters.originalRotation);
+                SmartDashboard.putNumber("Unscaled Speed", RobotMath.truncate(DriveReporters.originalSpeed, 3));
+                SmartDashboard.putNumber("Unscaled Rotation", RobotMath.truncate(DriveReporters.originalRotation, 3));
 
                 // Drive type
                 SmartDashboard.putString("Drive Type Chosen", DriveReporters.driveType);
@@ -91,7 +91,7 @@ public class OIReporters {
 
                 // Gyro
                 SmartDashboard.putNumber("imu-yaw", DriveReporters.gyroYaw);
-                SmartDashboard.putNumber("imu-pitch", DriveReporters.gryoPitch);
+                SmartDashboard.putNumber("imu-pitch", DriveReporters.gyroPitch);
                 SmartDashboard.putNumber("imu-roll", DriveReporters.gyroRoll);
                 SmartDashboard.putNumber("imu-angle", DriveReporters.gyroAngle);
 
@@ -100,13 +100,13 @@ public class OIReporters {
                 SmartDashboard.putBoolean("imu-calibrating", DriveReporters.gyroCalibrating);
 
                 // Raw Encoder Values
-                SmartDashboard.putNumber("Left Speed (raw units 100 ms)", DriveReporters.leftEncoderSpeed);
-                SmartDashboard.putNumber("Right Speed (raw units 100 ms)", DriveReporters.rightEncoderSpeed);
-                SmartDashboard.putNumber("Left Distance (raw units)", DriveReporters.leftEncoderDistance);
-                SmartDashboard.putNumber("Right Distance (raw units)", DriveReporters.rightEncoderDistance);
+                SmartDashboard.putNumber("Left Speed (raw units 100 ms)", RobotMath.truncate(DriveReporters.leftEncoderSpeed, 3));
+                SmartDashboard.putNumber("Right Speed (raw units 100 ms)", RobotMath.truncate(DriveReporters.rightEncoderSpeed, 3));
+                SmartDashboard.putNumber("Left Distance (raw units)", RobotMath.truncate(DriveReporters.leftEncoderDistance,3 ));
+                SmartDashboard.putNumber("Right Distance (raw units)", RobotMath.truncate(DriveReporters.rightEncoderDistance, 3));
 
-                SmartDashboard.putNumber("Left Speed from DriveCommand", DriveReporters.leftSpeedFromCommand);
-                SmartDashboard.putNumber("Right Speed from DriveCommand", DriveReporters.rightSpeedFromCommand);
+                SmartDashboard.putNumber("Left Speed from DriveCommand", RobotMath.truncate(DriveReporters.leftSpeedFromCommand, 3));
+                SmartDashboard.putNumber("Right Speed from DriveCommand", RobotMath.truncate(DriveReporters.rightSpeedFromCommand, 3));
                 
                 // Converted Encoder Values
                 SmartDashboard.putNumber("Left Speed (m s)", RobotMath.magEncoderConvertMetersPerSec(DriveReporters.leftEncoderSpeed));
@@ -167,9 +167,35 @@ public class OIReporters {
 
                 // Arm Control Mode
                 SmartDashboard.putString("Arm Control Mode", ArmReporters.armControlMode);
-                SmartDashboard.putNumber("J1 Joystick Command", ArmReporters.j1JoystickCommand);
-                SmartDashboard.putNumber("J2 Joystick Command", ArmReporters.j2JoystickCommand);
-                SmartDashboard.putNumber("J3 Joystick Command", ArmReporters.j3JoystickCommand);
-                SmartDashboard.putNumber("J4 Joystick Command", ArmReporters.j4JoystickCommand);
+                SmartDashboard.putNumber("J1 Joystick Command", RobotMath.truncate(ArmReporters.j1JoystickCommand, 3));
+                SmartDashboard.putNumber("J2 Joystick Command", RobotMath.truncate(ArmReporters.j2JoystickCommand, 3));
+                SmartDashboard.putNumber("J3 Joystick Command", RobotMath.truncate(ArmReporters.j3JoystickCommand, 3));
+                SmartDashboard.putNumber("J4 Joystick Command", RobotMath.truncate(ArmReporters.j4JoystickCommand, 3));
         }
+
+        public static enum ControllerScaling {LIMITED_POLYNOMIC, LINEAR, SQUARED, CUBIC};
+        //         LIMITED_POLYNOMIC("Limited Polynomic"), LINEAR("Linear"), SQUARED("Squared"), CUBIC("Cubed");
+        //     public final String name; 
+        //         ControllerScaling(String name){this.name = name;}};
+        
+            public static enum DriveControllerMode {LEFT_STICK, TRIGGER_ACCEL};
+        //         LEFT_STICK("Left Stick"), TRIGGER_ACCEL("Trigger Acceleration");
+        //     public final String name; 
+        //         DriveControllerMode(String name){this.name = name;}};
+        
+            public static enum DriveType {ARCADE, REG_CURVATURE, SEMI_CURVATURE};
+        //         ARCADE("Arcade"), REG_CURVATURE("Regular Curvature"), SEMI_CURVATURE("Smooth Curvature");
+        //     public final String name; 
+        //         DriveType(String name){this.name = name;}};
+        
+            public static enum ArmControlType {POSITION, VELOCITY, CARTESIAN};
+        //     {POSITION("Position"), VELOCITY("Velocity"), CARTESIAN("Cartesian");
+        //     public final String name; 
+        //         ArmControlType(String name){this.name = name;}};
+        
+            public static enum AutoCommand {
+                SIMPLE};
+        //         ("Simple");
+        //     public final String name; 
+        //         AutoCommand(String name){this.name = name;}};
 }

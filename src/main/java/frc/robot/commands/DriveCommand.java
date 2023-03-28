@@ -18,14 +18,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.util.OIReporters;
+import frc.robot.util.RobotMath;
 import frc.robot.util.OIReporters.DriveReporters;
-import frc.robot.Constants.ControllerScaling;
+import frc.robot.util.OIReporters.ControllerScaling;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.DriveControllerMode;
-import frc.robot.Constants.DriveType;
+import frc.robot.util.OIReporters.DriveControllerMode;
+import frc.robot.util.OIReporters.DriveType;
 import frc.robot.RobotContainer;
 import frc.robot.RobotContainer.*;
 import java.util.function.DoubleSupplier;
+
+import frc.robot.Constants;
 import frc.robot.OI;
 
 /**
@@ -41,9 +44,9 @@ public class DriveCommand extends CommandBase {
     private DriveTrain m_drivetrain; 
     private RobotContainer m_robotContainer;
     private XboxController m_driveController;
-    private Enum m_driverControlsChoice;
-    private Enum m_driveTypeChoice;
-    private Enum m_controllerScalingChoice;
+    private OIReporters.DriveControllerMode m_driverControlsChoice;
+    private OIReporters.DriveType m_driveTypeChoice;
+    private OIReporters.ControllerScaling m_controllerScalingChoice;
     public double speed;
     public double rotation;
        
@@ -108,7 +111,7 @@ public class DriveCommand extends CommandBase {
 
     }
 
-    public void driverControls(Enum choice) {
+    public void driverControls(OIReporters.DriveControllerMode choice) {
         speed = 0;
         rotation = 0;
 
@@ -127,7 +130,7 @@ public class DriveCommand extends CommandBase {
                 OIReporters.DriveReporters.lStickSpeed = speed;
         }
 
-    public void controllerScaling(double speed, double rotation, Enum choice){
+    public void controllerScaling(double speed, double rotation, OIReporters.ControllerScaling choice){
         OIReporters.DriveReporters.originalSpeed = speed;
         OIReporters.DriveReporters.originalRotation = rotation;
 
@@ -136,7 +139,7 @@ public class DriveCommand extends CommandBase {
             this.rotation = rotation;
 
             OIReporters.DriveReporters.scalingMode = "Linear";
-            OIReporters.DriveReporters.linearScaled = ("Speed: " + speed + "& Rotation: " + rotation);
+            OIReporters.DriveReporters.linearScaled = ("Speed: " + RobotMath.truncate(speed,3) + " & Rotation: " + RobotMath.truncate(rotation, 3));
             return;
         }
         if (choice == ControllerScaling.SQUARED) { //squared scaling
@@ -144,7 +147,7 @@ public class DriveCommand extends CommandBase {
             rotation = Math.copySign(rotation * rotation, rotation);
                 
             OIReporters.DriveReporters.scalingMode = "Squared";
-            OIReporters.DriveReporters.squaredScaled = ("Speed: " + speed + "& Rotation: " + rotation);
+            OIReporters.DriveReporters.squaredScaled = ("Speed: " + RobotMath.truncate(speed,3) + " & Rotation: " + RobotMath.truncate(rotation, 3));
             return;
         }
         if (choice == ControllerScaling.CUBIC) { //cubic scaling
@@ -152,7 +155,7 @@ public class DriveCommand extends CommandBase {
             rotation = rotation * rotation * rotation;
 
             OIReporters.DriveReporters.scalingMode = "Cubic";
-            OIReporters.DriveReporters.cubicScaled = ("Speed: " + speed + "& Rotation: " + rotation);
+            OIReporters.DriveReporters.cubicScaled = ("Speed: " + RobotMath.truncate(speed,3) + " & Rotation: " + RobotMath.truncate(rotation, 3));
             return;
         } 
             //non polynomic (fancy)
@@ -160,11 +163,11 @@ public class DriveCommand extends CommandBase {
             rotation = speed * 0.5 + Math.pow(3,(speed * 0.5));
 
             OIReporters.DriveReporters.scalingMode = "Fancy";
-            OIReporters.DriveReporters.fancyScaled = ("Speed: " + speed + "& Rotation: " + rotation);
+            OIReporters.DriveReporters.fancyScaled = ("Speed: " + RobotMath.truncate(speed,3) + " & Rotation: " + RobotMath.truncate(rotation, 3));
 
     }
 
-    public void driveType(double speed, double rotation, Enum choice){
+    public void driveType(double speed, double rotation, OIReporters.DriveType choice){
         if (choice == DriveType.REG_CURVATURE){ //regular curvature
             m_drivetrain.curvatureDrive(speed, rotation, false);
 

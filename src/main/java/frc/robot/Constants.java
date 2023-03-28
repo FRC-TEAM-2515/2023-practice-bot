@@ -25,10 +25,7 @@ public class Constants {
     public static final double kNEOPulsesPerRev = 42;
 
     
-    public static enum ControllerScaling {LIMITED_POLYNOMIC, LINEAR, SQUARED, CUBIC};
-    public static enum DriveControllerMode {LEFT_STICK, TRIGGER_ACCEL};
-    public static enum DriveType {ARCADE, REG_CURVATURE, SEMI_CURVATURE};
-    public static enum ArmControlType {POSITION, VELOCITY, CARTESIAN};
+    
 
 
     public static final class DriveConstants {
@@ -62,35 +59,52 @@ public class Constants {
 
     public static final class ArmConstants{
         
-        public static final double kJ1GearRatio = 10;
+        public static final double kJ1GearRatio = 1;
         public static final double kJ2GearRatio = 210;
         public static final double kJ3GearRatio = 45;
-        public static final double kJ4GearRatio = 5;
-        public static final double kJ5GearRatio = 10;
+        public static final double kJ4GearRatio = 1;
         
-        //Position needed at startup
-        public static final double kJ1AngleInit = 4;
-        public static final double kJ2AngleInit = 4;
-        public static final double kJ3AngleInit = 4;
-        public static final double kJ4AngleInit = 4;
-        public static final double kJ5AngleInit = 4;
+        //Position in rotations
+        public static final double kJ1PositionInit = 0.48; //172.8 deg
+        public static final double kJ2PositionInit = 0.08; //28.8 deg
+        public static final double kJ3PositionInit = 0.17; //61.2
+        public static final double kJ4PositionInit = 0.50; //180 
 
-        //Assume max & min oriented using unit circle (clockwise) 
-        public static final double kJ1AngleMax = 4; //Total range of 250 deg, reduced by 5 deg for safety
-        public static final double kJ2AngleMax = 4; //Total range of 216 deg, reduced by 5 deg for safety
-        public static final double kJ3AngleMax = 4; //Total range of 180 deg, reduced by 5 deg for safety
-        public static final double kJ4AngleMax = 4; //Total range of 180 deg, reduced by 5 deg for safety
-        public static final double kJ5AngleMax = 4; //Total range of 
-        public static final double[] kJointAngleMaxArray = new double[] {kJ1AngleMax, kJ2AngleMax, kJ3AngleMax, kJ4AngleMax, kJ5AngleMax};
+        //8 degree margin of error
+        public static final double kJ1Bookend1 = 0.268; //=96.4 
+        public static final double kJ2Bookend1 = 0.72; //260
+        public static final double kJ3Bookend1 = 0.73; //263.6 
+        public static final double kJ4Bookend1 = 0.22;//79.8 
+        public static final double[] kJointBookend1Array = new double[] {kJ1Bookend1, kJ2Bookend1, kJ3Bookend1, kJ4Bookend1};
 
-        public static final double kJ1AngleMin = 4;
-        public static final double kJ2AngleMin = 4;
-        public static final double kJ3AngleMin = 4;
-        public static final double kJ4AngleMin = 4;
-        public static final double kJ5AngleMin = 4;
-        public static final double[] kJointAngleMinArray = new double[] {kJ1AngleMin, kJ2AngleMax, kJ3AngleMin, kJ4AngleMin, kJ5AngleMin};
+        //8 degree margin of error
+        public static final double kJ1Bookend2 = 0.54; //=195.2 //0.52 =187.2
+        public static final double kJ2Bookend2 = 0.30;//=107.2//0.32 =115.2
+        public static final double kJ3Bookend2 = 0.15; //=53.2 ////0.17 =61.2
+        public static final double kJ4Bookend2 = 0.09;//=31.8//0.08 =28.8
+        public static final double[] kJointBookend2Array = new double[] {kJ1Bookend2, kJ2Bookend2, kJ3Bookend2, kJ4Bookend2};
 
+        //Bounds for the absolute maximum joint range of motion
+        //Reported in rotations for later scaling functions
+        //'Sub' indicates that the value will decrease when reducing maximum range
+        //'Add' indicates that the value will increase
 
+        //Maximum range of 277.2 degress 
+        public static final double kJ1BookendSub = 0.29; //104.4 degrees
+        public static final double kJ1BookendAdd = 0.52; //187.2 degrees
+
+        //Maximum range of 223.2 degrees
+        public static final double kJ2BookendSub = 0.32; //115.2 degrees
+        public static final double kJ2BookendAdd = 0.70; //252.0 degrees
+
+        //Maximum range of 165.6 degrees
+        public static final double kJ3BookendSub = 0.17; //61.2 degrees
+        public static final double kJ3BookendAdd = 0.71; //255.6 degrees
+
+        //Maximum range of 54.0 degrees
+        public static final double kJ4BookendSub = 0.23; //82.8 degrees
+        public static final double kJ4BookendAdd = 0.08; //28.8 degrees
+        
         public static final double kJ1DegPerSecMax = 4;
         public static final double kJ2DegPerSecMax = 4;
         public static final double kJ3DegPerSecMax = 4;

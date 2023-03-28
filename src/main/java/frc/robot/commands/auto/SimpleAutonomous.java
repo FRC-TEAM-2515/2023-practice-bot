@@ -28,12 +28,12 @@ import frc.robot.Constants;
 /**
  *
  */
-public class Autonomous extends SequentialCommandGroup{
+public class SimpleAutonomous extends SequentialCommandGroup{
 
     DriveTrain m_driveTrain;
     private double autoDistanceMeters = 2; //arbirary
 
-    public Autonomous(DriveTrain drivetrain, double distance) {
+    public SimpleAutonomous(DriveTrain drivetrain, double distance) {
         drivetrain = m_driveTrain;
     addCommands(
         new AutoDriveForward(drivetrain, autoDistanceMeters),

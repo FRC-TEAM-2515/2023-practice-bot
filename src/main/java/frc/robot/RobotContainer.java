@@ -12,7 +12,9 @@
 
 package frc.robot;
 
+import frc.robot.util.OIReporters.AutoCommand;
 import frc.robot.commands.*;
+import frc.robot.commands.auto.SimpleAutonomous;
 import frc.robot.subsystems.*;
 import frc.robot.util.OIReporters;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -42,8 +44,11 @@ public class RobotContainer {
   private OIReporters oiReporters;
 
   private DriveCommand driveCommand;
+  private ArmCommand armCommand;
 
   private XboxController driveController;
+
+  private Command autonomous;
 
   public static RobotContainer getInstance() {
     if (robotContainer == null) {
@@ -91,11 +96,10 @@ public class RobotContainer {
     return driveTrain;
   }
 
-  // // Arm
-  // public void initArmDefault() {
-  //   arm.setDefaultCommand(arm.manualControl(oi.getArmController().getLeftX(), oi.getArmController().getLeftY(),
-  //       oi.getArmController().getRightX(), oi.getArmController().getRightY(),oi.getArmController().getLeftTriggerAxis(),oi.getArmController().getRightTriggerAxis()));
-  // }
+  public void initArmDefault() {
+    armCommand = new ArmCommand(arm, oi.getArmController());
+    arm.setDefaultCommand(armCommand);
+  }
 
   public Arm getArm() {
     return arm;
@@ -105,7 +109,13 @@ public class RobotContainer {
   public void safeReset() {
     driveTrain.stopMotors();
     driveTrain.resetEncoders();
-    arm.resetArmEncoders();
+    SmartDashboard.putBoolean("Safe Reset", true);
   }
 
+  public Command getAutoCommand() {
+    if (robotContainer.getOI().getAutoCommandChoice() == OIReporters.AutoCommand.SIMPLE){
+    autonomous = new SimpleAutonomous(driveTrain, 0); 
+ }
+ return autonomous;
+}
 }

@@ -6,9 +6,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Arm;
 import frc.robot.util.OIReporters;
+import frc.robot.util.RobotMath;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.*;
 import frc.robot.Constants;
+
+import frc.robot.util.OIReporters.ArmControlType;
+
+import frc.robot.util.OIReporters.ControllerScaling;
 import frc.robot.RobotContainer;
 import frc.robot.RobotContainer.*;
 import java.util.function.DoubleSupplier;
@@ -19,21 +24,25 @@ public class ArmCommand extends CommandBase{
     private Arm m_armSubsystem; 
     private RobotContainer m_robotContainer;
     private XboxController m_armController;
-    private Enum m_armControlModeChoice;
-    private Enum m_armControllerScalingChoice;
+    private OIReporters.ArmControlType m_armControlModeChoice;
+    private OIReporters.ControllerScaling m_armControllerScalingChoice;
     private double leftX;
     private double leftY;
-    private double rightX; 
     private double rightY;
     private double leftTrigger;
     private double rightTrigger;
     private double positionCommandJ1;
     private double positionCommandJ2;
-    private double positionCommandJ3;
+    private double positionCommandJ3;    
+    private double positionCommandOpenJ4;
+    private double positionCommandCloseJ4;
     private double positionCommandJ4;
-    private double positionCommandOpenJ5;
-    private double positionCommandCloseJ5;
     private double controllerDeadzone = 0.2;
+    private double j1Limiter = 0.5;
+    private double j2Limiter = 0.4;
+    private double j3Limiter = 0.2;
+    private double j4Limiter = 0.1;
+
 
     public ArmCommand(Arm subsystem, XboxController controller) {
         m_armSubsystem = subsystem;
@@ -59,63 +68,60 @@ public class ArmCommand extends CommandBase{
 
         double leftX = deadzoneAdjustment(m_robotContainer.getOI().getArmController().getLeftX());
         double leftY = deadzoneAdjustment(m_robotContainer.getOI().getArmController().getLeftY());
-        double rightX = deadzoneAdjustment(m_robotContainer.getOI().getArmController().getRightX());
         double rightY = deadzoneAdjustment(m_robotContainer.getOI().getArmController().getRightY());
 
-        double leftTrigger = deadzoneAdjustment(m_robotContainer.getOI().getArmController().getLeftTriggerAxis());
-        double rightTrigger = deadzoneAdjustment(m_robotContainer.getOI().getArmController().getRightTriggerAxis());
+        double leftTrigger = (m_robotContainer.getOI().getArmController().getLeftTriggerAxis());
+        double rightTrigger = (m_robotContainer.getOI().getArmController().getRightTriggerAxis());
 
-        controllerScaling(leftX, leftY, rightX, rightY, m_armControllerScalingChoice);   
-        armControlMode(leftX, leftY, rightX, rightY, leftTrigger, rightTrigger, m_armControlModeChoice);
+        getArmControllerDeadzone();
+
+        controllerScaling(leftX, leftY, rightY, m_armControllerScalingChoice);   
+        armControlMode(leftX, leftY, rightY, leftTrigger, rightTrigger, m_armControlModeChoice);
     }
 
-    public void controllerScaling(double leftX, double leftY, double rightX, double rightY, Enum choice){
+    public void controllerScaling(double leftX, double leftY, double rightY, ControllerScaling choice){
 
         if (choice == ControllerScaling.LINEAR){ //linear scaling
             this.leftX = leftX; 
             this.leftY = leftY;
-            this.rightX = rightX;
             this.rightY = rightY;
 
             OIReporters.ArmReporters.scalingMode = "Linear";
-            OIReporters.ArmReporters.linearScaledX = ("leftX: " + leftX + "& leftY: " + leftY);
-            OIReporters.ArmReporters.linearScaledY = ("rightX: " + rightX + "& rightY: " + rightY);
+            OIReporters.ArmReporters.linearScaledX = ("leftX: " + RobotMath.truncate(leftX, 3) + " & leftY: " + RobotMath.truncate(leftY, 3));
+            OIReporters.ArmReporters.linearScaledY =  ("rightY: " + RobotMath.truncate(rightY, 3));
             return;
         }
         if (choice == ControllerScaling.SQUARED) { //squared scaling
             leftX = Math.copySign(leftX * leftX, leftX);
             leftY = Math.copySign(leftY * leftY, leftY);
-            rightX = Math.copySign(rightX * rightX, rightX);
             rightY = Math.copySign(rightY * rightY, rightY);
                 
             OIReporters.ArmReporters.scalingMode = "Squared";
-            OIReporters.ArmReporters.squaredScaledX = ("leftX: " + leftX + "& leftY: " + leftY);
-            OIReporters.ArmReporters.squaredScaledY = ("rightX: " + rightX + "& rightY: " + rightY);
+            OIReporters.ArmReporters.squaredScaledX = ("leftX: " + RobotMath.truncate(leftX, 3) + "& leftY: " + RobotMath.truncate(leftY, 3));
+            OIReporters.ArmReporters.squaredScaledY = ("rightY: " + RobotMath.truncate(rightY, 3));
             return;
         }
         if (choice == ControllerScaling.CUBIC) { //cubic scaling
             leftX = leftX * leftX * leftX;
             leftY = leftY * leftY * leftY;
-            rightX = Math.copySign(rightX * rightX, rightX);
             rightY = Math.copySign(rightY * rightY, rightY);
 
             OIReporters.ArmReporters.scalingMode = "Cubic";
-            OIReporters.ArmReporters.cubicScaledX = ("leftX: " + leftX + "& leftY: " + leftY);
-            OIReporters.ArmReporters.cubicScaledY = ("rightX: " + rightX + "& rightY: " + rightY);
+            OIReporters.ArmReporters.cubicScaledX = ("leftX: " + RobotMath.truncate(leftX, 3) + "& leftY: " + RobotMath.truncate(leftY, 3));
+            OIReporters.ArmReporters.cubicScaledY = ("rightY: " + RobotMath.truncate(rightY, 3));
             return;
         } 
             //non polynomic (fancy)
             leftX = leftX * 0.5 + Math.pow(3,(leftX * 0.5));
             leftY = leftY * 0.5 + Math.pow(3,(leftY * 0.5));
-            rightX = rightX * 0.5 + Math.pow(3,(rightX * 0.5));
             rightY = leftX * 0.5 + Math.pow(3,(rightY * 0.5));
             
             OIReporters.ArmReporters.scalingMode = "Fancy";
-            OIReporters.ArmReporters.fancyScaledX = ("leftX: " + leftX + "& leftY: " + leftY);
-            OIReporters.ArmReporters.fancyScaledY = ("leftX: " + leftX + "& rightY: " + rightY);
+            OIReporters.ArmReporters.fancyScaledX = ("leftX: " + RobotMath.truncate(leftX, 3) + "& leftY: " + RobotMath.truncate(leftY, 3));
+            OIReporters.ArmReporters.fancyScaledY = ("rightY: " + RobotMath.truncate(rightY, 3));
     }
     
-    public void armControlMode(double throttleLeftX, double throttleLeftY, double throttleRightX, double throttleRightY, double leftTriggerOpen, double rightTriggerClose, Enum choice){
+    public void armControlMode(double j1ThrottleLeftX, double j2ThrottleLeftY, double j3ThrottleRightY, double leftTriggerOpen, double rightTriggerClose, OIReporters.ArmControlType choice){
 
         // if (choice == ArmControlType.VELOCITY){
         //     double velocityCommandJ1 = -throttleRightX * ArmConstants.kJ1DegPerSecMax;
@@ -124,26 +130,36 @@ public class ArmCommand extends CommandBase{
         //     double velocityCommandJ4 = -throttleLeftX  * ArmConstants.kJ4DegPerSecMax;
         // }
         if (choice == ArmControlType.POSITION){
-            double positionCommandJ1 = -throttleRightX * Math.max(ArmConstants.kJ1AngleMax, -ArmConstants.kJ1AngleMin) / 2;
-            double positionCommandJ2 = -throttleRightY * Math.max(ArmConstants.kJ2AngleMax, -ArmConstants.kJ2AngleMin);
-            double positionCommandJ3 = -throttleLeftY  * Math.max(ArmConstants.kJ3AngleMax, -ArmConstants.kJ3AngleMin);
-            double positionCommandJ4 = -throttleLeftX  * Math.max(ArmConstants.kJ4AngleMax, -ArmConstants.kJ4AngleMin);
-            double positionCommandOpenJ5 = -leftTriggerOpen * Math.max(ArmConstants.kJ5AngleMax, -ArmConstants.kJ5AngleMin);
-            double positionCommandCloseJ5 = rightTriggerClose * Math.max(ArmConstants.kJ5AngleMax, -ArmConstants.kJ5AngleMin);
+            double positionCommandJ1 = j1ThrottleLeftX * j1Limiter;//Math.max(ArmConstants.kJ1AngleMax, -ArmConstants.kJ1AngleMin) / 2;
+            double positionCommandJ2 = j2ThrottleLeftY * j2Limiter;//Math.max(ArmConstants.kJ2AngleMax, -ArmConstants.kJ2AngleMin);
+            double positionCommandJ3 = j3ThrottleRightY  * j3Limiter;//Math.max(ArmConstants.kJ3AngleMax, -ArmConstants.kJ3AngleMin);
+            double positionCommandOpenJ4 = leftTriggerOpen;//Math.max(ArmConstants.kJ4AngleMax, -ArmConstants.kJ4AngleMin);
+            double positionCommandCloseJ4 = rightTriggerClose;//Math.max(ArmConstants.kJ4AngleMax, -ArmConstants.kJ4AngleMin);
 
+            double positionCommandJ4 = 0;
+
+            if (positionCommandOpenJ4 > ArmConstants.controllerDeadzone){
+                positionCommandJ4 = positionCommandOpenJ4;
+                 }
+              if (positionCommandCloseJ4 > ArmConstants.controllerDeadzone){
+                positionCommandJ4 = -positionCommandCloseJ4;
+                 }  
+
+            
             this.positionCommandJ1 = angleLimit(positionCommandJ1, 1);
             this.positionCommandJ2 = angleLimit(positionCommandJ2, 2);
             this.positionCommandJ3 = angleLimit(positionCommandJ3, 3);
-            this.positionCommandJ4 = angleLimit(positionCommandJ4, 4);
-            this.positionCommandOpenJ5 = angleLimit(positionCommandOpenJ5, 5);
-            this.positionCommandCloseJ5 = angleLimit(positionCommandCloseJ5, 5);
+            this.positionCommandOpenJ4 = angleLimit(positionCommandOpenJ4, 4);
+            this.positionCommandCloseJ4 = angleLimit(positionCommandCloseJ4, 4);
 
-			SmartDashboard.putNumber("J1 Joystick Command", positionCommandJ1);
-			SmartDashboard.putNumber("J2 Joystick Command", positionCommandJ2);
-			SmartDashboard.putNumber("J3 Joystick Command", positionCommandJ3);
-			SmartDashboard.putNumber("J4 Joystick Command", positionCommandJ4);
-			SmartDashboard.putNumber("J5 Joystick Open Command", positionCommandOpenJ5);
-			SmartDashboard.putNumber("J5 Joystick Close Command", positionCommandCloseJ5);
+			SmartDashboard.putNumber("J1 Joystick Command", RobotMath.truncate(positionCommandJ1, 3));
+			SmartDashboard.putNumber("J2 Joystick Command", RobotMath.truncate(positionCommandJ2, 3));
+			SmartDashboard.putNumber("J3 Joystick Command", RobotMath.truncate(positionCommandJ3, 3));
+			SmartDashboard.putNumber("J4 Joystick Command", RobotMath.truncate(positionCommandJ4, 3));
+			SmartDashboard.putNumber("J4 Joystick Open Command", RobotMath.truncate(positionCommandOpenJ4, 3));
+			SmartDashboard.putNumber("J4 Joystick Close Command", RobotMath.truncate(positionCommandCloseJ4, 3));
+        
+            m_armSubsystem.manualControl(positionCommandJ1,positionCommandJ2,positionCommandJ3,(positionCommandJ4*j4Limiter));
         }
     }
 
@@ -156,8 +172,11 @@ public class ArmCommand extends CommandBase{
     }
 
     public double angleLimit(double positionCommand, int joint){
-      double maxAngleDeg = ArmConstants.kJointAngleMaxArray[joint];
-      double minAngleDeg = ArmConstants.kJointAngleMinArray[joint];
+       double jointBookendArray1[] = Arm.getBookendArray1();
+       double jointBookendArray2[] = Arm.getBookendArray2();
+
+      double maxAngleDeg = jointBookendArray1 [joint];
+      double minAngleDeg = jointBookendArray2 [joint];
 
     if (positionCommand > maxAngleDeg) {
         positionCommand = maxAngleDeg;
@@ -174,10 +193,10 @@ public class ArmCommand extends CommandBase{
         double rawArmControllerRightX = Math.abs(RobotContainer.getInstance().getOI().getArmController().getRightX());
         double rawArmControllerRightY = Math.abs(RobotContainer.getInstance().getOI().getArmController().getRightY());
 
-        SmartDashboard.putNumber("raw left x", rawArmControllerLeftX);
-        SmartDashboard.putNumber("raw left y", rawArmControllerLeftY);
-        SmartDashboard.putNumber("raw right x", rawArmControllerRightX);
-        SmartDashboard.putNumber("raw right y", rawArmControllerRightY);
+        SmartDashboard.putNumber("raw left x", RobotMath.truncate(rawArmControllerLeftX, 3));
+        SmartDashboard.putNumber("raw left y", RobotMath.truncate(rawArmControllerLeftY, 3));
+        SmartDashboard.putNumber("raw right x", RobotMath.truncate(rawArmControllerRightX, 3));
+        SmartDashboard.putNumber("raw right y", RobotMath.truncate(rawArmControllerRightY, 3));
 
         SmartDashboard.putNumber("og deadzone", controllerDeadzone);
 

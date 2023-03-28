@@ -63,6 +63,7 @@ public class Robot extends TimedRobot {
     public void robotPeriodic() {
         CommandScheduler.getInstance().run();
         robotContainer.getArm().updateSmartDashboard();
+        robotContainer.getOI().configureSmartDashboard();
     }
 
 
@@ -82,7 +83,7 @@ public class Robot extends TimedRobot {
     */
     @Override
     public void autonomousInit() {
-        autonomousCommand = robotContainer.getOI().getAutonomousCommand();
+        autonomousCommand = robotContainer.getAutoCommand();
 
         // schedule the autonomous command (example)
         if (autonomousCommand != null) {
@@ -115,8 +116,9 @@ public class Robot extends TimedRobot {
         robotContainer.getOI().getDrivePreferences();
         robotContainer.initDefaultDrive();
         robotContainer.getOIReporters().updateOIReporters();
-        robotContainer.getArm().manualControl();
-        //robotContainer.initArmDefault();
+
+        robotContainer.getOI().getArmPreferences();
+        robotContainer.initArmDefault();
 
     }
 

@@ -66,7 +66,7 @@ public class DriveTrain extends SubsystemBase {
     private double m_turnGain = DriveConstants.kTurnGain;
     private double m_deadband = DriveConstants.kDeadband;
     private double m_driveGain = DriveConstants.kDriveGain;
-    private boolean brakesEnabled = false;
+    private boolean brakesEnabled = true;
 
     // Hardware
     private WPI_TalonSRX driveLeftLeader;
@@ -159,7 +159,7 @@ public class DriveTrain extends SubsystemBase {
         gyro.calibrate();
 
         odometry = new DifferentialDriveOdometry(gyro.getRotation2d(), m_driveGain, m_deadband); // ask Kelly about the purpose of drivegain & deadband here
-        inversionMultiplier = 1;
+        
     }
 
 
@@ -220,7 +220,7 @@ public class DriveTrain extends SubsystemBase {
 
     public void curvatureDrive(double speed, double rotation, boolean semiCurvature) {
        // SlewRateLimiter speedFilter = new SlewRateLimiter(Constants.DriveConstants.kSlewRateLimiter);
-        m_drive.curvatureDrive (speed * inversionMultiplier, -rotation * inversionMultiplier, semiCurvature);
+        m_drive.curvatureDrive (-speed * inversionMultiplier, -rotation * inversionMultiplier, semiCurvature);
     }
 
     public void arcadeDrive(double speed, double rotation) {
@@ -250,7 +250,7 @@ public class DriveTrain extends SubsystemBase {
 
         OIReporters.DriveReporters.brakesEnabled = false;
         }
-        brakesEnabled = false;
+        brakesEnabled = true;
     }
 
     public void invertMotors() {
@@ -310,7 +310,7 @@ public class DriveTrain extends SubsystemBase {
 
     public void updateSmartDashboard() {
         OIReporters.DriveReporters.gyroYaw = gyro.getYaw();
-        OIReporters.DriveReporters.gryoPitch = gyro.getPitch();
+        OIReporters.DriveReporters.gyroPitch = gyro.getPitch();
         OIReporters.DriveReporters.gyroRoll = gyro.getRoll();
         OIReporters.DriveReporters.gyroAngle = gyro.getAngle();
 

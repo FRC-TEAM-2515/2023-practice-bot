@@ -1,7 +1,7 @@
 {
   "Docking": {
     "Data": [
-      "DockNode  ID=0x00000001 Pos=237,42 Size=733,251 Selected=0x2D9B9756"
+      "DockNode  ID=0x00000001 Pos=238,42 Size=733,251 Selected=0x2D9B9756"
     ]
   },
   "MainWindow": {
@@ -16,9 +16,22 @@
       "ypos": "83"
     }
   },
+  "Table": {
+    "0xE56EC1C2,4": {
+      "Column 0  Weight": "1.0000",
+      "Column 1  Weight": "1.0000",
+      "Column 2  Weight": "1.0000",
+      "Column 3  Weight": "1.0000"
+    }
+  },
   "Window": {
+    "###/SmartDashboard/Arm Controller Scaling": {
+      "Collapsed": "0",
+      "Pos": "102,124",
+      "Size": "254,54"
+    },
     "###/SmartDashboard/Drive Controller Scaling": {
-      "Collapsed": "1",
+      "Collapsed": "0",
       "Pos": "106,24",
       "Size": "254,54"
     },
@@ -35,14 +48,19 @@
     },
     "###Joysticks": {
       "Collapsed": "0",
-      "Pos": "250,308",
+      "Pos": "316,319",
       "Size": "796,240"
     },
     "###NetworkTables": {
       "Collapsed": "0",
       "DockId": "0x00000001,1",
-      "Pos": "237,42",
+      "Pos": "238,42",
       "Size": "733,251"
+    },
+    "###NetworkTables Info": {
+      "Collapsed": "0",
+      "Pos": "250,130",
+      "Size": "750,145"
     },
     "###Other Devices": {
       "Collapsed": "0",
