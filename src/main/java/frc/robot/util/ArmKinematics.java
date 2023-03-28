@@ -59,3 +59,76 @@ public static double[][] forwardKinematics4DOF(double[][] pos, int dof, double[]
 // [                                                                                      0,                                                                                         0,                    0,                                                                                          1.0]
  
 
+
+//H1
+// [cos(t1),    0, -1.0*sin(t1),   0]
+// [sin(t1),    0,      cos(t1),   0]
+// [      0, -1.0,            0,  d1]
+// [      0,    0,            0, 1.0]
+
+// H2
+// [cos(t2), -1.0*sin(t2),   0,   0]
+// [sin(t2),      cos(t2),   0,   0]
+// [      0,            0, 1.0,  d2]
+// [      0,            0,   0, 1.0]
+ 
+// H3
+// [cos(t3),   0,      sin(t3),   0]
+// [sin(t3),   0, -1.0*cos(t3),   0]
+// [      0, 1.0,            0,  d3]
+// [      0,   0,            0, 1.0]
+ 
+// H4
+// [cos(t4), -1.0*sin(t4),   0,   0]
+// [sin(t4),      cos(t4),   0,   0]
+// [      0,            0, 1.0,  d4]
+// [      0,            0,   0, 1.0]
+
+//Raw fk calcuator functions made in matlab
+// function [matrix] = dh_link(theta,alpha,rx,dz,angle)
+
+// if angle == "d"
+//     matrix = [
+//         cosd(theta) -sind(theta)*cosd(alpha) sind(theta)*sind(alpha) rx*cosd(theta);...
+//         sind(theta) cosd(theta)*cosd(alpha) -cosd(theta)*sind(alpha) rx*sind(theta);...
+//         0 sind(alpha) cosd(alpha) dz;...
+//         0 0 0 1 ...
+//     ];
+// end
+// if angle == "r"
+//     matrix = [
+//         cos(theta) -sin(theta)*cos(alpha) sin(theta)*sin(alpha) rx*cos(theta);...
+//         sin(theta) cos(theta)*cos(alpha) -cos(theta)*sin(alpha) rx*sin(theta);...
+//         0 sin(alpha) cos(alpha) dz;...
+//         0 0 0 1 ...
+//     ];
+// end
+// matrix = vpa(matrix);
+// end
+
+// function [DH_HTM] = DH_HTM(Matrix,angtype)
+// % Input Matrix: DH Table of (n,4) Dimension, else throw error
+// % Output matrix: Homogenous transformation: Dimension (4,4)
+
+// if size(Matrix,2) ~= 4
+//     error("Matrix must have 4 columns");
+// end
+
+// output = eye(4);
+
+// len = size(Matrix,1); % Number of Rows
+
+// for i = 1 : len
+//     params = Matrix(i,:);
+//     theta = params(1);
+//     alpha = params(2);
+//     rx = params(3);
+//     dz = params(4);
+//     next = dh_link(theta,alpha,rx,dz,angtype);
+//     output = output * next;
+// end
+
+// output = simplify(output);
+// DH_HTM = output;
+
+// end
