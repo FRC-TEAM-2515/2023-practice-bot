@@ -251,7 +251,7 @@ protected XboxController armController;
             }
             else if( leftY > 0 ) //lower elbow down - assumed run motor backwards
             {
-                j2Elbow.set(Math.pow(getDeadZoneAdjustment(leftY*speedLimiter,ArmConstants.controllerDeadzone),2));
+                j2Elbow.set(-Math.pow(getDeadZoneAdjustment(leftY*speedLimiter,ArmConstants.controllerDeadzone),2));
                 SmartDashboard.putNumber("Elbow Up/Down Force", getDeadZoneAdjustment(leftY,ArmConstants.controllerDeadzone));
             }
         }
@@ -273,7 +273,7 @@ protected XboxController armController;
             }
             else if( rightY > 0 ) //lower wrist down - assumed run motor backwards
             {
-                j3WristY.set(Math.pow(getDeadZoneAdjustment(rightY*speedLimiter,ArmConstants.controllerDeadzone),2));
+                j3WristY.set(-Math.pow(getDeadZoneAdjustment(rightY*speedLimiter,ArmConstants.controllerDeadzone),2));
                 SmartDashboard.putNumber("Wrist Up/Down Force", getDeadZoneAdjustment(rightY,ArmConstants.controllerDeadzone));
             }
         }
@@ -302,7 +302,7 @@ protected XboxController armController;
 
         if( currentPosition > minValue && currentPosition < maxValue ) //prevents claw from exceeding bounds
         {
-            j5Claw.set(Math.pow(getDeadZoneAdjustment(-rightTrigger*speedLimiter,ArmConstants.controllerDeadzone),2));
+            j5Claw.set(-Math.pow(getDeadZoneAdjustment(rightTrigger*speedLimiter,ArmConstants.controllerDeadzone),2));
             SmartDashboard.putNumber("Claw Close Force", getDeadZoneAdjustment(-rightTrigger,ArmConstants.controllerDeadzone));
         }
     }
