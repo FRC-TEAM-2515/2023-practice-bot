@@ -21,11 +21,11 @@ import frc.robot.OI;
 
 public class ArmCommand extends CommandBase{
     
-    private Arm m_armSubsystem; 
-    private RobotContainer m_robotContainer;
-    private XboxController m_armController;
-    private OIReporters.ArmControlType m_armControlModeChoice;
-    private OIReporters.ControllerScaling m_armControllerScalingChoice;
+    private Arm armSubsystem; 
+    private RobotContainer robotContainer;
+    private XboxController armController;
+    private OIReporters.ArmControlType armControlModeChoice;
+    private OIReporters.ControllerScaling armControllerScalingChoice;
     private double leftX;
     private double leftY;
     private double rightY;
@@ -45,12 +45,11 @@ public class ArmCommand extends CommandBase{
 
 
     public ArmCommand(Arm subsystem, XboxController controller) {
-        m_armSubsystem = subsystem;
-        m_armController = controller; 
-        m_robotContainer = RobotContainer.getInstance();
+        armSubsystem = subsystem;
+        armController = controller; 
+        robotContainer = RobotContainer.getInstance();
 
-        // Ensures that two commands that need the same subsystem dont mess each other up. 
-        addRequirements (m_armSubsystem);  
+        addRequirements(armSubsystem);  
     }
 
     // Called when the command is initially scheduled.
@@ -63,20 +62,20 @@ public class ArmCommand extends CommandBase{
     @Override
     public void execute() {
 
-        m_armControlModeChoice = m_robotContainer.getOI().getArmControlModeChooser();
-        m_armControllerScalingChoice = m_robotContainer.getOI().getControllerScalingChooser();
+        armControlModeChoice = robotContainer.getOI().getArmControlModeChooser();
+        armControllerScalingChoice = robotContainer.getOI().getControllerScalingChooser();
 
         double leftX = (robotContainer.getOI().getArmController().getLeftX());
         double leftY = (robotContainer.getOI().getArmController().getLeftY());
         double rightY = (robotContainer.getOI().getArmController().getRightY());
 
-        double leftTrigger = (m_robotContainer.getOI().getArmController().getLeftTriggerAxis());
-        double rightTrigger = (m_robotContainer.getOI().getArmController().getRightTriggerAxis());
+        double leftTrigger = (robotContainer.getOI().getArmController().getLeftTriggerAxis());
+        double rightTrigger = (robotContainer.getOI().getArmController().getRightTriggerAxis());
 
         getArmControllerDeadzone();
 
-        controllerScaling(leftX, leftY, rightY, m_armControllerScalingChoice);   
-        armControlMode(leftX, leftY, rightY, leftTrigger, rightTrigger, m_armControlModeChoice);
+        controllerScaling(leftX, leftY, rightY, armControllerScalingChoice);   
+        armControlMode(leftX, leftY, rightY, leftTrigger, rightTrigger, armControlModeChoice);
     }
 
     public void controllerScaling(double leftX, double leftY, double rightY, ControllerScaling choice){
@@ -139,8 +138,11 @@ public class ArmCommand extends CommandBase{
             double heading = Math.atan(positionCommandOpenJ4) * 720/ Math.PI + (Math.atan(positionCommandCloseJ4) * 720/ Math.PI);
             SmartDashboard.putNumber("Heading", heading);
 
-            double heading2 = Math.atan(j1ThrottleLeftX) * 720/ Math.PI;
-            SmartDashboard.putNumber("Heading2", heading2);
+            double j1Heading = Math.atan(j1ThrottleLeftX) * 720/ Math.PI;
+            SmartDashboard.putNumber("Heading2", j1Heading);
+
+            double j2Heading = Math.tan(j1Heading) * Math.PI/ 720;
+            SmartDashboard.putNumber("Heading3", j2Heading);
 
 
             double positionCommandJ4 = 0;

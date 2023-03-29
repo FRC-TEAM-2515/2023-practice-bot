@@ -59,7 +59,7 @@ private SparkMaxAbsoluteEncoder j4ClawEncoder;
 // private RelativeEncoder j5ClawEncoder;
  
 private SlewRateLimiter armRateLimiter = new SlewRateLimiter(ArmConstants.armSlewRateLimiter);
-private double error = 0;
+private double padding = 0;
 private double kJ1RampRate = 4;
 private double kJ2RampRate = 4;
 private double kJ3RampRate = 4;
@@ -73,8 +73,8 @@ private SendableChooser<Arm.armBrakeMode> armBrakeModeChooser;
 public static double j1PaddingAddDeg, j2PaddingAddDeg, j3PaddingAddDeg, j4PaddingAddDeg;
 public static double j1PaddingMinusDeg, j2PaddingMinusDeg, j3PaddingMinusDeg, j4PaddingMinusDeg;
 
-public static double[] kJointPadding1ArraySafe = new double[] {j1PaddingAddDeg, j2PaddingAddDeg, j3PaddingAddDeg, j4PaddingAddDeg};
-public static double[] kJointPadding2ArraySafe = new double[] {j1PaddingMinusDeg, j2PaddingMinusDeg, j3PaddingMinusDeg, j4PaddingMinusDeg};
+public static double[] kPadding1ArraySafe = new double[] {j1PaddingAddDeg, j2PaddingAddDeg, j3PaddingAddDeg, j4PaddingAddDeg};
+public static double[] kPadding2ArraySafe = new double[] {j1PaddingMinusDeg, j2PaddingMinusDeg, j3PaddingMinusDeg, j4PaddingMinusDeg};
 
 
 protected XboxController armController;
@@ -191,8 +191,8 @@ protected XboxController armController;
         SmartDashboard.putNumber("j3WristEncoder D", RobotMath.armEncoderConvertDegrees(j3WristEncoder.getPosition()));
         SmartDashboard.putNumber("j4ClawEncoder D", RobotMath.armEncoderConvertDegrees(j4ClawEncoder.getPosition()));
 
-    this.error = SmartDashboard.getNumber("RoM Safety Error", error);
-    SmartDashboard.putNumber("RoM Safety Error", error);
+    this.padding = SmartDashboard.getNumber("RoM Safety Error", padding);
+    SmartDashboard.putNumber("RoM Safety Error", padding);
     //if((romError != error)) { error = romError; }
 
     SmartDashboard.putNumber("J1 RoM w/ Safety Margin", RobotMath.armRangeDegrees(padding, ArmConstants.kJ1PaddingAddRot, ArmConstants.kJ1PaddingMinusRot));
@@ -220,38 +220,38 @@ protected XboxController armController;
     SmartDashboard.putNumber("J4 Padding Add (deg)", j4PaddingAddDeg);
     SmartDashboard.putNumber("j4ClawEncoder Padding2", j4PaddingMinusDeg);
 
-    kJointPadding1ArraySafe = new double[] {j1PaddingAddDeg, j2PaddingAddDeg, j3PaddingAddDeg, j4PaddingMinusDeg};
-    kJointPadding2ArraySafe = new double[] {j1PaddingMinusDeg, j1PaddingMinusDeg,j1PaddingMinusDeg, j4PaddingMinusDeg};
+    kPadding1ArraySafe = new double[] {j1PaddingAddDeg, j2PaddingAddDeg, j3PaddingAddDeg, j4PaddingMinusDeg};
+    kPadding2ArraySafe = new double[] {j1PaddingMinusDeg, j1PaddingMinusDeg,j1PaddingMinusDeg, j4PaddingMinusDeg};
 
     
-    // SmartDashboard.putNumber("J1 RoM w/ Safety Margin", RobotMath.truncate(Math.abs(RobotMath.armRangeErrorMarginAdd(RobotMath.armEncoderConvertDegrees(ArmConstants.kJ1BookendAdd), error) + RobotMath.armRangeErrorMarginSub(RobotMath.armEncoderConvertDegrees(ArmConstants.kJ1BookendSub), error) -360), 3));
-    // SmartDashboard.putNumber("J2 RoM w/ Safety Margin", RobotMath.truncate(Math.abs(RobotMath.armRangeErrorMarginAdd(RobotMath.armEncoderConvertDegrees(ArmConstants.kJ2BookendAdd), error) + RobotMath.armRangeErrorMarginSub(RobotMath.armEncoderConvertDegrees(ArmConstants.kJ2BookendSub), error) - 360), 3));
-    // SmartDashboard.putNumber("J3 RoM w/ Safety Margin", RobotMath.truncate(Math.abs(RobotMath.armRangeErrorMarginAdd(RobotMath.armEncoderConvertDegrees(ArmConstants.kJ3BookendAdd), error) + RobotMath.armRangeErrorMarginSub(RobotMath.armEncoderConvertDegrees(ArmConstants.kJ3BookendSub), error) - 360), 3));
-    // SmartDashboard.putNumber("J4 RoM w/ Safety Margin", RobotMath.truncate(Math.abs(RobotMath.armRangeErrorMarginAdd(RobotMath.armEncoderConvertDegrees(ArmConstants.kJ4BookendAdd), error) + RobotMath.armRangeErrorMarginSub(RobotMath.armEncoderConvertDegrees(ArmConstants.kJ4BookendSub), error) - 360), 3));
+    // SmartDashboard.putNumber("J1 RoM w/ Safety Margin", RobotMath.truncate(Math.abs(RobotMath.armRangeErrorMarginAdd(RobotMath.armEncoderConvertDegrees(ArmConstants.kJ1PaddingAdd), error) + RobotMath.armRangeErrorMarginMinus(RobotMath.armEncoderConvertDegrees(ArmConstants.kJ1PaddingMinus), error) -360), 3));
+    // SmartDashboard.putNumber("J2 RoM w/ Safety Margin", RobotMath.truncate(Math.abs(RobotMath.armRangeErrorMarginAdd(RobotMath.armEncoderConvertDegrees(ArmConstants.kJ2PaddingAdd), error) + RobotMath.armRangeErrorMarginMinus(RobotMath.armEncoderConvertDegrees(ArmConstants.kJ2PaddingMinus), error) - 360), 3));
+    // SmartDashboard.putNumber("J3 RoM w/ Safety Margin", RobotMath.truncate(Math.abs(RobotMath.armRangeErrorMarginAdd(RobotMath.armEncoderConvertDegrees(ArmConstants.kJ3PaddingAdd), error) + RobotMath.armRangeErrorMarginMinus(RobotMath.armEncoderConvertDegrees(ArmConstants.kJ3PaddingMinus), error) - 360), 3));
+    // SmartDashboard.putNumber("J4 RoM w/ Safety Margin", RobotMath.truncate(Math.abs(RobotMath.armRangeErrorMarginAdd(RobotMath.armEncoderConvertDegrees(ArmConstants.kJ4PaddingAdd), error) + RobotMath.armRangeErrorMarginMinus(RobotMath.armEncoderConvertDegrees(ArmConstants.kJ4PaddingMinus), error) - 360), 3));
 
-    kJ1Bookend1Safe = RobotMath.armRangeErrorMarginAddD(ArmConstants.kJ1BookendAdd, error);
-    kJ1Bookend2Safe = RobotMath.armRangeErrorMarginSubD(ArmConstants.kJ1BookendSub, error);
-    SmartDashboard.putNumber("j1TurretEncoder Bookend1", kJ1Bookend1Safe );
-    SmartDashboard.putNumber("j1TurretEncoder Bookend2", kJ1Bookend2Safe);
+    j1PaddingAddDeg = RobotMath.armRangePaddingAddDeg(ArmConstants.kJ1PaddingAddRot, padding);
+    j4PaddingMinusDeg = RobotMath.armRangePaddingMinusDeg(ArmConstants.kJ1PaddingMinusRot, padding);
+    SmartDashboard.putNumber("j1TurretEncoder Padding1", j1PaddingAddDeg );
+    SmartDashboard.putNumber("j1TurretEncoder Padding2", j1PaddingMinusDeg);
 
-    kJ2Bookend1Safe = RobotMath.armRangeErrorMarginAddD(ArmConstants.kJ2BookendAdd, error);
-    kJ2Bookend2Safe = RobotMath.armRangeErrorMarginSubD(ArmConstants.kJ2BookendSub, error);
-    SmartDashboard.putNumber("j2ElbowEncoder Bookend1", kJ2Bookend1Safe);
-    SmartDashboard.putNumber("j2ElbowEncoder Bookend2", RobotMath.armRangeErrorMarginSubD(ArmConstants.kJ2BookendSub, error));
+    j2PaddingAddDeg = RobotMath.armRangePaddingAddDeg(ArmConstants.kJ2PaddingAddRot, padding);
+    j2PaddingMinusDeg = RobotMath.armRangePaddingMinusDeg(ArmConstants.kJ2PaddingMinusRot, padding);
+    SmartDashboard.putNumber("j2ElbowEncoder Padding1", j2PaddingAddDeg);
+    SmartDashboard.putNumber("j2ElbowEncoder Padding2", RobotMath.armRangePaddingMinusDeg(ArmConstants.kJ2PaddingMinusRot, padding));
 
-    kJ3Bookend1Safe = RobotMath.armRangeErrorMarginAddD(ArmConstants.kJ3BookendAdd, error);
-    kJ3Bookend2Safe = RobotMath.armRangeErrorMarginSubD(ArmConstants.kJ3BookendSub, error);
-    SmartDashboard.putNumber("j3WristEncoder Bookend1", RobotMath.armRangeErrorMarginAddD(ArmConstants.kJ3BookendAdd, error));
-    SmartDashboard.putNumber("j3WristEncoder Bookend2", RobotMath.armRangeErrorMarginSubD(ArmConstants.kJ3BookendSub, error));
+    j3PaddingAddDeg = RobotMath.armRangePaddingAddDeg(ArmConstants.kJ3PaddingAddRot, padding);
+    j3PaddingMinusDeg = RobotMath.armRangePaddingMinusDeg(ArmConstants.kJ3PaddingMinusRot, padding);
+    SmartDashboard.putNumber("j3WristEncoder Padding1", RobotMath.armRangePaddingAddDeg(ArmConstants.kJ3PaddingAddRot, padding));
+    SmartDashboard.putNumber("j3WristEncoder Padding2", RobotMath.armRangePaddingMinusDeg(ArmConstants.kJ3PaddingMinusRot, padding));
 
-    kJ4Bookend1Safe = RobotMath.armRangeErrorMarginAddD(ArmConstants.kJ4BookendAdd, 3);
-    kJ4Bookend2Safe = RobotMath.armRangeErrorMarginSubD(ArmConstants.kJ4BookendSub, 3);
-    SmartDashboard.putNumber("j4ClawEncoder Bookend1", ArmConstants.kJ4BookendAdd);
-    SmartDashboard.putNumber("j4ClawEncoder Bookend2", ArmConstants.kJ4BookendAdd);
+    j4PaddingAddDeg = RobotMath.armRangePaddingAddDeg(ArmConstants.kJ4PaddingAddRot, 3);
+    j4PaddingMinusDeg = RobotMath.armRangePaddingMinusDeg(ArmConstants.kJ4PaddingMinusRot, 3);
+    SmartDashboard.putNumber("j4ClawEncoder Padding1", ArmConstants.kJ4PaddingAddRot);
+    SmartDashboard.putNumber("j4ClawEncoder Padding2", ArmConstants.kJ4PaddingAddRot);
 
     
-    kJointBookend1ArraySafe = new double[] {kJ1Bookend1Safe, kJ2Bookend1Safe, kJ3Bookend1Safe, kJ4Bookend2Safe};
-    kJointBookend2ArraySafe = new double[] {kJ1Bookend2Safe, kJ1Bookend2Safe,kJ1Bookend2Safe, kJ1Bookend1Safe};
+    // kPaddingPadding1ArraySafe = new double[] {j1PaddingAddDeg, j2PaddingAddDeg, j3PaddingAddDeg, j4PaddingMinusDeg};
+    // kPaddingPadding2ArraySafe = new double[] {j1PaddingMinusDeg, j4PaddingMinusDeg,j4PaddingMinusDeg, j1PaddingAddDeg};
 
     }
     
@@ -284,12 +284,12 @@ protected XboxController armController;
 
     
     public static double[] getPaddingArray1(){
-        return kJointPadding1ArraySafe;
+        return kPadding1ArraySafe;
     }
 
     
     public static double[] getPaddingArray2(){
-        return kJointPadding2ArraySafe;
+        return kPadding2ArraySafe;
     }
 
     @Override

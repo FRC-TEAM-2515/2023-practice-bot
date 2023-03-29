@@ -48,22 +48,31 @@ public class RobotMath {
         return rawDegrees / 360;
     }
 
-    // public static double armRangeErrorMarginAdd(double bookendAdd, double error) {
-    //     return armDegreesConvertEncoder((armEncoderConvertDegrees(bookendAdd) + error));
-    // }
+    public static double armRangeErrorAddRot(double jointPaddingAdd, double padding) {
+        return armDegreesConvertEncoder((armEncoderConvertDegrees(jointPaddingAdd) + padding));
+    }
 
     
-    public static double armRangeErrorMarginAddD(double bookendAdd, double error) {
-        return armEncoderConvertDegrees(bookendAdd) + error;
+    public static double armRangePaddingAddDeg(double jointPaddingAdd, double padding) {
+        return armEncoderConvertDegrees(jointPaddingAdd) + padding;
     }
 
 
-    // public static double armRangeErrorMarginSub(double bookendSub, double error) {
-    //     return armDegreesConvertEncoder((armEncoderConvertDegrees(bookendSub) - error));
-    // }
+    public static double armRangePaddingMinusRot(double jointPaddingSub, double padding) {
+        return armDegreesConvertEncoder((armEncoderConvertDegrees(jointPaddingSub) - padding));
+    }
+
+    
+    public static double armRangePaddingMinusDeg(double jointPaddingMinus, double padding) {
+        return armEncoderConvertDegrees(jointPaddingMinus) - padding;
+    }
 
     public static double armRangeDegrees(double padding, double jointPaddingAdd, double jointPaddingMinus){
        return Math.abs(armRangePaddingAddDeg(jointPaddingAdd, padding) - armRangePaddingMinusDeg(jointPaddingMinus, padding) - 360);
+    }
+
+    public static double controllerInputConvertAcis(double controllerInput){
+        return Math.tan(controllerInput) * Math.PI/ 720;
     }
 
 }

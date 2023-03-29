@@ -70,24 +70,24 @@ public class Constants {
         public static final double kJ3PositionInit = 0.16; //57.6
         public static final double kJ4PositionInit = 0.50; //180 
 
-        // //8 degree margin of error
-        // public static final double kJ1PaddingAddEncoder = 0.268; //=96.4 
-        // public static final double kJ2PaddingAddEncoder = 0.72; //260
-        // public static final double kJ3PaddingAddEncoder = 0.73; //263.6 
-        // public static final double kJ4PaddingAddEncoder = 0.22;//79.8 
-        // public static final double[] kJointPaddingAddEncoderArray = new double[] {kJ1PaddingAddEncoder, kJ2PaddingAddEncoder, kJ3PaddingAddEncoder, kJ4PaddingAddEncoder};
+        //8 degree margin of error
+        public static final double kJ1PaddingAddRot8 = 0.27; //=96.4 
+        public static final double kJ2PaddingAddRot8 = 0.72; //=260
+        public static final double kJ3PaddingAddRot8 = 0.73; //=263.6 
+        public static final double kJ4PaddingAddRot8 = 0.22; //=79.8 
+        public static final double[] kPaddingAddRot8Array = new double[] {kJ1PaddingAddRot8, kJ2PaddingAddRot8, kJ3PaddingAddRot8, kJ4PaddingAddRot8};
 
-        // //8 degree margin of error
-        // public static final double kJ1PaddingMinusEncoder = 0.54; //=195.2 //0.52 =187.2
-        // public static final double kJ2PaddingMinusEncoder = 0.30;//=107.2//0.32 =115.2
-        // public static final double kJ3PaddingMinusEncoder = 0.15; //=53.2 ////0.17 =61.2
-        // public static final double kJ4PaddingMinusEncoder = 0.09;//=31.8//0.08 =28.8
-        // public static final double[] kJointPaddingMinusEncoderArray = new double[] {kJ1PaddingMinusEncoder, kJ2PaddingMinusEncoder, kJ3PaddingMinusEncoder, kJ4PaddingMinusEncoder};
+        //8 degree margin of error
+        public static final double kJ1PaddingMinusRot8 = 0.54; //=195.2 
+        public static final double kJ2PaddingMinusRot8 = 0.30; //=107.2 
+        public static final double kJ3PaddingMinusRot8 = 0.15; //=53.2 
+        public static final double kJ4PaddingMinusRot8 = 0.09; //=31.8 
+        public static final double[] kPaddingMinusRot8Array = new double[] {kJ1PaddingMinusRot8, kJ2PaddingMinusRot8, kJ3PaddingMinusRot8, kJ4PaddingMinusRot8};
 
-        //Bounds for the absolute maximum joint range of motion
-        //Reported in rotations for later scaling functions
-        //'Sub' indicates that the value will decrease when reducing maximum range
-        //'Add' indicates that the value will increase
+        /*Bounds for the absolute maximum joint range of motion
+        Reported in rotations for later scaling functions
+        'Minus' indicates that the value will decrease to reducing maximum range
+        'Add' indicates that the value will increase to reduce maximum range*/
 
         //Maximum range of 277.2 degress 
         public static final double kJ1PaddingAddRot = 0.29; //104.4 degrees
