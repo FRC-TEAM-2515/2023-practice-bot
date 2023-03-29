@@ -67,22 +67,22 @@ public class Constants {
         //Position in rotations
         public static final double kJ1PositionInit = 0.48; //172.8 deg
         public static final double kJ2PositionInit = 0.08; //28.8 deg
-        public static final double kJ3PositionInit = 0.17; //61.2
+        public static final double kJ3PositionInit = 0.16; //57.6
         public static final double kJ4PositionInit = 0.50; //180 
 
-        //8 degree margin of error
-        public static final double kJ1Bookend1 = 0.268; //=96.4 
-        public static final double kJ2Bookend1 = 0.72; //260
-        public static final double kJ3Bookend1 = 0.73; //263.6 
-        public static final double kJ4Bookend1 = 0.22;//79.8 
-        public static final double[] kJointBookend1Array = new double[] {kJ1Bookend1, kJ2Bookend1, kJ3Bookend1, kJ4Bookend1};
+        // //8 degree margin of error
+        // public static final double kJ1PaddingAddEncoder = 0.268; //=96.4 
+        // public static final double kJ2PaddingAddEncoder = 0.72; //260
+        // public static final double kJ3PaddingAddEncoder = 0.73; //263.6 
+        // public static final double kJ4PaddingAddEncoder = 0.22;//79.8 
+        // public static final double[] kJointPaddingAddEncoderArray = new double[] {kJ1PaddingAddEncoder, kJ2PaddingAddEncoder, kJ3PaddingAddEncoder, kJ4PaddingAddEncoder};
 
-        //8 degree margin of error
-        public static final double kJ1Bookend2 = 0.54; //=195.2 //0.52 =187.2
-        public static final double kJ2Bookend2 = 0.30;//=107.2//0.32 =115.2
-        public static final double kJ3Bookend2 = 0.15; //=53.2 ////0.17 =61.2
-        public static final double kJ4Bookend2 = 0.09;//=31.8//0.08 =28.8
-        public static final double[] kJointBookend2Array = new double[] {kJ1Bookend2, kJ2Bookend2, kJ3Bookend2, kJ4Bookend2};
+        // //8 degree margin of error
+        // public static final double kJ1PaddingMinusEncoder = 0.54; //=195.2 //0.52 =187.2
+        // public static final double kJ2PaddingMinusEncoder = 0.30;//=107.2//0.32 =115.2
+        // public static final double kJ3PaddingMinusEncoder = 0.15; //=53.2 ////0.17 =61.2
+        // public static final double kJ4PaddingMinusEncoder = 0.09;//=31.8//0.08 =28.8
+        // public static final double[] kJointPaddingMinusEncoderArray = new double[] {kJ1PaddingMinusEncoder, kJ2PaddingMinusEncoder, kJ3PaddingMinusEncoder, kJ4PaddingMinusEncoder};
 
         //Bounds for the absolute maximum joint range of motion
         //Reported in rotations for later scaling functions
@@ -90,20 +90,29 @@ public class Constants {
         //'Add' indicates that the value will increase
 
         //Maximum range of 277.2 degress 
-        public static final double kJ1BookendSub = 0.29; //104.4 degrees
-        public static final double kJ1BookendAdd = 0.52; //187.2 degrees
+        public static final double kJ1PaddingAddRot = 0.29; //104.4 degrees
+        public static final double kJ1PaddingMinusRot = 0.52; //187.2 degrees
 
         //Maximum range of 223.2 degrees
-        public static final double kJ2BookendSub = 0.32; //115.2 degrees
-        public static final double kJ2BookendAdd = 0.70; //252.0 degrees
+        public static final double kJ2PaddingAddRot = 0.32; //115.2 degrees
+        public static final double kJ2PaddingMinusRot = 0.70; //252.0 degrees
 
         //Maximum range of 165.6 degrees
-        public static final double kJ3BookendSub = 0.17; //61.2 degrees
-        public static final double kJ3BookendAdd = 0.71; //255.6 degrees
+        public static final double kJ3PaddingAddRot = 0.17; //61.2 degrees
+        public static final double kJ3PaddingMinusRot = 0.71; //255.6 degrees
 
         //Maximum range of 54.0 degrees
-        public static final double kJ4BookendSub = 0.23; //82.8 degrees
-        public static final double kJ4BookendAdd = 0.08; //28.8 degrees
+        public static final double kJ4PaddingAddRot = 0.23; //82.8 degrees
+        public static final double kJ4PaddingMinusRot = 0.08; //28.8 degrees
+
+        public static final double kJ1MaxLeftXControllerDeg = -75.6;
+        public static final double kJ1MaxRightXControllerDeg = 7;
+
+        public static final double kJ2MaxLeftXControllerDeg = -72;
+        public static final double kJ2MaxRightXControllerDeg = 115.27;
+        
+        public static final double kJ3MaxLeftXControllerDeg = -75;
+        public static final double kJ3MaxRightXControllerDeg = 61.2;
         
         public static final double kJ1DegPerSecMax = 4;
         public static final double kJ2DegPerSecMax = 4;

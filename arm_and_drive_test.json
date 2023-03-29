@@ -513,32 +513,6 @@
               "_showGlyph": false
             }
           },
-          "13,6": {
-            "size": [
-              3,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/j1TurretEncoder Bookend1",
-              "_title": "SmartDashboard/j1TurretEncoder Bookend1",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "13,7": {
-            "size": [
-              3,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/j1TurretEncoder Bookend2",
-              "_title": "SmartDashboard/j1TurretEncoder Bookend2",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
           "13,4": {
             "size": [
               2,
@@ -548,84 +522,6 @@
               "_type": "ComboBox Chooser",
               "_source0": "network_table:///SmartDashboard/Brake Mode",
               "_title": "SmartDashboard/Brake Mode",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "16,6": {
-            "size": [
-              3,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/j2ElbowEncoder Bookend1",
-              "_title": "SmartDashboard/j2ElbowEncoder Bookend1",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "16,7": {
-            "size": [
-              3,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/j2ElbowEncoder Bookend2",
-              "_title": "SmartDashboard/j2ElbowEncoder Bookend2",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "13,8": {
-            "size": [
-              3,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/j3WristEncoder Bookend1",
-              "_title": "SmartDashboard/j3WristEncoder Bookend1",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "13,9": {
-            "size": [
-              3,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/j3WristEncoder Bookend2",
-              "_title": "SmartDashboard/j3WristEncoder Bookend2",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "16,8": {
-            "size": [
-              3,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/j4ClawEncoder Bookend1",
-              "_title": "SmartDashboard/j4ClawEncoder Bookend1",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "16,9": {
-            "size": [
-              3,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/j4ClawEncoder Bookend2",
-              "_title": "SmartDashboard/j4ClawEncoder Bookend2",
               "_glyph": 148,
               "_showGlyph": false
             }
@@ -691,6 +587,123 @@
               "_type": "ComboBox Chooser",
               "_source0": "network_table:///SmartDashboard/Arm Controller Scaling",
               "_title": "Arm Controller Scaling",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "12,6": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/J1 Padding Add (deg)",
+              "_title": "/SmartDashboard/J1 Padding Add (deg)",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "12,7": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/J1 Padding Minus (deg)",
+              "_title": "/SmartDashboard/J1 Padding Minus (deg)",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "15,6": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/J2 Padding Add (deg)",
+              "_title": "/SmartDashboard/J2 Padding Add (deg)",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "15,7": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/J2 Padding Minus (deg)",
+              "_title": "/SmartDashboard/J2 Padding Minus (deg)",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "12,8": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/J3 Padding Add (deg)",
+              "_title": "/SmartDashboard/J3 Padding Add (deg)",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "12,9": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/J3 Padding Minus (deg)",
+              "_title": "/SmartDashboard/J3 Padding Minus (deg)",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "15,9": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/j4ClawEncoder Padding2",
+              "_title": "/SmartDashboard/j4ClawEncoder Padding2",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "15,8": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/J4 Padding Add (deg)",
+              "_title": "/SmartDashboard/J4 Padding Add (deg)",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "17,6": {
+            "size": [
+              3,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/J1 Joystick Command",
+              "_title": "SmartDashboard/J1 Joystick Command",
               "_glyph": 148,
               "_showGlyph": false
             }
@@ -898,9 +911,9 @@
     }
   ],
   "windowGeometry": {
-    "x": -5.0,
-    "y": 4.0,
-    "width": 1593.0,
-    "height": 860.0
+    "x": -8.0,
+    "y": -8.0,
+    "width": 1616.0,
+    "height": 876.0
   }
 }

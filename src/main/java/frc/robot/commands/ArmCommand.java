@@ -66,9 +66,9 @@ public class ArmCommand extends CommandBase{
         m_armControlModeChoice = m_robotContainer.getOI().getArmControlModeChooser();
         m_armControllerScalingChoice = m_robotContainer.getOI().getControllerScalingChooser();
 
-        double leftX = deadzoneAdjustment(m_robotContainer.getOI().getArmController().getLeftX());
-        double leftY = deadzoneAdjustment(m_robotContainer.getOI().getArmController().getLeftY());
-        double rightY = deadzoneAdjustment(m_robotContainer.getOI().getArmController().getRightY());
+        double leftX = (robotContainer.getOI().getArmController().getLeftX());
+        double leftY = (robotContainer.getOI().getArmController().getLeftY());
+        double rightY = (robotContainer.getOI().getArmController().getRightY());
 
         double leftTrigger = (m_robotContainer.getOI().getArmController().getLeftTriggerAxis());
         double rightTrigger = (m_robotContainer.getOI().getArmController().getRightTriggerAxis());
@@ -130,11 +130,18 @@ public class ArmCommand extends CommandBase{
         //     double velocityCommandJ4 = -throttleLeftX  * ArmConstants.kJ4DegPerSecMax;
         // }
         if (choice == ArmControlType.POSITION){
-            double positionCommandJ1 = j1ThrottleLeftX * j1Limiter;//Math.max(ArmConstants.kJ1AngleMax, -ArmConstants.kJ1AngleMin) / 2;
-            double positionCommandJ2 = j2ThrottleLeftY * j2Limiter;//Math.max(ArmConstants.kJ2AngleMax, -ArmConstants.kJ2AngleMin);
-            double positionCommandJ3 = j3ThrottleRightY  * j3Limiter;//Math.max(ArmConstants.kJ3AngleMax, -ArmConstants.kJ3AngleMin);
+            double positionCommandJ1 = -j1ThrottleLeftX; //* Math.max(Arm.j1PaddingAddDeg, Arm.j1PaddingMinusDeg) / 2;
+            double positionCommandJ2 = j2ThrottleLeftY; //* Math.max(Arm.j1PaddingAddDeg, Arm.j2PaddingMinusDeg);
+            double positionCommandJ3 = -j3ThrottleRightY; // * j3Limiter;//Math.max(ArmConstants.kJ3AngleMax, -ArmConstants.kJ3AngleMin);
             double positionCommandOpenJ4 = leftTriggerOpen;//Math.max(ArmConstants.kJ4AngleMax, -ArmConstants.kJ4AngleMin);
             double positionCommandCloseJ4 = rightTriggerClose;//Math.max(ArmConstants.kJ4AngleMax, -ArmConstants.kJ4AngleMin);
+
+            double heading = Math.atan(positionCommandOpenJ4) * 720/ Math.PI + (Math.atan(positionCommandCloseJ4) * 720/ Math.PI);
+            SmartDashboard.putNumber("Heading", heading);
+
+            double heading2 = Math.atan(j1ThrottleLeftX) * 720/ Math.PI;
+            SmartDashboard.putNumber("Heading2", heading2);
+
 
             double positionCommandJ4 = 0;
 
@@ -146,20 +153,20 @@ public class ArmCommand extends CommandBase{
                  }  
 
             
-            this.positionCommandJ1 = angleLimit(positionCommandJ1, 1);
-            this.positionCommandJ2 = angleLimit(positionCommandJ2, 2);
-            this.positionCommandJ3 = angleLimit(positionCommandJ3, 3);
-            this.positionCommandOpenJ4 = angleLimit(positionCommandOpenJ4, 4);
-            this.positionCommandCloseJ4 = angleLimit(positionCommandCloseJ4, 4);
+        //     this.positionCommandJ1 = angleLimit(positionCommandJ1, Arm.j1PaddingAddDeg, Arm.j1PaddingMinusDeg);
+        //     this.positionCommandJ2 = angleLimit(positionCommandJ2, Arm.j2PaddingAddDeg, Arm.j2PaddingMinusDeg);
+        //     this.positionCommandJ3 = angleLimit(positionCommandJ3, Arm.j3PaddingAddDeg, Arm.j3PaddingMinusDeg);
+        //    this.positionCommandOpenJ4 = angleLimit(positionCommandOpenJ4, Arm.j4PaddingMinusDeg, Arm.j1PaddingAddDeg);
+        //    this.positionCommandCloseJ4 = angleLimit(positionCommandCloseJ4, Arm.j4PaddingMinusDeg, Arm.j4PaddingAddDeg);
 
-			SmartDashboard.putNumber("J1 Joystick Command", RobotMath.truncate(positionCommandJ1, 3));
-			SmartDashboard.putNumber("J2 Joystick Command", RobotMath.truncate(positionCommandJ2, 3));
-			SmartDashboard.putNumber("J3 Joystick Command", RobotMath.truncate(positionCommandJ3, 3));
-			SmartDashboard.putNumber("J4 Joystick Command", RobotMath.truncate(positionCommandJ4, 3));
-			SmartDashboard.putNumber("J4 Joystick Open Command", RobotMath.truncate(positionCommandOpenJ4, 3));
-			SmartDashboard.putNumber("J4 Joystick Close Command", RobotMath.truncate(positionCommandCloseJ4, 3));
+			SmartDashboard.putNumber("J1 Joystick Command", (positionCommandJ1));
+			SmartDashboard.putNumber("J2 Joystick Command", (positionCommandJ2));
+			SmartDashboard.putNumber("J3 Joystick Command", (positionCommandJ3));
+			SmartDashboard.putNumber("J4 Joystick Command", (positionCommandJ4));
+			SmartDashboard.putNumber("J4 Joystick Open Command", (positionCommandOpenJ4));
+			SmartDashboard.putNumber("J4 Joystick Close Command", (positionCommandCloseJ4));
         
-            m_armSubsystem.manualControl(positionCommandJ1,positionCommandJ2,positionCommandJ3,(positionCommandJ4*j4Limiter));
+            armSubsystem.manualControl((positionCommandJ1*j1Limiter),(positionCommandJ2*j2Limiter),(positionCommandJ3*j3Limiter),(positionCommandJ4*j4Limiter));
         }
     }
 
@@ -171,18 +178,14 @@ public class ArmCommand extends CommandBase{
         return controllerInput;
     }
 
-    public double angleLimit(double positionCommand, int joint){
-       double jointBookendArray1[] = Arm.getBookendArray1();
-       double jointBookendArray2[] = Arm.getBookendArray2();
-
-      double maxAngleDeg = jointBookendArray1 [joint];
-      double minAngleDeg = jointBookendArray2 [joint];
-
+    public double angleLimit(double positionCommand, double minAngleDeg, double maxAngleDeg){
+    minAngleDeg = RobotMath.armDegreesConvertEncoder(minAngleDeg);
+    maxAngleDeg = RobotMath.armDegreesConvertEncoder(maxAngleDeg);
+        if (positionCommand < minAngleDeg) {
+        positionCommand = minAngleDeg;
+    }
     if (positionCommand > maxAngleDeg) {
         positionCommand = maxAngleDeg;
-    }
-    if (positionCommand < minAngleDeg) {
-        positionCommand = minAngleDeg;
     }
     return positionCommand;
     }
