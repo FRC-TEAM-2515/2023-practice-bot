@@ -114,6 +114,10 @@ public class Constants {
         public static final double kJ3MaxLeftXControllerDeg = -75;
         public static final double kJ3MaxRightXControllerDeg = 61.2;
         
+        public static final double[] kJointMaxLeftStickDeg = new double[] {kJ1MaxLeftXControllerDeg, kJ1MaxLeftXControllerDeg, kJ1MaxLeftXControllerDeg};
+        public static final double[] kJointMaxRightStickDeg = new double[] {kJ1MaxRightXControllerDeg, kJ1MaxRightXControllerDeg, kJ1MaxRightXControllerDeg, kJ1MaxRightXControllerDeg};
+
+
         public static final double kJ1DegPerSecMax = 4;
         public static final double kJ2DegPerSecMax = 4;
         public static final double kJ3DegPerSecMax = 4;
@@ -121,6 +125,8 @@ public class Constants {
 
         public static final double armSlewRateLimiter = 0.0009;
         public static final double controllerDeadzone = 0.2;
+        public static double kJ2MaxRightStickDeg;
+
 
         
     }

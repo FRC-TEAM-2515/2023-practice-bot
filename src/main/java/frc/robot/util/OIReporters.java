@@ -174,28 +174,14 @@ public class OIReporters {
         }
 
         public static enum ControllerScaling {LIMITED_POLYNOMIC, LINEAR, SQUARED, CUBIC};
-        //         LIMITED_POLYNOMIC("Limited Polynomic"), LINEAR("Linear"), SQUARED("Squared"), CUBIC("Cubed");
-        //     public final String name; 
-        //         ControllerScaling(String name){this.name = name;}};
+            
+        public static enum DriveControllerMode {LEFT_STICK, TRIGGER_ACCEL};
+        public static enum DriveType {ARCADE, REG_CURVATURE, SEMI_CURVATURE};
         
-            public static enum DriveControllerMode {LEFT_STICK, TRIGGER_ACCEL};
-        //         LEFT_STICK("Left Stick"), TRIGGER_ACCEL("Trigger Acceleration");
-        //     public final String name; 
-        //         DriveControllerMode(String name){this.name = name;}};
+        public static enum ArmControlType {POSITION, VELOCITY, CARTESIAN};
         
-            public static enum DriveType {ARCADE, REG_CURVATURE, SEMI_CURVATURE};
-        //         ARCADE("Arcade"), REG_CURVATURE("Regular Curvature"), SEMI_CURVATURE("Smooth Curvature");
-        //     public final String name; 
-        //         DriveType(String name){this.name = name;}};
+        public static enum AutoCommand {SIMPLE};
+      
         
-            public static enum ArmControlType {POSITION, VELOCITY, CARTESIAN};
-        //     {POSITION("Position"), VELOCITY("Velocity"), CARTESIAN("Cartesian");
-        //     public final String name; 
-        //         ArmControlType(String name){this.name = name;}};
-        
-            public static enum AutoCommand {
-                SIMPLE};
-        //         ("Simple");
-        //     public final String name; 
-        //         AutoCommand(String name){this.name = name;}};
+              
 }

@@ -14,8 +14,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior; 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+
+import java.util.Map;
+
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -41,6 +46,8 @@ public class OI {
 
     private SendableChooser<ArmControlType> armControlModeChooser;
     private SendableChooser<ControllerScaling> armControllerScalingChooser;
+    private SendableChooser<Integer> armControlInversionChooser;
+    private SendableChooser<Integer> jointInversionChooser;
    
     private SimpleAutonomous simpleAutonomous;
     
@@ -127,7 +134,13 @@ public void configureSmartDashboard() {
     armControlModeChooser.setDefaultOption("Position", ArmControlType.POSITION);
     armControlModeChooser.addOption("Velocity", ArmControlType.VELOCITY);
     armControlModeChooser.addOption("Cartesian", ArmControlType.CARTESIAN);
-    
+
+    // jointInversionChooser.addOption("J1 LeftX", 1);
+    // jointInversionChooser.addOption("J2 LeftY", 2);
+    // jointInversionChooser.addOption("J3 RightY", 3);
+
+    // Shuffleboard.getTab("Arm Test").add("Inverted Control", jointInversionChooser).withWidget(BuiltInWidgets.kSplitButtonChooser);
+
     SmartDashboard.putData("Autonomous Mode", autoChooser);
 
     SmartDashboard.putData("Driver Controls", driverControlsChooser);
@@ -211,7 +224,10 @@ public void configureSmartDashboard() {
   public ControllerScaling getArmControllerScalingChooser() {
     return armControllerScalingChooser.getSelected();
   }
-
+  
+//   public Integer getInvertedArmControlsChooser(){
+//     return jointInversionChooser.getSelected();
+// }
   public AutoCommand getAutoCommandChoice() {
     // The selected command will be run in autonomous
     return autoChooser.getSelected();
