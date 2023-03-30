@@ -60,10 +60,6 @@ private SparkMaxAbsoluteEncoder j4ClawEncoder;
  
 private SlewRateLimiter armRateLimiter = new SlewRateLimiter(ArmConstants.armSlewRateLimiter);
 private double padding = 0;
-private double kJ1RampRate = 4;
-private double kJ2RampRate = 4;
-private double kJ3RampRate = 4;
-private double kJ4RampRate = 2;
 public double controllerDeadzone = 0.2;
 public enum armBrakeMode {Coast, Brake}; 
 
@@ -178,18 +174,18 @@ protected XboxController armController;
             kCoast = true;
         }
 
-        SmartDashboard.putBoolean("ArmTest/kCoast?", kCoast);
+        SmartDashboard.putBoolean("ArmTest/kCoast", kCoast);
         SmartDashboard.putData("ArmTest/Brake Mode", armBrakeModeChooser);
 
-        SmartDashboard.putNumber("ArmTest/j1TurretEncoder", j1TurretEncoder.getPosition());
-        SmartDashboard.putNumber("ArmTest/j2ElbowEncoder", j2ElbowEncoder.getPosition());
-        SmartDashboard.putNumber("ArmTest/j3WristEncoder", j3WristEncoder.getPosition());
-        SmartDashboard.putNumber("ArmTest/j4ClawEncoder", j4ClawEncoder.getPosition()); 
+        SmartDashboard.putNumber("ArmTest/J1TurretEncoder", j1TurretEncoder.getPosition());
+        SmartDashboard.putNumber("ArmTest/J2ElbowEncoder", j2ElbowEncoder.getPosition());
+        SmartDashboard.putNumber("ArmTest/J3WristEncoder", j3WristEncoder.getPosition());
+        SmartDashboard.putNumber("ArmTest/J4ClawEncoder", j4ClawEncoder.getPosition()); 
 
-        SmartDashboard.putNumber("ArmTest/j1TurretEncoder D", RobotMath.armEncoderConvertDegrees(j1TurretEncoder.getPosition()));
-        SmartDashboard.putNumber("ArmTest/j2ElbowEncoder D", RobotMath.armEncoderConvertDegrees(j2ElbowEncoder.getPosition()));
-        SmartDashboard.putNumber("ArmTest/j3WristEncoder D", RobotMath.armEncoderConvertDegrees(j3WristEncoder.getPosition()));
-        SmartDashboard.putNumber("ArmTest/j4ClawEncoder D", RobotMath.armEncoderConvertDegrees(j4ClawEncoder.getPosition()));
+        SmartDashboard.putNumber("ArmTest/J1TurretEncoder D", RobotMath.armEncoderConvertDegrees(j1TurretEncoder.getPosition()));
+        SmartDashboard.putNumber("ArmTest/J2ElbowEncoder D", RobotMath.armEncoderConvertDegrees(j2ElbowEncoder.getPosition()));
+        SmartDashboard.putNumber("ArmTest/J3WristEncoder D", RobotMath.armEncoderConvertDegrees(j3WristEncoder.getPosition()));
+        SmartDashboard.putNumber("ArmTest/J4ClawEncoder D", RobotMath.armEncoderConvertDegrees(j4ClawEncoder.getPosition()));
 
     this.padding = SmartDashboard.getNumber("ArmTest/RoM Safety Error", padding);
     SmartDashboard.putNumber("ArmTest/RoM Safety Error", padding);
@@ -198,7 +194,7 @@ protected XboxController armController;
     SmartDashboard.putNumber("ArmTest/J1 RoM w/ Safety Margin", RobotMath.armRangeDeg(padding, ArmConstants.kJ1PaddingAddRot, ArmConstants.kJ1PaddingMinusRot));
     SmartDashboard.putNumber("ArmTest/J2 RoM w/ Safety Margin", RobotMath.armRangeDeg(padding, ArmConstants.kJ2PaddingAddRot, ArmConstants.kJ2PaddingMinusRot));
     SmartDashboard.putNumber("ArmTest/J3 RoM w/ Safety Margin", RobotMath.armRangeDeg(padding, ArmConstants.kJ3PaddingAddRot, ArmConstants.kJ3PaddingMinusRot));
-    SmartDashboard.putNumber("ArmTest/J4 RoM w/ Safety Margin", RobotMath.armRangeDeg(3, ArmConstants.kJ4PaddingAddRot, ArmConstants.kJ4PaddingMinusRot) - 360);
+    SmartDashboard.putNumber("ArmTest/J4 RoM w/ Safety Margin", Math.abs(RobotMath.armRangeDeg(3, ArmConstants.kJ4PaddingAddRot, ArmConstants.kJ4PaddingMinusRot) - 360));
 
     j1PaddingAddDeg = RobotMath.armRangePaddingAddDeg(ArmConstants.kJ1PaddingAddRot, padding);
     j1PaddingMinusDeg = RobotMath.armRangePaddingMinusDeg(ArmConstants.kJ1PaddingMinusRot, padding);
@@ -213,20 +209,12 @@ protected XboxController armController;
     j3PaddingAddDeg = RobotMath.armRangePaddingAddDeg(ArmConstants.kJ3PaddingAddRot, padding);
     j3PaddingMinusDeg = RobotMath.armRangePaddingMinusDeg(ArmConstants.kJ3PaddingMinusRot, padding);
     SmartDashboard.putNumber("ArmTest/J3 Padding Add (deg)", j3PaddingAddDeg);
-    SmartDashboard.putNumber("ArmTest/J3 Padding Minus (deg)", j3PaddingAddDeg);
+    SmartDashboard.putNumber("ArmTest/J3 Padding Minus (deg)", j3PaddingMinusDeg);
 
-    j4PaddingAddDeg = RobotMath.armRangePaddingAddDeg(ArmConstants.kJ4PaddingAddRot, 3);
-    j4PaddingMinusDeg = RobotMath.armRangePaddingMinusDeg(ArmConstants.kJ4PaddingMinusRot, 3);
+    j4PaddingAddDeg = RobotMath.armRangePaddingMinusDeg(ArmConstants.kJ4PaddingMinusRot, 3);
+    j4PaddingMinusDeg = RobotMath.armRangePaddingAddDeg(ArmConstants.kJ4PaddingAddRot, 3);
     SmartDashboard.putNumber("ArmTest/J4 Padding Add (deg)", j4PaddingAddDeg);
     SmartDashboard.putNumber("ArmTest/J4 Padding Minus (deg)", j4PaddingMinusDeg);
-
-    kPadding1ArraySafe = new double[] {j1PaddingAddDeg, j2PaddingAddDeg, j3PaddingAddDeg, j4PaddingMinusDeg};
-    kPadding2ArraySafe = new double[] {j1PaddingMinusDeg, j1PaddingMinusDeg,j1PaddingMinusDeg, j4PaddingMinusDeg};
-
-
-    // kPaddingPadding1ArraySafe = new double[] {j1PaddingAddDeg, j2PaddingAddDeg, j3PaddingAddDeg, j4PaddingMinusDeg};
-    // kPaddingPadding2ArraySafe = new double[] {j1PaddingMinusDeg, j4PaddingMinusDeg,j4PaddingMinusDeg, j1PaddingAddDeg};
-
     }
     
     @Override

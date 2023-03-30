@@ -138,11 +138,11 @@ public class ArmCommand extends CommandBase{
             // double heading = Math.atan(positionCommandOpenJ4) * 720/ Math.PI + (Math.atan(positionCommandCloseJ4) * 720/ Math.PI);
             // SmartDashboard.putNumber("ArmTest/Heading", heading);
 
-            double j1Heading = Math.atan(j1ThrottleLeftX) * 720/ Math.PI;
-            SmartDashboard.putNumber("ArmTest/J1 Throttle Left Deg", j1Heading);
+            double j1ThrottleDeg = Math.atan(j1ThrottleLeftX) * 720/ Math.PI;
+            SmartDashboard.putNumber("ArmTest/J1 Throttle Left Deg", j1ThrottleDeg);
 
-            double j2Heading = Math.tan(j1Heading) * Math.PI/ 720;
-            SmartDashboard.putNumber("ArmTest/J1 Throttle Left Converted Raw", j2Heading);
+            double j1ThrottleRaw = Math.tan(j1ThrottleDeg) * Math.PI/ 720;
+            SmartDashboard.putNumber("ArmTest/J1 Throttle Left Converted Raw", j1ThrottleRaw);
 
 
             double positionCommandJ4 = 0;
@@ -155,7 +155,7 @@ public class ArmCommand extends CommandBase{
                  }  
 
             
-        double limitedController = angleLimit(j1Heading, 1);
+        double limitedController = angleLimit(j1ThrottleDeg, 1);
         SmartDashboard.putNumber("ArmTest/Limited Controller", limitedController);
         //     this.positionCommandJ2 = angleLimit(positionCommandJ2, Arm.j2PaddingAddDeg, Arm.j2PaddingMinusDeg);
         //     this.positionCommandJ3 = angleLimit(positionCommandJ3, Arm.j3PaddingAddDeg, Arm.j3PaddingMinusDeg);

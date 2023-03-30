@@ -90,20 +90,20 @@ public class Constants {
         'Add' indicates that the value will increase to reduce maximum range*/
 
         //Maximum range of 277.2 degress 
-        public static final double kJ1PaddingAddRot = 0.29; //104.4 degrees
-        public static final double kJ1PaddingMinusRot = 0.52; //187.2 degrees
+        public static final double kJ1PaddingMinusRot = 0.29; //104.4 degrees
+        public static final double kJ1PaddingAddRot = 0.52; //187.2 degrees
 
         //Maximum range of 223.2 degrees
-        public static final double kJ2PaddingAddRot = 0.32; //115.2 degrees
-        public static final double kJ2PaddingMinusRot = 0.70; //252.0 degrees
+        public static final double kJ2PaddingMinusRot = 0.32; //115.2 degrees
+        public static final double kJ2PaddingAddRot = 0.70; //252.0 degrees
 
         //Maximum range of 165.6 degrees
-        public static final double kJ3PaddingAddRot = 0.17; //61.2 degrees
-        public static final double kJ3PaddingMinusRot = 0.71; //255.6 degrees
+        public static final double kJ3PaddingMinusRot = 0.17; //61.2 degrees
+        public static final double kJ3PaddingAddRot = 0.71; //255.6 degrees
 
-        //Maximum range of 54.0 degrees
-        public static final double kJ4PaddingAddRot = 0.23; //82.8 degrees
-        public static final double kJ4PaddingMinusRot = 0.08; //28.8 degrees
+        //Maximum range of 54.0 degrees - no discontinuity so subtracted by an extra 360 degrees to get the correct range
+        public static final double kJ4PaddingMinusRot = 0.23; //82.8 degrees
+        public static final double kJ4PaddingAddRot = 0.08; //28.8 degrees
 
         public static final double kJ1MaxLeftXControllerDeg = -75.6;
         public static final double kJ1MaxRightXControllerDeg = 187;

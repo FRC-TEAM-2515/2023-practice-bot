@@ -23,6 +23,12 @@
         "open": true
       },
       "SmartDashboard": {
+        "ArmTest": {
+          "J4 RoM w": {
+            "open": true
+          },
+          "open": true
+        },
         "open": true
       }
     }

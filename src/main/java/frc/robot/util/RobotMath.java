@@ -68,7 +68,7 @@ public class RobotMath {
     }
 
     public static double armRangeDeg(double padding, double jointPaddingAdd, double jointPaddingMinus){
-       return Math.abs(armRangePaddingAddDeg(jointPaddingAdd, padding) - armRangePaddingMinusDeg(jointPaddingMinus, padding) - 360);
+       return truncate(Math.abs(armRangePaddingAddDeg(jointPaddingAdd, padding) - armRangePaddingMinusDeg(jointPaddingMinus, padding) - 360), 3);
     }
 
     public static double controllerInputDegConvertRaw(double controllerInputDeg){ //Controller input (deg) -> Controller input (raw)

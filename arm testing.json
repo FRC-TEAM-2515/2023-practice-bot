@@ -5,7 +5,7 @@
       "autoPopulate": true,
       "autoPopulatePrefix": "SmartDashboard/ArmTest",
       "widgetPane": {
-        "gridSize": 64.0,
+        "gridSize": 32.0,
         "showGrid": false,
         "hgap": 5.0,
         "vgap": 4.0,
@@ -1937,6 +1937,125 @@
               "_glyph": 148,
               "_showGlyph": false
             }
+          },
+          "3,7": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/ArmTest/kCoast",
+              "_title": "/kCoast",
+              "_glyph": 148,
+              "_showGlyph": false,
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "24,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/ArmTest/J1TurretEncoder",
+              "_title": "/J1TurretEncoder",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "26,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/ArmTest/J2ElbowEncoder",
+              "_title": "/J2ElbowEncoder",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "28,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/ArmTest/J3WristEncoder",
+              "_title": "/J3WristEncoder",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "30,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/ArmTest/J4ClawEncoder",
+              "_title": "/J4ClawEncoder",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "32,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/ArmTest/J1TurretEncoder D",
+              "_title": "/J1TurretEncoder D",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "34,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/ArmTest/J2ElbowEncoder D",
+              "_title": "/J2ElbowEncoder D",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "36,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/ArmTest/J3WristEncoder D",
+              "_title": "/J3WristEncoder D",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "38,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/ArmTest/J4ClawEncoder D",
+              "_title": "/J4ClawEncoder D",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
           }
         }
       }
@@ -1965,9 +2084,9 @@
         "vgap": 4.0,
         "titleType": 1,
         "tiles": {
-          "10,14": {
+          "10,10": {
             "size": [
-              7,
+              6,
               2
             ],
             "content": {
@@ -1988,7 +2107,7 @@
               "_title": "List Layout",
               "_glyph": 149,
               "_showGlyph": false,
-              "Layout/Label position": "BOTTOM",
+              "Layout/Label position": "TOP",
               "_children": [
                 {
                   "_type": "Text View",
@@ -2021,24 +2140,9 @@
               ]
             }
           },
-          "10,12": {
+          "10,8": {
             "size": [
-              5,
-              2
-            ],
-            "content": {
-              "_type": "Boolean Box",
-              "_source0": "network_table:///SmartDashboard/ArmTest/kCoast?",
-              "_title": "kCoast?",
-              "_glyph": 148,
-              "_showGlyph": false,
-              "Colors/Color when true": "#7CFC00FF",
-              "Colors/Color when false": "#8B0000FF"
-            }
-          },
-          "10,10": {
-            "size": [
-              5,
+              4,
               2
             ],
             "content": {
@@ -2074,7 +2178,7 @@
               "_showGlyph": false,
               "Layout/Number of columns": 2,
               "Layout/Number of rows": 4,
-              "Layout/Label position": "BOTTOM",
+              "Layout/Label position": "TOP",
               "_children": {
                 "0,1": {
                   "_type": "Text View",
@@ -2135,85 +2239,187 @@
               }
             }
           },
-          "10,16": {
+          "10,12": {
             "size": [
-              7,
+              6,
               2
             ],
             "content": {
               "_type": "ComboBox Chooser",
               "_source0": "network_table:///SmartDashboard/Arm Controller Scaling",
-              "_title": "SmartDashboard/Arm Controller Scaling",
+              "_title": "Arm Controller Scaling",
               "_glyph": 148,
               "_showGlyph": false
             }
           },
-          "0,0": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/ArmTest/j3WristEncoder",
-              "_title": "j3WristEncoder",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "4,4": {
+          "14,8": {
             "size": [
               2,
               2
             ],
             "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/ArmTest/raw left x",
-              "_title": "raw left x",
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/ArmTest/kCoast",
+              "_title": "kCoast",
               "_glyph": 148,
-              "_showGlyph": false
+              "_showGlyph": false,
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
             }
           },
-          "6,4": {
+          "28,0": {
             "size": [
-              2,
-              1
+              4,
+              8
+            ],
+            "content": {
+              "_type": "List Layout",
+              "_title": "List Layout",
+              "_glyph": 149,
+              "_showGlyph": false,
+              "Layout/Label position": "TOP",
+              "_children": [
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/ArmTest/raw left x",
+                  "_title": "raw left x",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/ArmTest/raw right x",
+                  "_title": "raw right x",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/ArmTest/raw left y",
+                  "_title": "raw left y",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/ArmTest/raw right y",
+                  "_title": "raw right y",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                }
+              ]
+            }
+          },
+          "9,15": {
+            "size": [
+              4,
+              2
             ],
             "content": {
               "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/ArmTest/raw left y",
-              "_title": "raw left y",
+              "_source0": "network_table:///SmartDashboard/ArmTest/Limited Controller",
+              "_title": "Limited Controller",
               "_glyph": 148,
               "_showGlyph": false
             }
           },
-          "8,4": {
+          "8,3": {
             "size": [
-              2,
-              1
+              6,
+              2
             ],
             "content": {
               "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/ArmTest/raw right x",
-              "_title": "raw right x",
+              "_source0": "network_table:///SmartDashboard/ArmTest/J1 Throttle Left Converted Raw",
+              "_title": "J1 Throttle Left Converted Raw",
               "_glyph": 148,
               "_showGlyph": false
             }
           },
-          "10,4": {
+          "8,1": {
             "size": [
-              2,
-              1
+              5,
+              2
             ],
             "content": {
               "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/ArmTest/raw right y",
-              "_title": "raw right y",
+              "_source0": "network_table:///SmartDashboard/ArmTest/J1 Throttle Left Deg",
+              "_title": "J1 Throttle Left Deg",
               "_glyph": 148,
               "_showGlyph": false
             }
           },
-          "38,0": {
+          "7,17": {
+            "size": [
+              6,
+              2
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/ArmTest/Limited Controller (deg)",
+              "_title": "Limited Controller (deg)",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "0,1": {
+            "size": [
+              6,
+              13
+            ],
+            "content": {
+              "_type": "List Layout",
+              "_title": "List Layout",
+              "_glyph": 149,
+              "_showGlyph": false,
+              "Layout/Label position": "BOTTOM",
+              "_children": [
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/ArmTest/J4 Joystick Open Command",
+                  "_title": "J4 Joystick Open Command",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/ArmTest/J4 Joystick Close Command",
+                  "_title": "J4 Joystick Close Command",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/ArmTest/J1 Joystick Command",
+                  "_title": "J1 Joystick Command",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/ArmTest/J2 Joystick Command",
+                  "_title": "J2 Joystick Command",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/ArmTest/J4 Joystick Command",
+                  "_title": "J4 Joystick Command",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/ArmTest/J3 Joystick Command",
+                  "_title": "J3 Joystick Command",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                }
+              ]
+            }
+          },
+          "0,0": {
             "size": [
               2,
               1
@@ -2226,7 +2432,7 @@
               "_showGlyph": false
             }
           },
-          "40,0": {
+          "2,0": {
             "size": [
               2,
               1
@@ -2239,149 +2445,6 @@
               "_showGlyph": false
             }
           },
-          "0,1": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/ArmTest/J1 Throttle Left Deg",
-              "_title": "J1 Throttle Left Deg",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "2,1": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/ArmTest/J1 Throttle Left Converted Raw",
-              "_title": "J1 Throttle Left Converted Raw",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "4,1": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/ArmTest/Limited Controller (deg)",
-              "_title": "Limited Controller (deg)",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "6,1": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/ArmTest/Limited Controller",
-              "_title": "Limited Controller",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "8,1": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/ArmTest/J1 Joystick Command",
-              "_title": "J1 Joystick Command",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "10,1": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/ArmTest/J2 Joystick Command",
-              "_title": "J2 Joystick Command",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "38,1": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/ArmTest/J3 Joystick Command",
-              "_title": "J3 Joystick Command",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "40,1": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/ArmTest/J4 Joystick Command",
-              "_title": "J4 Joystick Command",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "0,2": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/ArmTest/J4 Joystick Open Command",
-              "_title": "J4 Joystick Open Command",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "2,2": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/ArmTest/J4 Joystick Close Command",
-              "_title": "J4 Joystick Close Command",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "2,0": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/ArmTest/j1TurretEncoder",
-              "_title": "/j1TurretEncoder",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
           "4,0": {
             "size": [
               2,
@@ -2389,8 +2452,8 @@
             ],
             "content": {
               "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/ArmTest/j2ElbowEncoder",
-              "_title": "/j2ElbowEncoder",
+              "_source0": "network_table:///SmartDashboard/ArmTest/J1TurretEncoder",
+              "_title": "J1TurretEncoder",
               "_glyph": 148,
               "_showGlyph": false
             }
@@ -2402,8 +2465,8 @@
             ],
             "content": {
               "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/ArmTest/j4ClawEncoder",
-              "_title": "/j4ClawEncoder",
+              "_source0": "network_table:///SmartDashboard/ArmTest/J2ElbowEncoder",
+              "_title": "J2ElbowEncoder",
               "_glyph": 148,
               "_showGlyph": false
             }
@@ -2415,8 +2478,8 @@
             ],
             "content": {
               "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/ArmTest/j1TurretEncoder D",
-              "_title": "/j1TurretEncoder D",
+              "_source0": "network_table:///SmartDashboard/ArmTest/J3WristEncoder",
+              "_title": "J3WristEncoder",
               "_glyph": 148,
               "_showGlyph": false
             }
@@ -2428,8 +2491,8 @@
             ],
             "content": {
               "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/ArmTest/j2ElbowEncoder D",
-              "_title": "/j2ElbowEncoder D",
+              "_source0": "network_table:///SmartDashboard/ArmTest/J4ClawEncoder",
+              "_title": "J4ClawEncoder",
               "_glyph": 148,
               "_showGlyph": false
             }
@@ -2441,8 +2504,8 @@
             ],
             "content": {
               "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/ArmTest/j3WristEncoder D",
-              "_title": "/j3WristEncoder D",
+              "_source0": "network_table:///SmartDashboard/ArmTest/J1TurretEncoder D",
+              "_title": "J1TurretEncoder D",
               "_glyph": 148,
               "_showGlyph": false
             }
@@ -2454,8 +2517,34 @@
             ],
             "content": {
               "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/ArmTest/j4ClawEncoder D",
-              "_title": "/j4ClawEncoder D",
+              "_source0": "network_table:///SmartDashboard/ArmTest/J2ElbowEncoder D",
+              "_title": "J2ElbowEncoder D",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "26,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/ArmTest/J3WristEncoder D",
+              "_title": "J3WristEncoder D",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "38,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/ArmTest/J4ClawEncoder D",
+              "_title": "J4ClawEncoder D",
               "_glyph": 148,
               "_showGlyph": false
             }
