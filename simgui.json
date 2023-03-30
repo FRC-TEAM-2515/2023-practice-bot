@@ -95,6 +95,9 @@
         "Arm Controller Scaling": {
           "open": true
         },
+        "ArmTest": {
+          "open": true
+        },
         "Drive Controller Scaling": {
           "open": true
         },
