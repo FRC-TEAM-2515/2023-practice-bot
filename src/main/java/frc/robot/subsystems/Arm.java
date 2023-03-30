@@ -127,10 +127,10 @@ protected XboxController armController;
     public void manualControl(double j1JoystickInput,double j2JoystickInput ,double j3JoystickInput, double j4JoystickInput) {
       
         
-        SmartDashboard.getNumber("J1 Ramp Rate", kJ1RampRate);
-        SmartDashboard.getNumber("J2 Ramp Rate", kJ2RampRate);
-        SmartDashboard.getNumber("J3 Ramp Rate", kJ3RampRate);
-        SmartDashboard.getNumber("J4 Ramp Rate", kJ4RampRate);
+        // SmartDashboard.getNumber("ArmTest/J1 Ramp Rate", kJ1RampRate);
+        // SmartDashboard.getNumber("ArmTest/J2 Ramp Rate", kJ2RampRate);
+        // SmartDashboard.getNumber("ArmTest/J3 Ramp Rate", kJ3RampRate);
+        // SmartDashboard.getNumber("ArmTest/J4 Ramp Rate", kJ4RampRate);
 
         // j1Turret.setOpenLoopRampRate(kJ1RampRate);
         // j2Elbow.setOpenLoopRampRate(kJ2RampRate);
@@ -178,78 +178,52 @@ protected XboxController armController;
             kCoast = true;
         }
 
-        SmartDashboard.putBoolean("kCoast?", kCoast);
-        SmartDashboard.putData("Brake Mode", armBrakeModeChooser);
+        SmartDashboard.putBoolean("ArmTest/kCoast?", kCoast);
+        SmartDashboard.putData("ArmTest/Brake Mode", armBrakeModeChooser);
 
-        SmartDashboard.putNumber("j1TurretEncoder", j1TurretEncoder.getPosition());
-        SmartDashboard.putNumber("j2ElbowEncoder", j2ElbowEncoder.getPosition());
-        SmartDashboard.putNumber("j3WristYEncoder", j3WristEncoder.getPosition());
-        SmartDashboard.putNumber("j4ClawEncoder", j4ClawEncoder.getPosition()); 
+        SmartDashboard.putNumber("ArmTest/j1TurretEncoder", j1TurretEncoder.getPosition());
+        SmartDashboard.putNumber("ArmTest/j2ElbowEncoder", j2ElbowEncoder.getPosition());
+        SmartDashboard.putNumber("ArmTest/j3WristEncoder", j3WristEncoder.getPosition());
+        SmartDashboard.putNumber("ArmTest/j4ClawEncoder", j4ClawEncoder.getPosition()); 
 
-        SmartDashboard.putNumber("j1TurretEncoder D", RobotMath.armEncoderConvertDegrees(j1TurretEncoder.getPosition()));
-        SmartDashboard.putNumber("j2ElbowEncoder D", RobotMath.armEncoderConvertDegrees(j2ElbowEncoder.getPosition()));
-        SmartDashboard.putNumber("j3WristEncoder D", RobotMath.armEncoderConvertDegrees(j3WristEncoder.getPosition()));
-        SmartDashboard.putNumber("j4ClawEncoder D", RobotMath.armEncoderConvertDegrees(j4ClawEncoder.getPosition()));
+        SmartDashboard.putNumber("ArmTest/j1TurretEncoder D", RobotMath.armEncoderConvertDegrees(j1TurretEncoder.getPosition()));
+        SmartDashboard.putNumber("ArmTest/j2ElbowEncoder D", RobotMath.armEncoderConvertDegrees(j2ElbowEncoder.getPosition()));
+        SmartDashboard.putNumber("ArmTest/j3WristEncoder D", RobotMath.armEncoderConvertDegrees(j3WristEncoder.getPosition()));
+        SmartDashboard.putNumber("ArmTest/j4ClawEncoder D", RobotMath.armEncoderConvertDegrees(j4ClawEncoder.getPosition()));
 
-    this.padding = SmartDashboard.getNumber("RoM Safety Error", padding);
-    SmartDashboard.putNumber("RoM Safety Error", padding);
+    this.padding = SmartDashboard.getNumber("ArmTest/RoM Safety Error", padding);
+    SmartDashboard.putNumber("ArmTest/RoM Safety Error", padding);
     //if((romError != error)) { error = romError; }
 
-    SmartDashboard.putNumber("J1 RoM w/ Safety Margin", RobotMath.armRangeDeg(padding, ArmConstants.kJ1PaddingAddRot, ArmConstants.kJ1PaddingMinusRot));
-    SmartDashboard.putNumber("J2 RoM w/ Safety Margin", RobotMath.armRangeDeg(padding, ArmConstants.kJ2PaddingAddRot, ArmConstants.kJ2PaddingMinusRot));
-    SmartDashboard.putNumber("J3 RoM w/ Safety Margin", RobotMath.armRangeDeg(padding, ArmConstants.kJ3PaddingAddRot, ArmConstants.kJ3PaddingMinusRot));
-    SmartDashboard.putNumber("J4 RoM w/ Safety Margin", RobotMath.armRangeDeg(3, ArmConstants.kJ4PaddingAddRot, ArmConstants.kJ4PaddingMinusRot) - 360);
+    SmartDashboard.putNumber("ArmTest/J1 RoM w/ Safety Margin", RobotMath.armRangeDeg(padding, ArmConstants.kJ1PaddingAddRot, ArmConstants.kJ1PaddingMinusRot));
+    SmartDashboard.putNumber("ArmTest/J2 RoM w/ Safety Margin", RobotMath.armRangeDeg(padding, ArmConstants.kJ2PaddingAddRot, ArmConstants.kJ2PaddingMinusRot));
+    SmartDashboard.putNumber("ArmTest/J3 RoM w/ Safety Margin", RobotMath.armRangeDeg(padding, ArmConstants.kJ3PaddingAddRot, ArmConstants.kJ3PaddingMinusRot));
+    SmartDashboard.putNumber("ArmTest/J4 RoM w/ Safety Margin", RobotMath.armRangeDeg(3, ArmConstants.kJ4PaddingAddRot, ArmConstants.kJ4PaddingMinusRot) - 360);
 
     j1PaddingAddDeg = RobotMath.armRangePaddingAddDeg(ArmConstants.kJ1PaddingAddRot, padding);
     j1PaddingMinusDeg = RobotMath.armRangePaddingMinusDeg(ArmConstants.kJ1PaddingMinusRot, padding);
-    SmartDashboard.putNumber("J1 Padding Add (deg)", j1PaddingAddDeg );
-    SmartDashboard.putNumber("J1 Padding Minus (deg)", j1PaddingMinusDeg);
+    SmartDashboard.putNumber("ArmTest/J1 Padding Add (deg)", RobotMath.truncate(j1PaddingAddDeg, 3));
+    SmartDashboard.putNumber("ArmTest/J1 Padding Minus (deg)", RobotMath.truncate(j1PaddingMinusDeg,3));
 
     j2PaddingAddDeg = RobotMath.armRangePaddingAddDeg(ArmConstants.kJ2PaddingAddRot, padding);
     j2PaddingMinusDeg = RobotMath.armRangePaddingMinusDeg(ArmConstants.kJ2PaddingMinusRot, padding);
-    SmartDashboard.putNumber("J2 Padding Add (deg)", j2PaddingAddDeg);
-    SmartDashboard.putNumber("J2 Padding Minus (deg)", RobotMath.armRangePaddingMinusDeg(ArmConstants.kJ2PaddingMinusRot, padding));
+    SmartDashboard.putNumber("ArmTest/J2 Padding Add (deg)", j2PaddingAddDeg);
+    SmartDashboard.putNumber("ArmTest/J2 Padding Minus (deg)", j2PaddingMinusDeg);
 
     j3PaddingAddDeg = RobotMath.armRangePaddingAddDeg(ArmConstants.kJ3PaddingAddRot, padding);
     j3PaddingMinusDeg = RobotMath.armRangePaddingMinusDeg(ArmConstants.kJ3PaddingMinusRot, padding);
-    SmartDashboard.putNumber("J3 Padding Add (deg)", RobotMath.armRangePaddingAddDeg(ArmConstants.kJ3PaddingAddRot, padding));
-    SmartDashboard.putNumber("J3 Padding Minus (deg)", RobotMath.armRangePaddingMinusDeg(ArmConstants.kJ3PaddingMinusRot, padding));
+    SmartDashboard.putNumber("ArmTest/J3 Padding Add (deg)", j3PaddingAddDeg);
+    SmartDashboard.putNumber("ArmTest/J3 Padding Minus (deg)", j3PaddingAddDeg);
 
     j4PaddingAddDeg = RobotMath.armRangePaddingAddDeg(ArmConstants.kJ4PaddingAddRot, 3);
     j4PaddingMinusDeg = RobotMath.armRangePaddingMinusDeg(ArmConstants.kJ4PaddingMinusRot, 3);
-    SmartDashboard.putNumber("J4 Padding Add (deg)", j4PaddingAddDeg);
-    SmartDashboard.putNumber("j4ClawEncoder Padding2", j4PaddingMinusDeg);
+    SmartDashboard.putNumber("ArmTest/J4 Padding Add (deg)", j4PaddingAddDeg);
+    SmartDashboard.putNumber("ArmTest/J4 Padding Minus (deg)", j4PaddingMinusDeg);
 
     kPadding1ArraySafe = new double[] {j1PaddingAddDeg, j2PaddingAddDeg, j3PaddingAddDeg, j4PaddingMinusDeg};
     kPadding2ArraySafe = new double[] {j1PaddingMinusDeg, j1PaddingMinusDeg,j1PaddingMinusDeg, j4PaddingMinusDeg};
 
-    
-    // SmartDashboard.putNumber("J1 RoM w/ Safety Margin", RobotMath.truncate(Math.abs(RobotMath.armRangeErrorMarginAdd(RobotMath.armEncoderConvertDegrees(ArmConstants.kJ1PaddingAdd), error) + RobotMath.armRangeErrorMarginMinus(RobotMath.armEncoderConvertDegrees(ArmConstants.kJ1PaddingMinus), error) -360), 3));
-    // SmartDashboard.putNumber("J2 RoM w/ Safety Margin", RobotMath.truncate(Math.abs(RobotMath.armRangeErrorMarginAdd(RobotMath.armEncoderConvertDegrees(ArmConstants.kJ2PaddingAdd), error) + RobotMath.armRangeErrorMarginMinus(RobotMath.armEncoderConvertDegrees(ArmConstants.kJ2PaddingMinus), error) - 360), 3));
-    // SmartDashboard.putNumber("J3 RoM w/ Safety Margin", RobotMath.truncate(Math.abs(RobotMath.armRangeErrorMarginAdd(RobotMath.armEncoderConvertDegrees(ArmConstants.kJ3PaddingAdd), error) + RobotMath.armRangeErrorMarginMinus(RobotMath.armEncoderConvertDegrees(ArmConstants.kJ3PaddingMinus), error) - 360), 3));
-    // SmartDashboard.putNumber("J4 RoM w/ Safety Margin", RobotMath.truncate(Math.abs(RobotMath.armRangeErrorMarginAdd(RobotMath.armEncoderConvertDegrees(ArmConstants.kJ4PaddingAdd), error) + RobotMath.armRangeErrorMarginMinus(RobotMath.armEncoderConvertDegrees(ArmConstants.kJ4PaddingMinus), error) - 360), 3));
 
-    j1PaddingAddDeg = RobotMath.armRangePaddingAddDeg(ArmConstants.kJ1PaddingAddRot, padding);
-    j4PaddingMinusDeg = RobotMath.armRangePaddingMinusDeg(ArmConstants.kJ1PaddingMinusRot, padding);
-    SmartDashboard.putNumber("j1TurretEncoder Padding1", j1PaddingAddDeg );
-    SmartDashboard.putNumber("j1TurretEncoder Padding2", j1PaddingMinusDeg);
-
-    j2PaddingAddDeg = RobotMath.armRangePaddingAddDeg(ArmConstants.kJ2PaddingAddRot, padding);
-    j2PaddingMinusDeg = RobotMath.armRangePaddingMinusDeg(ArmConstants.kJ2PaddingMinusRot, padding);
-    SmartDashboard.putNumber("j2ElbowEncoder Padding1", j2PaddingAddDeg);
-    SmartDashboard.putNumber("j2ElbowEncoder Padding2", RobotMath.armRangePaddingMinusDeg(ArmConstants.kJ2PaddingMinusRot, padding));
-
-    j3PaddingAddDeg = RobotMath.armRangePaddingAddDeg(ArmConstants.kJ3PaddingAddRot, padding);
-    j3PaddingMinusDeg = RobotMath.armRangePaddingMinusDeg(ArmConstants.kJ3PaddingMinusRot, padding);
-    SmartDashboard.putNumber("j3WristEncoder Padding1", RobotMath.armRangePaddingAddDeg(ArmConstants.kJ3PaddingAddRot, padding));
-    SmartDashboard.putNumber("j3WristEncoder Padding2", RobotMath.armRangePaddingMinusDeg(ArmConstants.kJ3PaddingMinusRot, padding));
-
-    j4PaddingAddDeg = RobotMath.armRangePaddingAddDeg(ArmConstants.kJ4PaddingAddRot, 3);
-    j4PaddingMinusDeg = RobotMath.armRangePaddingMinusDeg(ArmConstants.kJ4PaddingMinusRot, 3);
-    SmartDashboard.putNumber("j4ClawEncoder Padding1", ArmConstants.kJ4PaddingAddRot);
-    SmartDashboard.putNumber("j4ClawEncoder Padding2", ArmConstants.kJ4PaddingAddRot);
-
-    
     // kPaddingPadding1ArraySafe = new double[] {j1PaddingAddDeg, j2PaddingAddDeg, j3PaddingAddDeg, j4PaddingMinusDeg};
     // kPaddingPadding2ArraySafe = new double[] {j1PaddingMinusDeg, j4PaddingMinusDeg,j4PaddingMinusDeg, j1PaddingAddDeg};
 
@@ -257,26 +231,8 @@ protected XboxController armController;
     
     @Override
     public void periodic() {
-        //super.periodic(); //needed if PID motion profiling subsystem
-        double j1RampRate = SmartDashboard.getNumber("J1 Ramp Rate", 4);
-        double j2RampRate = SmartDashboard.getNumber("J2 Ramp Rate", 4);
-        double j3RampRate = SmartDashboard.getNumber("J3 Ramp Rate", 4);
-        double j4RampRate = SmartDashboard.getNumber("J4 Ramp Rate", 4);
-
-        if((j1RampRate != kJ1RampRate)) { 
-            kJ1RampRate = j1RampRate; }
-        if((j2RampRate != kJ2RampRate)) {
-            kJ2RampRate = j2RampRate; }
-        if((j3RampRate != kJ3RampRate)) {
-            kJ3RampRate = j3RampRate; }
-        if((j4RampRate != kJ4RampRate)) {
-            kJ4RampRate = j4RampRate; }
-        
-        SmartDashboard.putNumber("Applied J1 Ramp Rate", j1Turret.getOpenLoopRampRate());
-        SmartDashboard.putNumber("Applied J2 Ramp Rate", j2Elbow.getOpenLoopRampRate());
-        SmartDashboard.putNumber("Applied J3 Ramp Rate", j3Wrist.getOpenLoopRampRate());
-        SmartDashboard.putNumber("Applied J4 Ramp Rate", j4Claw.getOpenLoopRampRate());
-
+        // //super.periodic(); //needed if PID motion profiling subsystem
+      
        updateSmartDashboard();
     
 
@@ -296,85 +252,10 @@ protected XboxController armController;
     public void simulationPeriodic() {
         // This method will be called once per scheduler run when in simulation
 
-//     }
-//     public void moveShoulder(double shoulderForce){
-//         double shoulderLimiter = .5;
-//         j2Elbow.set(getDeadZoneAdjustment(shoulderForce*shoulderLimiter,ArmConstants.controllerDeadzone));
-//         SmartDashboard.putNumber("Shoulder Force", getDeadZoneAdjustment(shoulderForce,ArmConstants.controllerDeadzone));
-//     }
-//     public void moveElbow(double elbowForce){
-//         double elbowLimiter = .20;
-//         j3WristY.set(getDeadZoneAdjustment(elbowForce*elbowLimiter,ArmConstants.controllerDeadzone));
-//         SmartDashboard.putNumber("Elbow Force", getDeadZoneAdjustment(elbowForce,ArmConstants.controllerDeadzone));
-//     }    
-//     public void moveClaw(double open, double close){
-//         // armMotor.set(force);
-//         double clawForce = 0;
-//         double clawLimiter = .10;
-//         if (open > ArmConstants.controllerDeadzone){
-//             clawForce = open;
-//           }
-//           if (close > ArmConstants.controllerDeadzone){
-//             clawForce = -close;
-//           }  
-//         j5Claw.set(getDeadZoneAdjustment(clawForce*clawLimiter,ArmConstants.controllerDeadzone));
-//         SmartDashboard.putNumber("Claw Force", getDeadZoneAdjustment(clawForce,ArmConstants.controllerDeadzone));
-//     }  
-//     public void rotateWaist(double waistForce){
-//         double waistLimiter = .50;
-//         j1Turret.set(getDeadZoneAdjustment(waistForce*waistLimiter,waistForce));
-//         SmartDashboard.putNumber("Waist Force", getDeadZoneAdjustment(waistForce,ArmConstants.controllerDeadzone));
-//     }
-//     public void rotateWrist(double wristForce){
-//         double wristLimiter = .05;
-//         j4Claw.set(getDeadZoneAdjustment(wristForce*wristLimiter,ArmConstants.controllerDeadzone));
-//         SmartDashboard.putNumber("Wrist Force", getDeadZoneAdjustment(wristForce,ArmConstants.controllerDeadzone));
-//     }
-// /**
-// * Adjust the value to provide a dead zone. The normal zone will be shorten zone that will allow
-// * a full 0 to 1/-1 range.
-// *
-// * @param orginalValue - The value to be adjusted.
-// * @param deadzone - The dead zone which should be a positive decimal representing a percentage.
-// * @return The newly adjusted value.
-// */
-// public double getDeadZoneAdjustment(double orginalValue, double deadzone) {
-//     double maxRange = 1.0 - deadzone;
-//     double adjustedValue = orginalValue - (orginalValue * deadzone);
-//     if(isPositive(orginalValue)) { // Value is positive.
-//     // Verify that the adjusted value is still positive.
-//     if(isPositive(adjustedValue)) {
-//     // We divide by the maxRange to give us the full range of 0 to 1.
-//     return adjustedValue / maxRange;
-//     }
-//     } else { //Value is negative.
-//     // Verify that the adjusted value is still negative.
-//     if(!isPositive(adjustedValue) && adjustedValue != 0) {
-//     // We divide by the maxRange to give us the full range of 0 to 1.
-//     return adjustedValue / maxRange;
-//     }
-//     }
-    
-//     /*
-//     *  The adjustment resulted in a sign change meaning the current value
-//     *  is in the dead zone. Therefore we are returning zero.
-//     */
-//     return 0;
-//     }
-    
-//     /**
-//     * Returns true if the value is positive.
-//     *
-//     * @param value - The value to be checked.
-//     * @return true if the value is positive.
-//     */
-//     public boolean isPositive(double value) {
-//     return value > 0;
-//     }
-   
+ }
    
 
     
 
-}
+
 }

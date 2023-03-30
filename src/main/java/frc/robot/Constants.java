@@ -106,7 +106,7 @@ public class Constants {
         public static final double kJ4PaddingMinusRot = 0.08; //28.8 degrees
 
         public static final double kJ1MaxLeftXControllerDeg = -75.6;
-        public static final double kJ1MaxRightXControllerDeg = 7;
+        public static final double kJ1MaxRightXControllerDeg = 187;
 
         public static final double kJ2MaxLeftXControllerDeg = -72;
         public static final double kJ2MaxRightXControllerDeg = 115.27;
