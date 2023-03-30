@@ -41,7 +41,7 @@ public class ArmCommand extends CommandBase{
     private double j1Limiter = 0.35;
     private double j2Limiter = 0.4;
     private double j3Limiter = 0.2;
-    private double j4Limiter = 0.1;
+    private double j4Limiter = 0.2;
 
 
     public ArmCommand(Arm subsystem, XboxController controller) {
@@ -55,7 +55,7 @@ public class ArmCommand extends CommandBase{
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        getArmControllerDeadzone();
+        //getArmControllerDeadzone();
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -77,8 +77,6 @@ public class ArmCommand extends CommandBase{
 
         double leftTrigger = (robotContainer.getOI().getArmController().getLeftTriggerAxis());
         double rightTrigger = (robotContainer.getOI().getArmController().getRightTriggerAxis());
-
-       getArmControllerDeadzone();
 
         controllerScaling(leftX, leftY, rightY, armControllerScalingChoice);   
         armControlMode(leftX, leftY, rightY, leftTrigger, rightTrigger, armControlModeChoice);
@@ -190,37 +188,7 @@ public class ArmCommand extends CommandBase{
     //     positionCommand = minAngleDeg;
     // }
     // return positionCommand;
-    // }
+    // // }
 
-    public double getArmControllerDeadzone() {
-        double rawArmControllerLeftX = Math.abs(RobotContainer.getInstance().getOI().getArmController().getLeftX());
-        double rawArmControllerLeftY = Math.abs(RobotContainer.getInstance().getOI().getArmController().getLeftY());
-        double rawArmControllerRightX = Math.abs(RobotContainer.getInstance().getOI().getArmController().getRightX());
-        double rawArmControllerRightY = Math.abs(RobotContainer.getInstance().getOI().getArmController().getRightY());
-
-        SmartDashboard.putNumber("raw left x", RobotMath.truncate(rawArmControllerLeftX, 3));
-        SmartDashboard.putNumber("raw left y", RobotMath.truncate(rawArmControllerLeftY, 3));
-        SmartDashboard.putNumber("raw right x", RobotMath.truncate(rawArmControllerRightX, 3));
-        SmartDashboard.putNumber("raw right y", RobotMath.truncate(rawArmControllerRightY, 3));
-
-        SmartDashboard.putNumber("og deadzone", controllerDeadzone);
-
-       if (rawArmControllerLeftX > controllerDeadzone){
-        controllerDeadzone = rawArmControllerLeftX;
-       }
-       if (rawArmControllerLeftY > controllerDeadzone){
-        controllerDeadzone = rawArmControllerLeftY;
-       }
-       if (rawArmControllerRightX > controllerDeadzone){
-        controllerDeadzone = rawArmControllerRightX;
-       }
-       if (rawArmControllerRightY > controllerDeadzone){
-        controllerDeadzone = rawArmControllerRightY;
-       }
-
-        SmartDashboard.putNumber("new deadzone", controllerDeadzone);
-        return controllerDeadzone;
-       
-    }
 }
 
