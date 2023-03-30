@@ -28,12 +28,12 @@
     "###/SmartDashboard/Arm Controller Scaling": {
       "Collapsed": "0",
       "Pos": "102,124",
-      "Size": "254,54"
+      "Size": "307,60"
     },
     "###/SmartDashboard/Drive Controller Scaling": {
       "Collapsed": "0",
       "Pos": "106,24",
-      "Size": "254,54"
+      "Size": "307,60"
     },
     "###/SmartDashboard/Driver Controls": {
       "Collapsed": "0",
@@ -44,12 +44,12 @@
     "###FMS": {
       "Collapsed": "0",
       "Pos": "5,540",
-      "Size": "283,146"
+      "Size": "336,164"
     },
     "###Joysticks": {
       "Collapsed": "0",
       "Pos": "316,319",
-      "Size": "796,73"
+      "Size": "976,278"
     },
     "###NetworkTables": {
       "Collapsed": "0",
@@ -70,12 +70,12 @@
     "###System Joysticks": {
       "Collapsed": "0",
       "Pos": "14,279",
-      "Size": "192,218"
+      "Size": "232,254"
     },
     "###Timing": {
       "Collapsed": "0",
       "Pos": "5,150",
-      "Size": "135,150"
+      "Size": "162,168"
     },
     "Debug##Default": {
       "Collapsed": "0",
@@ -85,7 +85,7 @@
     "Robot State": {
       "Collapsed": "0",
       "Pos": "5,20",
-      "Size": "92,99"
+      "Size": "109,114"
     }
   }
 }
