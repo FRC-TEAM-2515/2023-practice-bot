@@ -195,10 +195,10 @@ protected XboxController armController;
     SmartDashboard.putNumber("RoM Safety Error", padding);
     //if((romError != error)) { error = romError; }
 
-    SmartDashboard.putNumber("J1 RoM w/ Safety Margin", RobotMath.armRangeDegrees(padding, ArmConstants.kJ1PaddingAddRot, ArmConstants.kJ1PaddingMinusRot));
-    SmartDashboard.putNumber("J2 RoM w/ Safety Margin", RobotMath.armRangeDegrees(padding, ArmConstants.kJ2PaddingAddRot, ArmConstants.kJ2PaddingMinusRot));
-    SmartDashboard.putNumber("J3 RoM w/ Safety Margin", RobotMath.armRangeDegrees(padding, ArmConstants.kJ3PaddingAddRot, ArmConstants.kJ3PaddingMinusRot));
-    SmartDashboard.putNumber("J4 RoM w/ Safety Margin", RobotMath.armRangeDegrees(3, ArmConstants.kJ4PaddingAddRot, ArmConstants.kJ4PaddingMinusRot) - 360);
+    SmartDashboard.putNumber("J1 RoM w/ Safety Margin", RobotMath.armRangeDeg(padding, ArmConstants.kJ1PaddingAddRot, ArmConstants.kJ1PaddingMinusRot));
+    SmartDashboard.putNumber("J2 RoM w/ Safety Margin", RobotMath.armRangeDeg(padding, ArmConstants.kJ2PaddingAddRot, ArmConstants.kJ2PaddingMinusRot));
+    SmartDashboard.putNumber("J3 RoM w/ Safety Margin", RobotMath.armRangeDeg(padding, ArmConstants.kJ3PaddingAddRot, ArmConstants.kJ3PaddingMinusRot));
+    SmartDashboard.putNumber("J4 RoM w/ Safety Margin", RobotMath.armRangeDeg(3, ArmConstants.kJ4PaddingAddRot, ArmConstants.kJ4PaddingMinusRot) - 360);
 
     j1PaddingAddDeg = RobotMath.armRangePaddingAddDeg(ArmConstants.kJ1PaddingAddRot, padding);
     j1PaddingMinusDeg = RobotMath.armRangePaddingMinusDeg(ArmConstants.kJ1PaddingMinusRot, padding);

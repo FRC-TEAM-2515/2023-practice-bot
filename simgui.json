@@ -61,6 +61,9 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
+      "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
+      "/LiveWindow/Ungrouped/navX-Sensor[1]": "Gyro",
       "/SmartDashboard/Arm Control Mode": "String Chooser",
       "/SmartDashboard/Arm Controller Scaling": "String Chooser",
       "/SmartDashboard/Auto Mode": "String Chooser",

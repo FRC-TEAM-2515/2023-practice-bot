@@ -155,7 +155,7 @@ public class ArmCommand extends CommandBase{
                  }  
 
             
-        //     this.positionCommandJ1 = angleLimit(positionCommandJ1, Arm.j1PaddingAddDeg, Arm.j1PaddingMinusDeg);
+        this.positionCommandJ1 = angleLimit(positionCommandJ1, 1);
         //     this.positionCommandJ2 = angleLimit(positionCommandJ2, Arm.j2PaddingAddDeg, Arm.j2PaddingMinusDeg);
         //     this.positionCommandJ3 = angleLimit(positionCommandJ3, Arm.j3PaddingAddDeg, Arm.j3PaddingMinusDeg);
         //    this.positionCommandOpenJ4 = angleLimit(positionCommandOpenJ4, Arm.j4PaddingMinusDeg, Arm.j1PaddingAddDeg);
@@ -180,16 +180,21 @@ public class ArmCommand extends CommandBase{
         return controllerInput;
     }
 
-    public double angleLimit(double positionCommand, double minAngleDeg, double maxAngleDeg){
-    minAngleDeg = RobotMath.armDegreesConvertEncoder(minAngleDeg);
-    maxAngleDeg = RobotMath.armDegreesConvertEncoder(maxAngleDeg);
-        if (positionCommand < minAngleDeg) {
-        positionCommand = minAngleDeg;
+    public double angleLimit(double controllerInput, double joint){
+    double controllerInputDeg = RobotMath.controllerInputRawConvertDeg(controllerInput);
+    // if (joint == 1){
+        double maxAngleDegLeft = ArmConstants.kJ1MaxLeftXControllerDeg;
+        double maxAngleDegRight = ArmConstants.kJ1MaxRightXControllerDeg;
+   // }
+    if (controllerInputDeg > maxAngleDegLeft) {
+        controllerInputDeg = maxAngleDegLeft;
     }
-    if (positionCommand > maxAngleDeg) {
-        positionCommand = maxAngleDeg;
+    if (controllerInputDeg < maxAngleDegRight) {
+        controllerInputDeg = maxAngleDegRight;
     }
-    return positionCommand;
+
+    SmartDashboard.putNumber("Controller Limit", controllerInputDeg);
+    return RobotMath.controllerInputDegConvertRaw(controllerInputDeg);
     }
 
     public double getArmControllerDeadzone() {

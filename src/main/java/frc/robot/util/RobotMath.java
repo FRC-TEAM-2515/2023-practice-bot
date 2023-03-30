@@ -67,12 +67,16 @@ public class RobotMath {
         return armEncoderConvertDegrees(jointPaddingMinus) - padding;
     }
 
-    public static double armRangeDegrees(double padding, double jointPaddingAdd, double jointPaddingMinus){
+    public static double armRangeDeg(double padding, double jointPaddingAdd, double jointPaddingMinus){
        return Math.abs(armRangePaddingAddDeg(jointPaddingAdd, padding) - armRangePaddingMinusDeg(jointPaddingMinus, padding) - 360);
     }
 
-    public static double controllerInputConvertAcis(double controllerInput){
-        return Math.tan(controllerInput) * Math.PI/ 720;
+    public static double controllerInputDegConvertRaw(double controllerInputDeg){ //Controller input (deg) -> Controller input (raw)
+        return Math.tan(controllerInputDeg) * Math.PI/ 720;
+    }
+
+    public static double controllerInputRawConvertDeg(double controllerInputRaw){
+        return Math.atan(controllerInputRaw) * 720/ Math.PI;
     }
 
 }
