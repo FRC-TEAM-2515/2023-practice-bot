@@ -65,14 +65,20 @@ public class ArmCommand extends CommandBase{
         armControlModeChoice = robotContainer.getOI().getArmControlModeChooser();
         armControllerScalingChoice = robotContainer.getOI().getControllerScalingChooser();
 
-        double leftX = deadzoneAdjustment(robotContainer.getOI().getArmController().getLeftX());
-        double leftY = deadzoneAdjustment(robotContainer.getOI().getArmController().getLeftY());
-        double rightY = deadzoneAdjustment(robotContainer.getOI().getArmController().getRightY());
+        // double leftX = deadzoneAdjustment(robotContainer.getOI().getArmController().getLeftX());
+        // double leftY = deadzoneAdjustment(robotContainer.getOI().getArmController().getLeftY());
+        // double rightY = deadzoneAdjustment(robotContainer.getOI().getArmController().getRightY());
+
+
+        double leftX = robotContainer.getOI().getArmController().getLeftX();
+        double leftY = robotContainer.getOI().getArmController().getLeftY();
+        double rightY = robotContainer.getOI().getArmController().getRightY();
+
 
         double leftTrigger = (robotContainer.getOI().getArmController().getLeftTriggerAxis());
         double rightTrigger = (robotContainer.getOI().getArmController().getRightTriggerAxis());
 
-        getArmControllerDeadzone();
+       // getArmControllerDeadzone();
 
         controllerScaling(leftX, leftY, rightY, armControllerScalingChoice);   
         armControlMode(leftX, leftY, rightY, leftTrigger, rightTrigger, armControlModeChoice);
@@ -129,9 +135,9 @@ public class ArmCommand extends CommandBase{
         //     double velocityCommandJ4 = -throttleLeftX  * ArmConstants.kJ4DegPerSecMax;
         // }
         if (choice == ArmControlType.POSITION){
-            double positionCommandJ1 = -j1ThrottleLeftX * j1Limiter;//Math.max(ArmConstants.kJ1AngleMax, -ArmConstants.kJ1AngleMin) / 2;
-            double positionCommandJ2 = j2ThrottleLeftY * j2Limiter;//Math.max(ArmConstants.kJ2AngleMax, -ArmConstants.kJ2AngleMin);
-            double positionCommandJ3 = -j3ThrottleRightY  * j3Limiter;//Math.max(ArmConstants.kJ3AngleMax, -ArmConstants.kJ3AngleMin);
+            double positionCommandJ1 = j1ThrottleLeftX ;//Math.max(ArmConstants.kJ1AngleMax, -ArmConstants.kJ1AngleMin) / 2;
+            double positionCommandJ2 = j2ThrottleLeftY ;//Math.max(ArmConstants.kJ2AngleMax, -ArmConstants.kJ2AngleMin);
+            double positionCommandJ3 = -j3ThrottleRightY; // * j3Limiter;//Math.max(ArmConstants.kJ3AngleMax, -ArmConstants.kJ3AngleMin);
             double positionCommandOpenJ4 = leftTriggerOpen;//Math.max(ArmConstants.kJ4AngleMax, -ArmConstants.kJ4AngleMin);
             double positionCommandCloseJ4 = rightTriggerClose;//Math.max(ArmConstants.kJ4AngleMax, -ArmConstants.kJ4AngleMin);
 
@@ -158,7 +164,7 @@ public class ArmCommand extends CommandBase{
 			SmartDashboard.putNumber("J4 Joystick Open Command", RobotMath.truncate(positionCommandOpenJ4, 3));
 			SmartDashboard.putNumber("J4 Joystick Close Command", RobotMath.truncate(positionCommandCloseJ4, 3));
         
-            armSubsystem.manualControl(positionCommandJ1,positionCommandJ2,positionCommandJ3,(positionCommandJ4*j4Limiter));
+            armSubsystem.manualControl(positionCommandJ1*j1Limiter,positionCommandJ2*j2Limiter,positionCommandJ3*j3Limiter,(positionCommandJ4*j4Limiter));
         }
     }
 
