@@ -40,7 +40,7 @@ public class ArmCommand extends CommandBase{
     private double positionCommandCloseJ4;
     private double positionCommandJ4;
     private double controllerDeadzone = 0.2;
-    private double j1Limiter = 0.35;
+    private double j1Limiter = 0.25;
     private double j2Limiter = 0.4;
     private double j3Limiter = 0.2;
     private double j4Limiter = 0.2;
@@ -159,7 +159,7 @@ public class ArmCommand extends CommandBase{
 
             double positionCommandJ1 = -j1ThrottleLeftX * j1Limiter ;
             double positionCommandJ2 = j2ThrottleLeftY * j2Limiter;
-            double positionCommandJ3 = -j3ThrottleRightY * j3Limiter; 
+            double positionCommandJ3 = j3ThrottleRightY * j3Limiter; 
             double positionCommandOpenJ4 = leftTriggerOpen;
             double positionCommandCloseJ4 = rightTriggerClose;
 

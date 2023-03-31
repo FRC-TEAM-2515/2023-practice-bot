@@ -14,9 +14,8 @@ package frc.robot;
 
 import frc.robot.util.OIReporters.AutoCommand;
 import frc.robot.commands.*;
-import frc.robot.commands.auto.AutoDriveBackwards;
 //import frc.robot.commands.auto.SimpleAutonomous;
-import frc.robot.commands.auto.AutoDriveBackwards;
+import frc.robot.commands.auto.AutoDriveBackward;
 import frc.robot.subsystems.*;
 import frc.robot.util.OIReporters;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -51,7 +50,7 @@ public class RobotContainer {
 
   private XboxController driveController;
 
-  private Command autonomous;
+  private AutoDriveBackward autonomous;
 
   public static RobotContainer getInstance() {
     if (robotContainer == null) {
@@ -118,9 +117,8 @@ public class RobotContainer {
 
   public Command getAutoCommand() {
     if (robotContainer.getOI().getAutoCommandChoice() == OIReporters.AutoCommand.SIMPLE){
-    autonomous = new AutoDriveBackwards(driveTrain, 3.5);
+    autonomous = new AutoDriveBackward(driveTrain, 3.5);
+    
       //autonomous = new SimpleAutonomous(driveTrain, 0); 
- }
- return autonomous;
 }
-}
+    return autonomous;}}

@@ -6,7 +6,7 @@ import frc.robot.util.OIReporters.ControllerScaling;
 import frc.robot.util.OIReporters.DriveControllerMode;
 import frc.robot.util.OIReporters.DriveType;
 import frc.robot.commands.*;
-import frc.robot.commands.auto.AutoDriveBackwards;
+import frc.robot.commands.auto.AutoDriveBackward;
 //import frc.robot.commands.auto.SimpleAutonomous;
 import frc.robot.subsystems.*;
 import frc.robot.util.OIReporters;

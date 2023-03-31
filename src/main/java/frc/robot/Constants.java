@@ -168,7 +168,10 @@ public class Constants {
     //     public static final double kTurnD = 0;
 
     //     public static final double kMaxTurnRateDegPerS = 100;
-    //     public static final double kMaxTurnAccelerationDegPerSSquared = 300;
+    
+
+
+    //public static double controllerDeadzone;/     public static final double kMaxTurnAccelerationDegPerSSquared = 300;
 
     //     public static final double kTurnToleranceDeg = 5;
     //     public static final double kTurnRateToleranceDegPerS = 10; // degrees per second

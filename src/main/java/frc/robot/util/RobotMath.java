@@ -75,7 +75,7 @@ public class RobotMath {
     }
 
     public static double controllerInputRawConvertDeg(double controllerInputRaw){
-        return Math.atan(controllerInputRaw) * 720/ Math.PI;
+        return Math.atan2(controllerInputRaw, 0) * 720/ Math.PI;
     }
 
 

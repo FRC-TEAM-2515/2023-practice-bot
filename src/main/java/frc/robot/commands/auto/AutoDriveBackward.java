@@ -1,4 +1,5 @@
 package frc.robot.commands.auto;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.Timer;
@@ -7,29 +8,25 @@ import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.DriveTrain.*;
 import edu.wpi.first.wpilibj.Timer;
 
-public class AutoDriveBackwards extends CommandBase {
+public class AutoDriveBackward extends CommandBase {
+  DriveTrain drivetrain;
+  private double distance;
+  private double autoSpeed = -0.2;
 
-    private double distance;
-    private double autoSpeed = -0.4;
+  private Pose2d initPose;
 
-    private Pose2d initPose;
-    private DriveTrain drivetrain;
-    private double startTime;
+  public AutoDriveBackward(DriveTrain drivetrain, double distance) {
 
-  public AutoDriveBackwards(DriveTrain drivetrain, double distance) {
-    
     this.drivetrain = drivetrain;
     this.distance = distance;
- 
+   
     addRequirements(drivetrain);
   }
 
   @Override
   public void initialize() {
     initPose = this.drivetrain.getPose();
-    startTime = Timer.getFPGATimestamp();
   }
-
 
   @Override
   public void execute() {
@@ -48,10 +45,9 @@ public class AutoDriveBackwards extends CommandBase {
   }
 
 
- 
   @Override
   public boolean isFinished() {
-    return Timer.getFPGATimestamp() - startTime > 5;
+    return withinBounds();
   }
 
   @Override
@@ -59,3 +55,5 @@ public class AutoDriveBackwards extends CommandBase {
     drivetrain.arcadeDrive(0, 0);
   }
 }
+
+
