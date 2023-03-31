@@ -7,6 +7,8 @@ import edu.wpi.first.math.util.Units;
 
 public class RobotMath {
 
+    public static Object armRhboard;
+
     public static double truncate(double n, int decimalplace) {
         n = n * Math.pow(10, decimalplace);
         n = Math.floor(n);
@@ -67,6 +69,14 @@ public class RobotMath {
     public static double armRangeDegrees(double padding, double jointPaddingAdd, double jointPaddingMinus){
        return Math.abs(armRangePaddingAddDeg(padding, jointPaddingAdd) - armRangePaddingMinusDeg(padding, jointPaddingMinus) - 360);
     }
-   
+
+    public static double controllerInputConvertAxis(double controllerInput){
+        return Math.tan(controllerInput) * Math.PI/ 720;
+    }
+
+    public static double controllerInputRawConvertDeg(double controllerInputRaw){
+        return Math.atan(controllerInputRaw) * 720/ Math.PI;
+    }
+
 
 }

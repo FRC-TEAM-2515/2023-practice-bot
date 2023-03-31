@@ -1,7 +1,9 @@
 package frc.robot.util;
 
+import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants.ArmConstants;
 import frc.robot.util.RobotMath;
 import frc.robot.util.RobotMath.*;
 
@@ -11,7 +13,12 @@ public class OIReporters {
                configDriveValuesReporters();
                configManualDriveReporters();
         }
-
+        public static enum ControllerScaling {LIMITED_POLYNOMIC, LINEAR, SQUARED, CUBIC};
+        public static enum DriveControllerMode {LEFT_STICK, TRIGGER_ACCEL};
+        public static enum DriveType {ARCADE, REG_CURVATURE, SEMI_CURVATURE};
+        public static enum ArmControlType {POSITION, VELOCITY, CARTESIAN};
+        public static enum AutoCommand {SIMPLE};
+        public static enum ArmBrake {BRAKE, COAST};
 
         public static class DriveReporters {
 
@@ -148,8 +155,23 @@ public class OIReporters {
                         public static String squaredScaledY = "";
                         public static String cubicScaledY = "";
                         public static String fancyScaledY = "";
-        
+
+                        public static double j1LeftX = 0;
+                        public static double leftX = 0;
+                        public static double j2LeftY = 0;
+                        public static double j3RightY = 0;
+
+                        public static double rightY = 10;
+                        public static double leftY = 10;
+                        
+                        public static boolean kCoast = false;
+                        public static double padding = 0;
+                        private static double j1, j2, j3, j4;
+                        public static double[] ControllerScaled = {j1, j2, j3, j4};
+                        public static double j1Raw, j2Raw, j3Raw, j4Raw;
+                        public static double[] ControllerRaw = {j1Raw, j2Raw, j3Raw, j4Raw};
         }
+        
 
         public void manualArmReporters(){
 
@@ -171,30 +193,33 @@ public class OIReporters {
                 SmartDashboard.putNumber("J2 Joystick Command", RobotMath.truncate(ArmReporters.j2JoystickCommand, 3));
                 SmartDashboard.putNumber("J3 Joystick Command", RobotMath.truncate(ArmReporters.j3JoystickCommand, 3));
                 SmartDashboard.putNumber("J4 Joystick Command", RobotMath.truncate(ArmReporters.j4JoystickCommand, 3));
+
+                SmartDashboard.putNumber("ArmTest/j1LeftX", ArmReporters.j1LeftX);
+                SmartDashboard.putNumber("ArmTest/j1LeftXRaw", ArmReporters.leftX);
+                SmartDashboard.putNumber("ArmTest/j2LeftY", ArmReporters.j2LeftY);
+                SmartDashboard.putNumber("ArmTest/j2LeftYRaw", ArmReporters.leftY);
+                SmartDashboard.putNumber("ArmTest/j3RightY", ArmReporters.j3RightY);
+                SmartDashboard.putNumber("ArmTest/j3RightYRaw", ArmReporters.rightY);
+        
+                SmartDashboard.getNumber("RoM Safety Error", ArmReporters.padding);
+                SmartDashboard.putNumber("RoM Safety Error", ArmReporters.padding);
+                
+                SmartDashboard.putNumber("ArmTest/j1LeftX", ArmReporters.j1LeftX);
+                SmartDashboard.putNumber("ArmTest/j1LeftXRaw", ArmReporters.leftX);
+                SmartDashboard.putNumber("ArmTest/j2LeftY", ArmReporters.j2LeftY);
+                SmartDashboard.putNumber("ArmTest/j2LeftYRaw", ArmReporters.leftY);
+                SmartDashboard.putNumber("ArmTest/j3RightY", ArmReporters.j3RightY);
+                SmartDashboard.putNumber("ArmTest/j3RightYRaw", ArmReporters.rightY);
+
+        
+                SmartDashboard.putNumber("J1 RoM w/ Safety Margin", RobotMath.armRangeDegrees(ArmReporters.padding, ArmConstants.kJ1PaddingAddRot, ArmConstants.kJ1PaddingMinusRot));
+                SmartDashboard.putNumber("J2 RoM w/ Safety Margin", RobotMath.armRangeDegrees(ArmReporters.padding, ArmConstants.kJ2PaddingAddRot, ArmConstants.kJ2PaddingMinusRot));
+                SmartDashboard.putNumber("J3 RoM w/ Safety Margin", RobotMath.armRangeDegrees(ArmReporters.padding, ArmConstants.kJ3PaddingAddRot, ArmConstants.kJ3PaddingMinusRot));
+                SmartDashboard.putNumber("J4 RoM w/ Safety Margin", RobotMath.armRangeDegrees(ArmReporters.padding, ArmConstants.kJ4PaddingAddRot, ArmConstants.kJ4PaddingMinusRot) - 360);
+        
+        
+ 
         }
 
-        public static enum ControllerScaling {LIMITED_POLYNOMIC, LINEAR, SQUARED, CUBIC};
-        //         LIMITED_POLYNOMIC("Limited Polynomic"), LINEAR("Linear"), SQUARED("Squared"), CUBIC("Cubed");
-        //     public final String name; 
-        //         ControllerScaling(String name){this.name = name;}};
         
-            public static enum DriveControllerMode {LEFT_STICK, TRIGGER_ACCEL};
-        //         LEFT_STICK("Left Stick"), TRIGGER_ACCEL("Trigger Acceleration");
-        //     public final String name; 
-        //         DriveControllerMode(String name){this.name = name;}};
-        
-            public static enum DriveType {ARCADE, REG_CURVATURE, SEMI_CURVATURE};
-        //         ARCADE("Arcade"), REG_CURVATURE("Regular Curvature"), SEMI_CURVATURE("Smooth Curvature");
-        //     public final String name; 
-        //         DriveType(String name){this.name = name;}};
-        
-            public static enum ArmControlType {POSITION, VELOCITY, CARTESIAN};
-        //     {POSITION("Position"), VELOCITY("Velocity"), CARTESIAN("Cartesian");
-        //     public final String name; 
-        //         ArmControlType(String name){this.name = name;}};
-        
-            public static enum AutoCommand {SIMPLE};
-        //         ("Simple");
-        //     public final String name; 
-        //         AutoCommand(String name){this.name = name;}};
 }

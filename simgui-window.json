@@ -1,7 +1,7 @@
 {
   "Docking": {
     "Data": [
-      "DockNode  ID=0x00000001 Pos=256,-13 Size=733,699 Selected=0x2D9B9756"
+      "DockNode  ID=0x00000001 Pos=418,-13 Size=663,670 Selected=0x2D9B9756"
     ]
   },
   "MainWindow": {
@@ -32,7 +32,7 @@
     },
     "###/SmartDashboard/Drive Controller Scaling": {
       "Collapsed": "0",
-      "Pos": "106,24",
+      "Pos": "106,26",
       "Size": "254,54"
     },
     "###/SmartDashboard/Driver Controls": {
@@ -44,18 +44,18 @@
     "###FMS": {
       "Collapsed": "0",
       "Pos": "5,540",
-      "Size": "283,146"
+      "Size": "175,184"
     },
     "###Joysticks": {
       "Collapsed": "0",
-      "Pos": "316,319",
-      "Size": "796,240"
+      "Pos": "190,290",
+      "Size": "796,234"
     },
     "###NetworkTables": {
       "Collapsed": "0",
       "DockId": "0x00000001,1",
-      "Pos": "256,-13",
-      "Size": "733,699"
+      "Pos": "418,-13",
+      "Size": "663,670"
     },
     "###NetworkTables Info": {
       "Collapsed": "0",
@@ -67,13 +67,18 @@
       "Pos": "1025,20",
       "Size": "250,695"
     },
+    "###RoboRIO": {
+      "Collapsed": "0",
+      "Pos": "19,23",
+      "Size": "193,468"
+    },
     "###System Joysticks": {
       "Collapsed": "0",
       "Pos": "14,279",
       "Size": "192,218"
     },
     "###Timing": {
-      "Collapsed": "0",
+      "Collapsed": "1",
       "Pos": "5,150",
       "Size": "135,150"
     },

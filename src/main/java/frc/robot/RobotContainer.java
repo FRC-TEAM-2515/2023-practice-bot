@@ -14,7 +14,9 @@ package frc.robot;
 
 import frc.robot.util.OIReporters.AutoCommand;
 import frc.robot.commands.*;
-import frc.robot.commands.auto.SimpleAutonomous;
+import frc.robot.commands.auto.AutoDriveBackwards;
+//import frc.robot.commands.auto.SimpleAutonomous;
+import frc.robot.commands.auto.AutoDriveBackwards;
 import frc.robot.subsystems.*;
 import frc.robot.util.OIReporters;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -34,6 +36,7 @@ public class RobotContainer {
 
   private DriveTrain driveTrain;
   private Arm arm;
+  private Vision vision;
   // private Vision vision;
   // private Claw claw;
   // private Wrist wrist;
@@ -67,6 +70,7 @@ public class RobotContainer {
 
     driveTrain = new DriveTrain();
     arm = new Arm();
+    vision = new Vision();
   }
 
   // OI
@@ -114,7 +118,8 @@ public class RobotContainer {
 
   public Command getAutoCommand() {
     if (robotContainer.getOI().getAutoCommandChoice() == OIReporters.AutoCommand.SIMPLE){
-    autonomous = new SimpleAutonomous(driveTrain, 0); 
+    autonomous = new AutoDriveBackwards(driveTrain, 3.5);
+      //autonomous = new SimpleAutonomous(driveTrain, 0); 
  }
  return autonomous;
 }

@@ -11,6 +11,11 @@
           "open": true
         }
       },
+      "Talon SRX[1]/Pulse Width Input": {
+        "header": {
+          "open": true
+        }
+      },
       "Talon SRX[1]/Rev Limit": {
         "header": {
           "open": true
@@ -56,6 +61,23 @@
           "open": true
         }
       }
+    },
+    "RoboRIO": {
+      "3.3V Rail": {
+        "open": true
+      },
+      "5V Rail": {
+        "open": true
+      },
+      "6V Rail": {
+        "open": true
+      },
+      "RoboRIO Input": {
+        "open": true
+      },
+      "window": {
+        "visible": true
+      }
     }
   },
   "NTProvider": {
@@ -67,6 +89,12 @@
       "/SmartDashboard/Autonomous Command": "Command",
       "/SmartDashboard/Autonomous Mode": "String Chooser",
       "/SmartDashboard/Brake Mode": "String Chooser",
+      "/SmartDashboard/Competition/Arm Control Mode": "String Chooser",
+      "/SmartDashboard/Competition/Arm Controller Scaling": "String Chooser",
+      "/SmartDashboard/Competition/Autonomous Mode": "String Chooser",
+      "/SmartDashboard/Competition/Drive Controller Scaling": "String Chooser",
+      "/SmartDashboard/Competition/Drive Type": "String Chooser",
+      "/SmartDashboard/Competition/Driver Controls": "String Chooser",
       "/SmartDashboard/Drive Controller Scaling": "String Chooser",
       "/SmartDashboard/Drive Mode": "String Chooser",
       "/SmartDashboard/Drive Type": "String Chooser",
@@ -88,6 +116,12 @@
   },
   "NetworkTables": {
     "transitory": {
+      "LiveWindow": {
+        ".status": {
+          "open": true
+        },
+        "open": true
+      },
       "Shuffleboard": {
         "open": true
       },

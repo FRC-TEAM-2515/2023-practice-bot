@@ -6,7 +6,8 @@ import frc.robot.util.OIReporters.ControllerScaling;
 import frc.robot.util.OIReporters.DriveControllerMode;
 import frc.robot.util.OIReporters.DriveType;
 import frc.robot.commands.*;
-import frc.robot.commands.auto.SimpleAutonomous;
+import frc.robot.commands.auto.AutoDriveBackwards;
+//import frc.robot.commands.auto.SimpleAutonomous;
 import frc.robot.subsystems.*;
 import frc.robot.util.OIReporters;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -42,7 +43,8 @@ public class OI {
     private SendableChooser<ArmControlType> armControlModeChooser;
     private SendableChooser<ControllerScaling> armControllerScalingChooser;
    
-    private SimpleAutonomous simpleAutonomous;
+    //private SimpleAutonomous simpleAutonomous;
+    //private AutoDriveBackward that you were going to at least attempt something automated.
     
 
   // public static OI getInstance() {
@@ -105,72 +107,49 @@ public boolean shouldEnableBrakes() {
 public void configureSmartDashboard() {
 
     // Choosers
-    autoChooser.setDefaultOption("Simple Autonomous", AutoCommand.SIMPLE);
+    autoChooser.setDefaultOption("Competition/Simple Autonomous", AutoCommand.SIMPLE);
 
-    driverControlsChooser.setDefaultOption("Left Stick", DriveControllerMode.LEFT_STICK);
-    driverControlsChooser.addOption("Trigger Acceleration", DriveControllerMode.TRIGGER_ACCEL);
+    driverControlsChooser.setDefaultOption("Competition/Left Stick", DriveControllerMode.LEFT_STICK);
+    driverControlsChooser.addOption("Competition/Trigger Acceleration", DriveControllerMode.TRIGGER_ACCEL);
     
-    controllerScalingChooser.addOption("Limited Polynomic", ControllerScaling.LIMITED_POLYNOMIC);
-    controllerScalingChooser.addOption("Linear", ControllerScaling.LINEAR);
-    controllerScalingChooser.addOption("Squared", ControllerScaling.SQUARED);
-    controllerScalingChooser.setDefaultOption("Cubic", ControllerScaling.CUBIC);
+    controllerScalingChooser.addOption("Competition/Limited Polynomic", ControllerScaling.LIMITED_POLYNOMIC);
+    controllerScalingChooser.addOption("Competition/Linear", ControllerScaling.LINEAR);
+    controllerScalingChooser.addOption("Competition/Squared", ControllerScaling.SQUARED);
+    controllerScalingChooser.setDefaultOption("Competition/Cubic", ControllerScaling.CUBIC);
 
-    driveTypeChooser.setDefaultOption("Semi Curvature", DriveType.SEMI_CURVATURE);
-    driveTypeChooser.addOption("Reg Curvature", DriveType.REG_CURVATURE);
-    driveTypeChooser.addOption("Arcade", DriveType.ARCADE);
+    driveTypeChooser.setDefaultOption("Competition/Semi Curvature", DriveType.SEMI_CURVATURE);
+    driveTypeChooser.addOption("Competition/Reg Curvature", DriveType.REG_CURVATURE);
+    driveTypeChooser.addOption("Competition/Arcade", DriveType.ARCADE);
 
-    armControllerScalingChooser.addOption("Limited Polynomic", ControllerScaling.LIMITED_POLYNOMIC);
-    armControllerScalingChooser.addOption("Linear", ControllerScaling.LINEAR);
-    armControllerScalingChooser.addOption("Squared", ControllerScaling.SQUARED);
-    armControllerScalingChooser.setDefaultOption("Cubic", ControllerScaling.CUBIC);
+    armControllerScalingChooser.addOption("Competition/Arm Limited Polynomic", ControllerScaling.LIMITED_POLYNOMIC);
+    armControllerScalingChooser.addOption("Competition/Arm Linear", ControllerScaling.LINEAR);
+    armControllerScalingChooser.addOption("Competition/Arm Squared", ControllerScaling.SQUARED);
+    armControllerScalingChooser.setDefaultOption("Competition/Arm Cubic", ControllerScaling.CUBIC);
 
     armControlModeChooser.setDefaultOption("Position", ArmControlType.POSITION);
     armControlModeChooser.addOption("Velocity", ArmControlType.VELOCITY);
     armControlModeChooser.addOption("Cartesian", ArmControlType.CARTESIAN);
     
-    SmartDashboard.putData("Autonomous Mode", autoChooser);
+    SmartDashboard.putData("Competition/Autonomous Mode", autoChooser);
 
-    SmartDashboard.putData("Driver Controls", driverControlsChooser);
-    SmartDashboard.putData("Drive Controller Scaling", controllerScalingChooser);
-    SmartDashboard.putData("Drive Type", driveTypeChooser);
+    SmartDashboard.putData("Competition/Driver Controls", driverControlsChooser);
+    SmartDashboard.putData("Competition/Drive Controller Scaling", controllerScalingChooser);
+    SmartDashboard.putData("Competition/Drive Type", driveTypeChooser);
 
-    SmartDashboard.putData("Arm Control Mode", armControlModeChooser);
-    SmartDashboard.putData("Arm Controller Scaling", armControllerScalingChooser);
+    SmartDashboard.putData("Competition/Arm Control Mode", armControlModeChooser);
+    SmartDashboard.putData("Competition/Arm Controller Scaling", armControllerScalingChooser);
 
     // Constants
-    SmartDashboard.putNumber("Ramp Rate",Constants.DriveConstants.kRampRate);
-    SmartDashboard.putNumber("Deadband",Constants.DriveConstants.kDeadband);
-    SmartDashboard.putNumber("Slew Rate Limiter",Constants.DriveConstants.kSlewRateLimiter);
-    SmartDashboard.putNumber("Speed Output Mod", Constants.DriveConstants.kSpeedOutputModifier);
-    SmartDashboard.putNumber("Rot Output Mod", Constants.DriveConstants.kRotationOutputModifier);
+    SmartDashboard.putNumber("Drive/Ramp Rate",Constants.DriveConstants.kRampRate);
+    SmartDashboard.putNumber("Drive/Deadband",Constants.DriveConstants.kDeadband);
+    SmartDashboard.putNumber("Drive/Slew Rate Limiter",Constants.DriveConstants.kSlewRateLimiter);
+    SmartDashboard.putNumber("Drive/Speed Output Mod", Constants.DriveConstants.kSpeedOutputModifier);
+    SmartDashboard.putNumber("Drive/Rot Output Mod", Constants.DriveConstants.kRotationOutputModifier);
 
     
     
 
 }
-
-// public void updateReporters() {
-
-//   SmartDashboard.putString("DControl Mode", OIReporters.driveControllerMode);
-//   SmartDashboard.putNumber("LStick Speed", OIReporters.lStickSpeed );
-//   SmartDashboard.putNumber("TAccel Speed", OIReporters.tAccelSpeed);
-
-//   SmartDashboard.putNumber("OG Speed", OIReporters.originalSpeed );
-//   SmartDashboard.putNumber("OG Rotation", OIReporters.originalRotation );
-
-//   SmartDashboard.putString("Scaling", OIReporters.scalingMode);
-//   SmartDashboard.putString("Linear", OIReporters.linearScaled);
-//   SmartDashboard.putString("Squared", OIReporters.squaredScaled);
-//   SmartDashboard.putString("Cubic", OIReporters.cubicScaled);
-//   SmartDashboard.putString("Fancy", OIReporters.fancyScaled);
-
-//   SmartDashboard.putString("Drive Type Chosen", OIReporters.driveType);
-//   SmartDashboard.putBoolean("Semi Curvature", OIReporters.semiCurvature);
-  
-//   SmartDashboard.putBoolean("Enabled Brakes", OIReporters.brakesEnabled);
-//   SmartDashboard.putNumber("Inversion Multiplier", OIReporters.inversionMult);
-
-// }
 
   public void getDrivePreferences(){
     getDriverControlsChooser();
