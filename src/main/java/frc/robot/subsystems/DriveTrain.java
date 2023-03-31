@@ -11,6 +11,17 @@
 // ROBOTBUILDER TYPE: Subsystem.
 
 package frc.robot.subsystems;
+//package edu.wpi.first.wpilibj.examples.statespacedifferentialdrivesimulation.subsystems;
+//sim imports
+import edu.wpi.first.wpilibj.simulation.ADXRS450_GyroSim;
+import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
+import edu.wpi.first.wpilibj.simulation.EncoderSim;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 
 import frc.robot.Constants;
 import frc.robot.OI;
@@ -74,6 +85,10 @@ public class DriveTrain extends SubsystemBase {
     private WPI_TalonSRX driveRightLeader;
     private WPI_VictorSPX driveRightFollower;
 
+
+    private FeedbackDevice m_leftEncoder = FeedbackDevice.CTRE_MagEncoder_Relative;
+    private FeedbackDevice m_rightEncoder = FeedbackDevice.CTRE_MagEncoder_Relative;
+
     // Controllers
     protected XboxController driveController;
 
@@ -83,6 +98,14 @@ public class DriveTrain extends SubsystemBase {
     private double inversionMultiplier = 1;
     private boolean firstRun = true;
     private double initialHeading = 0;
+
+    // These classes help us simulate our drivetrain
+    public DifferentialDrivetrainSim m_drivetrainSimulator;
+    private final EncoderSim m_leftEncoderSim = m_leftEncoder;
+    private final EncoderSim m_rightEncoderSim = m_rightEncoder;
+    // The Field2d class shows the field in the sim GUI
+    private final Field2d m_fieldSim;
+    private final ADXRS450_GyroSim m_gyroSim;
 
 
     public DriveTrain() {
@@ -160,6 +183,33 @@ public class DriveTrain extends SubsystemBase {
 
         odometry = new DifferentialDriveOdometry(gyro.getRotation2d(), m_driveGain, m_deadband); // ask Kelly about the purpose of drivegain & deadband here
         inversionMultiplier = 1;
+
+        if (RobotBase.isSimulation()) { // If our robot is simulated
+            // This class simulates our drivetrain's motion around the field.
+            m_drivetrainSimulator =
+                new DifferentialDrivetrainSim(
+                    DriveConstants.kDrivetrainPlant,
+                    DriveConstants.kDriveGearbox,
+                    DriveConstants.kDriveGearing,
+                    DriveConstants.kTrackwidthMeters,
+                    DriveConstants.kWheelDiameterMeters / 2.0,
+                    VecBuilder.fill(0, 0, 0.0001, 0.1, 0.1, 0.005, 0.005));
+      
+            // The encoder and gyro angle sims let us set simulated sensor readings
+            //m_leftEncoderSim = new EncoderSim(m_leftEncoder);
+            //m_rightEncoderSim = new EncoderSim(m_rightEncoder);
+            //m_gyroSim = new ADXRS450_GyroSim(gyro);
+      
+            // the Field2d class lets us visualize our robot in the simulation GUI.
+            m_fieldSim = new Field2d();
+            SmartDashboard.putData("Field", m_fieldSim);
+          } else {
+            m_leftEncoderSim = null;
+            m_rightEncoderSim = null;
+            m_gyroSim = null;
+      
+            m_fieldSim = null;
+          }
     }
 
 
@@ -180,12 +230,26 @@ public class DriveTrain extends SubsystemBase {
         odometry.update(gyro.getRotation2d(), leftMeters(), rightMeters());
         
         updateSmartDashboard();
+        m_fieldSim.setRobotPose(getPose());
     }
 
     @Override
     public void simulationPeriodic() {
         // This method will be called once per scheduler run when in simulation
+        // To update our simulation, we set motor voltage inputs, update the simulation,
+        // and write the simulated positions and velocities to our simulated encoder and gyro.
+        // We negate the right side so that positive voltages make the right side
+        // move forward.
+        m_drivetrainSimulator.setInputs(
+            m_driveLeft.get() * RobotController.getBatteryVoltage(),
+            m_driveRight.get() * RobotController.getBatteryVoltage());
+        m_drivetrainSimulator.update(0.020);
 
+        m_leftEncoderSim.setDistance(m_drivetrainSimulator.getLeftPositionMeters());
+        m_leftEncoderSim.setRate(m_drivetrainSimulator.getLeftVelocityMetersPerSecond());
+        m_rightEncoderSim.setDistance(m_drivetrainSimulator.getRightPositionMeters());
+        m_rightEncoderSim.setRate(m_drivetrainSimulator.getRightVelocityMetersPerSecond());
+        m_gyroSim.setAngle(-m_drivetrainSimulator.getHeading().getDegrees());
     }
 
     /* DRIVE */
