@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.RobotContainer;
 import frc.robot.commands.DriveCommand;
+import frc.robot.subsystems.DriveTrain;
 import frc.robot.util.OIReporters;
 import frc.robot.OI;
 
@@ -88,6 +89,8 @@ public class Robot extends TimedRobot {
         if (autonomousCommand != null) {
             autonomousCommand.schedule();
         }
+
+        DriveTrain.setWheelSpeedsAuto(10, 10);
     }
 
     /**

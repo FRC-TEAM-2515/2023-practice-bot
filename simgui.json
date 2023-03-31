@@ -1,6 +1,11 @@
 {
   "HALProvider": {
     "Other Devices": {
+      "SPARK MAX [11]": {
+        "header": {
+          "open": true
+        }
+      },
       "Talon SRX[1]": {
         "header": {
           "open": true
@@ -26,11 +31,6 @@
           "open": true
         }
       },
-      "Talon SRX[3]/Fwd Limit": {
-        "header": {
-          "open": true
-        }
-      },
       "Talon SRX[3]/Pulse Width Input": {
         "header": {
           "open": true
@@ -41,17 +41,7 @@
           "open": true
         }
       },
-      "Talon SRX[3]/Rev Limit": {
-        "header": {
-          "open": true
-        }
-      },
       "Victor SPX[2]": {
-        "header": {
-          "open": true
-        }
-      },
-      "Victor SPX[4]": {
         "header": {
           "open": true
         }
@@ -61,6 +51,14 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/LiveWindow/Arm": "Subsystem",
+      "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
+      "/LiveWindow/Ungrouped/PIDController[1]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[2]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[3]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[4]": "PIDController",
+      "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
+      "/LiveWindow/Ungrouped/navX-Sensor[1]": "Gyro",
       "/SmartDashboard/Arm Control Mode": "String Chooser",
       "/SmartDashboard/Arm Controller Scaling": "String Chooser",
       "/SmartDashboard/Auto Mode": "String Chooser",

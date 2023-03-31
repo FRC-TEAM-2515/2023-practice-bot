@@ -1,25 +1,42 @@
 {
   "Docking": {
     "Data": [
-      "DockNode  ID=0x00000001 Pos=249,64 Size=733,251 Selected=0x2D9B9756"
+      "DockNode  ID=0x00000001 Pos=261,61 Size=858,359 Selected=0x2D9B9756"
     ]
   },
   "MainWindow": {
     "GLOBAL": {
       "fps": "120",
-      "height": "720",
+      "height": "1001",
       "maximized": "1",
       "style": "0",
       "userScale": "2",
-      "width": "1280",
+      "width": "1920",
       "xpos": "0",
       "ypos": "29"
     }
   },
+  "Table": {
+    "0x542B5671,2": {
+      "Column 0  Width": "256",
+      "Column 1  Width": "431",
+      "RefScale": "16"
+    }
+  },
   "Window": {
+    "###/SmartDashboard/Arm Control Mode": {
+      "Collapsed": "0",
+      "Pos": "644,361",
+      "Size": "307,60"
+    },
+    "###/SmartDashboard/Arm Controller Scaling": {
+      "Collapsed": "0",
+      "Pos": "715,402",
+      "Size": "307,60"
+    },
     "###/SmartDashboard/Drive Controller Scaling": {
       "Collapsed": "1",
-      "Pos": "158,30",
+      "Pos": "198,29",
       "Size": "307,60"
     },
     "###/SmartDashboard/Driver Controls": {
@@ -35,19 +52,19 @@
     },
     "###Joysticks": {
       "Collapsed": "0",
-      "Pos": "251,315",
-      "Size": "976,82"
+      "Pos": "146,620",
+      "Size": "976,278"
     },
     "###NetworkTables": {
       "Collapsed": "0",
       "DockId": "0x00000001,1",
-      "Pos": "249,64",
-      "Size": "733,251"
+      "Pos": "261,61",
+      "Size": "858,359"
     },
     "###Other Devices": {
       "Collapsed": "0",
       "Pos": "1232,27",
-      "Size": "250,695"
+      "Size": "435,806"
     },
     "###System Joysticks": {
       "Collapsed": "0",

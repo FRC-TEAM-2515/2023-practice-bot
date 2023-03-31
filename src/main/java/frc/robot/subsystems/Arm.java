@@ -66,19 +66,19 @@ private SparkMaxAbsoluteEncoder j5ClawEncoder;
 // private RelativeEncoder j5ClawEncoder;
 
 //PID Variables
-double j1_kP = 0;
+double j1_kP = 0.01;
 double j1_kI = 0;
 double j1_kD = 0;
 private double j1_desiredPosition = 0;
-double j2_kP = 0;
+double j2_kP = 0.01;
 double j2_kI = 0;
 double j2_kD = 0;
 private double j2_desiredPosition = 0;
-double j3_kP = 0;
+double j3_kP = 0.01;
 double j3_kI = 0;
 double j3_kD = 0;
 private double j3_desiredPosition = 0;
-double j5_kP = 0;
+double j5_kP = 0.01;
 double j5_kI = 0;
 double j5_kD = 0;
 private double j5_desiredPosition = 0;
@@ -202,6 +202,7 @@ protected XboxController armController;
         SmartDashboard.putNumber("j3WristYEncoder D", RobotMath.j3EncoderConvertDegrees(j3WristYEncoder.getPosition()));
         //SmartDashboard.putNumber("j4WristXEncoder D", RobotMath.j4EncoderConvertDegrees(j4WristXEncoder.getPosition())); 
         SmartDashboard.putNumber("j5ClawEncoder D", RobotMath.j5EncoderConvertDegrees(j5ClawEncoder.getPosition()));
+        
     }
 
     public void resetArmEncoders()
@@ -215,16 +216,20 @@ protected XboxController armController;
     @Override
     public void periodic()
     {
-        //super.periodic(); //needed if PID motion profiling subsystem
-       updateSmartDashboard();
-       var j1_error = j1_pid.calculate(j1TurretEncoder.getPosition());
-       j1Turret.set(j1_error);
-       var j2_error = j2_pid.calculate(j2ElbowEncoder.getPosition());
-       j2Elbow.set(j2_error);
-       var j3_error = j3_pid.calculate(j3WristYEncoder.getPosition());
-       j3WristY.set(j3_error);
-       var j5_error = j5_pid.calculate(j5ClawEncoder.getPosition());
-       j5Claw.set(j5_error);
+        super.periodic(); //needed if PID motion profiling subsystem
+        updateSmartDashboard();
+        var j1_error = j1_pid.calculate(j1TurretEncoder.getPosition());
+        j1Turret.set(j1_error);
+        SmartDashboard.putNumber("j1Turret Motor Input", j1_error);
+        var j2_error = j2_pid.calculate(j2ElbowEncoder.getPosition());
+        j2Elbow.set(j2_error);
+        SmartDashboard.putNumber("j2ElbowY Motor Input", j2_error);
+        var j3_error = j3_pid.calculate(j3WristYEncoder.getPosition());
+        j3WristY.set(j3_error);
+        SmartDashboard.putNumber("j3WristY Motor Input", j3_error);
+        var j5_error = j5_pid.calculate(j5ClawEncoder.getPosition());
+        j5Claw.set(j5_error);
+        SmartDashboard.putNumber("j5Claw Motor Input", j5_error);
     
     }
 
