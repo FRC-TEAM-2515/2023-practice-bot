@@ -195,19 +195,6 @@
               "_showGlyph": false
             }
           },
-          "9,3": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Scaling",
-              "_title": "Scaling",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
           "0,9": {
             "size": [
               2,
@@ -357,189 +344,7 @@
               "_showGlyph": true
             }
           },
-          "9,5": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Unscaled Rotation",
-              "_title": "SmartDashboard/Unscaled Rotation",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "9,4": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Unscaled Speed",
-              "_title": "SmartDashboard/Unscaled Speed",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "9,0": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/imu-angle",
-              "_title": "SmartDashboard/imu-angle",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "13,0": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/j1TurretEncoder",
-              "_title": "j1TurretEncoder",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "13,1": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/j2ElbowEncoder",
-              "_title": "j2ElbowEncoder",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "13,2": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/j3WristYEncoder",
-              "_title": "j3WristYEncoder",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "13,3": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/j4ClawEncoder",
-              "_title": "j4ClawEncoder",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "18,0": {
-            "size": [
-              3,
-              2
-            ],
-            "content": {
-              "_type": "Network Table Tree",
-              "_source0": "network_table:///SmartDashboard/J2 RoM w",
-              "_title": "SmartDashboard/J2 RoM w",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "15,2": {
-            "size": [
-              3,
-              2
-            ],
-            "content": {
-              "_type": "Network Table Tree",
-              "_source0": "network_table:///SmartDashboard/J3 RoM w",
-              "_title": "SmartDashboard/J3 RoM w",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "18,2": {
-            "size": [
-              3,
-              2
-            ],
-            "content": {
-              "_type": "Network Table Tree",
-              "_source0": "network_table:///SmartDashboard/J4 RoM w",
-              "_title": "J4 R of Motion (deg)",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "15,0": {
-            "size": [
-              3,
-              2
-            ],
-            "content": {
-              "_type": "Network Table Tree",
-              "_source0": "network_table:///SmartDashboard/J1 RoM w",
-              "_title": "SmartDashboard/J1 RoM w",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "15,4": {
-            "size": [
-              3,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/RoM Safety Error",
-              "_title": "SmartDashboard/RoM Safety Error",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "13,6": {
-            "size": [
-              3,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/j1TurretEncoder Bookend1",
-              "_title": "j1TurretEncoder Bookend1",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "13,7": {
-            "size": [
-              3,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/j1TurretEncoder Bookend2",
-              "_title": "SmartDashboard/j1TurretEncoder Bookend2",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "13,4": {
+          "3,2": {
             "size": [
               2,
               1
@@ -552,147 +357,25 @@
               "_showGlyph": false
             }
           },
-          "16,6": {
+          "9,0": {
             "size": [
-              3,
-              1
+              12,
+              9
             ],
             "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/j2ElbowEncoder Bookend1",
-              "_title": "SmartDashboard/j2ElbowEncoder Bookend1",
+              "_type": "Camera Stream",
+              "_source0": "camera_server://photonvision_Port_1182_MJPEG_Server",
+              "_title": "photonvision_Port_1182_MJPEG_Server",
               "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "16,7": {
-            "size": [
-              3,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/j2ElbowEncoder Bookend2",
-              "_title": "SmartDashboard/j2ElbowEncoder Bookend2",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "13,8": {
-            "size": [
-              3,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/j3WristEncoder Bookend1",
-              "_title": "SmartDashboard/j3WristEncoder Bookend1",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "13,9": {
-            "size": [
-              3,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/j3WristEncoder Bookend2",
-              "_title": "SmartDashboard/j3WristEncoder Bookend2",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "16,8": {
-            "size": [
-              3,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/j4ClawEncoder Bookend1",
-              "_title": "SmartDashboard/j4ClawEncoder Bookend1",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "16,9": {
-            "size": [
-              3,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/j4ClawEncoder Bookend2",
-              "_title": "SmartDashboard/j4ClawEncoder Bookend2",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "11,0": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/j1TurretEncoder D",
-              "_title": "j1TurretEncoder (deg)",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "11,1": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/j2ElbowEncoder D",
-              "_title": "SmartDashboard/j2ElbowEncoder D",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "11,3": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/j4ClawEncoder D",
-              "_title": "SmartDashboard/j4ClawEncoder D",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "11,2": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/j3WristEncoder D",
-              "_title": "SmartDashboard/j3WristEncoder D",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "18,4": {
-            "size": [
-              3,
-              1
-            ],
-            "content": {
-              "_type": "ComboBox Chooser",
-              "_source0": "network_table:///SmartDashboard/Arm Controller Scaling",
-              "_title": "Arm Controller Scaling",
-              "_glyph": 148,
-              "_showGlyph": false
+              "_showGlyph": false,
+              "Crosshair/Show crosshair": true,
+              "Crosshair/Crosshair color": "#FFFFFFFF",
+              "Controls/Show controls": true,
+              "Controls/Rotation": "NONE",
+              "compression": -1.0,
+              "fps": -1,
+              "imageWidth": 0,
+              "imageHeight": 0
             }
           }
         }

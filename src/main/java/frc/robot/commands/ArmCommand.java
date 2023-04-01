@@ -38,7 +38,7 @@ public class ArmCommand extends CommandBase{
     private double positionCommandCloseJ4;
     private double positionCommandJ4;
     private double controllerDeadzone = 0.2;
-    private double j1Limiter = 0.5;
+    private double j1Limiter = 0.15;
     private double j2Limiter = 0.4;
     private double j3Limiter = 0.2;
     private double j4Limiter = 0.1;
