@@ -115,7 +115,7 @@ public class RobotContainer {
 
   public Command getAutoCommand() {
     //if (robotContainer.getOI().getAutoCommandChoice() == OIReporters.AutoCommand.SIMPLE){
-    autonomous = new AutoDriveBackwards(driveTrain, 0); 
+    autonomous = new AutoDriveBackwards(driveTrain, 3); 
  return autonomous;
 }
 }

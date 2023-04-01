@@ -13,38 +13,51 @@ public class AutoDriveBackwards extends CommandBase {
     private double autoSpeed = -0.4;
 
     private Pose2d initPose;
-    private DriveTrain drivetrain;
+    private DriveTrain driveTrain;
     private double startTime;
+    private double initalLeftDistance;
+    private double initalRightDistance;
+    private double speedValue = .2;
+    private double speedConstant = .1;
+    private double rightError = 1;
+    private double leftError = 1;
 
-  public AutoDriveBackwards(DriveTrain drivetrain, double distance) {
+  public AutoDriveBackwards(DriveTrain driveTrain, double distance) {
     
-    this.drivetrain = drivetrain;
+    this.driveTrain = driveTrain;
     this.distance = distance;
  
-    addRequirements(drivetrain);
+    addRequirements(driveTrain);
   }
 
   @Override
   public void initialize() {
-    initPose = this.drivetrain.getPose();
-    startTime = Timer.getFPGATimestamp();
+    initalLeftDistance = driveTrain.leftMeters();
+    initalRightDistance = driveTrain.rightMeters();
   }
 
 
   @Override
   public void execute() {
-    drivetrain.arcadeDrive(autoSpeed, 0);
+    // Calculates how far we are
+    rightError = (initalRightDistance + distance) - driveTrain.rightMeters();
+    leftError = (initalLeftDistance + distance) - driveTrain.leftMeters();
+
+    // Speeds to set the motors too
+    double rightSpeed = (Math.max((rightError / distance), .5) * speedValue) + speedConstant;
+    double leftSpeed = (Math.max((leftError / distance), .5) * speedValue) + speedConstant;
+
+    driveTrain.setWheelSpeedsAuto(leftSpeed, rightSpeed);
+    
   }
 
   public boolean withinBounds() {
-    if (this.getDisplacement() > distance) {
-      return true;
+    return rightError <= 0 && leftError <= 0;
+
     }
-    return false;
-  }
 
   private double getDisplacement() {
-    return this.initPose.getTranslation().getDistance(this.drivetrain.getPose().getTranslation());
+    return this.initPose.getTranslation().getDistance(this.driveTrain.getPose().getTranslation());
   }
 
 
@@ -56,6 +69,6 @@ public class AutoDriveBackwards extends CommandBase {
 
   @Override
   public void end(boolean interrupt) {
-    drivetrain.arcadeDrive(0, 0);
+    driveTrain.arcadeDrive(0, 0);
   }
 }

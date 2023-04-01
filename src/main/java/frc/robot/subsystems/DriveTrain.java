@@ -280,11 +280,11 @@ public class DriveTrain extends SubsystemBase {
     }
 
     public double leftMeters() {
-        return RobotMath.magEncoderConvertMeters(driveLeftLeader.getSelectedSensorPosition()) * inversionMultiplier;
+        return RobotMath.magEncoderConvertMeters(driveLeftLeader.getSelectedSensorPosition()); //* inversionMultiplier;
     }    
 
    public double rightMeters() {
-       return RobotMath.magEncoderConvertMeters(driveRightLeader.getSelectedSensorPosition()) * inversionMultiplier;
+       return RobotMath.magEncoderConvertMeters(driveRightLeader.getSelectedSensorPosition());// * inversionMultiplier;
      }
 
     public double getAverageEncoderDistance() {
