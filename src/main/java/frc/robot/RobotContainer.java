@@ -14,7 +14,6 @@ package frc.robot;
 
 import frc.robot.util.OIReporters.AutoCommand;
 import frc.robot.commands.*;
-import frc.robot.commands.auto.AutoDriveBackwards;
 import frc.robot.commands.auto.SimpleAutonomous;
 import frc.robot.subsystems.*;
 import frc.robot.util.OIReporters;
@@ -114,8 +113,9 @@ public class RobotContainer {
   }
 
   public Command getAutoCommand() {
-    //if (robotContainer.getOI().getAutoCommandChoice() == OIReporters.AutoCommand.SIMPLE){
-    autonomous = new AutoDriveBackwards(driveTrain, 3); 
+    if (robotContainer.getOI().getAutoCommandChoice() == OIReporters.AutoCommand.SIMPLE){
+    autonomous = new SimpleAutonomous(driveTrain, 0); 
+ }
  return autonomous;
 }
 }
